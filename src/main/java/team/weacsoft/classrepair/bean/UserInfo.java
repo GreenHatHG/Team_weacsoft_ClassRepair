@@ -17,32 +17,60 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "user_info")
-public class userinfo extends AbstractBasicBean {
+public class UserInfo extends AbstractBasicBean {
 
     @Column(nullable = false, unique = true)
     private int openid;
 
-    private String username;
+    /**
+     * 真实姓名
+     */
+    private String name;
 
     private String phone;
 
+    /**
+     * 权限
+     * 1-普通人员，2-维护人员，3-老师，4-超级管理员
+     */
     @Column(nullable = false)
-    private String role;
+    private int role;
 
+    /**
+     * 微信头像
+     */
     private String avatar;
 
+    /**
+     * 生日
+     */
     private String birth;
 
+    /**
+     * 微信昵称
+     */
     private String nickname;
 
     private String password;
 
+    /**
+     * 手机型号
+     */
     private String phoneType;
 
+    /**
+     * 学号/工号
+     */
     private String schoolId;
 
+    /**
+     * 微信签名
+     */
     private String signature;
 
+    /**
+     * 微信号
+     */
     private String wechat;
 
     private String sessionKey;

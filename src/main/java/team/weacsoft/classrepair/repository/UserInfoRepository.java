@@ -2,11 +2,12 @@ package team.weacsoft.classrepair.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import team.weacsoft.classrepair.bean.ClassRoom;
+import team.weacsoft.classrepair.bean.UserInfo;
 
 /**
  * @author GreenHatHG
  **/
-public interface ClassRoomRepository extends JpaRepository<ClassRoom, String> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 
 
 

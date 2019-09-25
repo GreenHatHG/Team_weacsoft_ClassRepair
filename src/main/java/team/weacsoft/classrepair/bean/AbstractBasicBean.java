@@ -1,9 +1,11 @@
 package team.weacsoft.classrepair.bean;
 
+
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,6 +21,7 @@ import java.util.Date;
 @Data
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@EntityListeners(AuditingEntityListener.class)
 abstract class AbstractBasicBean{
 
     @Id
@@ -30,14 +33,14 @@ abstract class AbstractBasicBean{
      * 一般1为启用，0为停用，特殊情况除外
      */
     @Column(nullable = false)
-    private int status;
+    private int status = 1;
 
     /**
      * 创建时间
      */
     @CreatedDate
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date createTime;
 
     /**
@@ -51,5 +54,8 @@ abstract class AbstractBasicBean{
     /**
      * 删除时间
      */
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deleteTiome;
+
+
 }
