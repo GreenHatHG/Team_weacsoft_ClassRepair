@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.weacsoft.classrepair.bean.OrderItem;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.contests.EventEnum;
 import team.weacsoft.classrepair.entity.Result;
@@ -46,47 +47,26 @@ public class LoginController {
         jsonObject = JSONUtil.parseObj(payload);
         userInfo = new UserInfo();
 
+        userInfo = JSONUtil.toBean(JSONUtil.toJsonStr(payload), UserInfo.class);
+
         JSONObject code2sessionResp = WxUtils.wxAuth(new Code2SessionBody(jsonObject.getStr("code")));
         userInfo.setOpenid(code2sessionResp.getInt("openid"));
         userInfo.setSessionKey(code2sessionResp.getStr("session_key"));
 
-        setProperty("name");
-        setProperty("phone");
-        setProperty("avatar");
-        setProperty("birth");
-        setProperty("nickname");
-        setProperty("password");
-        setProperty("phonetype");
-        setProperty("schoolid");
-        setProperty("signature");
-        setProperty("wechat");
-        setProperty("token");
-        if (jsonObject.containsKey("role")) {
-            int role = jsonObject.getInt("role");
-            if (!(role >= 1 && role <= 4)) {
-                return ResultFactory.builePropertyErroresult("role字段错误，role范围为1到4");
-            }
-            userInfo.setRole(role);
+        int role = userInfo.getRole();
+        if (!(role >= 1 && role <= 4)) {
+            return ResultFactory.builePropertyErroresult("role字段错误，role范围为1到4");
         }
-        //todo 改名login
-        operationLogService.addLog(jsonObject.getInt("openid"), "Login", EventEnum.Login.event);
+
+        operationLogService.addLog(userInfo.getOpenid(), "登录", EventEnum.Login.event);
         try{
             userInfoRepository.save(userInfo);
         }catch (Exception e){
             e.printStackTrace();
             return ResultFactory.buildFailResult("保存失败，数据库已有该openid或name");
         }
-  //todo addlog
+
         return ResultFactory.buildSuccessResult("成功");
     }
-
-    private void setProperty(String key){
-        if(jsonObject != null && userInfo != null){
-            if(jsonObject.containsKey(key)){
-                userInfo.setOpenid(jsonObject.getInt(key));
-            }
-        }
-    }
-
 
 }
