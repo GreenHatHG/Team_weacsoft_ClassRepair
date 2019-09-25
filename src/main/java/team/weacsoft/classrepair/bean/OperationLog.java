@@ -1,5 +1,6 @@
 package team.weacsoft.classrepair.bean;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
 @Entity
 @Table(name = "operation_log")
 public class OperationLog extends AbstractBasicBean{

@@ -7,10 +7,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.weacsoft.classrepair.bean.OperationLog;
 import team.weacsoft.classrepair.bean.UserInfo;
+import team.weacsoft.classrepair.contests.EventEnum;
 import team.weacsoft.classrepair.entity.Result;
 import team.weacsoft.classrepair.entity.ResultFactory;
+import team.weacsoft.classrepair.entity.wx.Code2SessionBody;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
+import team.weacsoft.classrepair.service.OperationLogService;
+import team.weacsoft.classrepair.util.WxUtils;
 
 import java.util.Map;
 
@@ -26,10 +31,15 @@ public class LoginController {
     private UserInfo userInfo = null;
 
     private UserInfoRepository userInfoRepository;
-
+    private OperationLogService operationLogService;
     @Autowired
     public void setUserInfoRepository(UserInfoRepository userInfoRepository) {
         this.userInfoRepository = userInfoRepository;
+    }
+
+    @Autowired
+    public void setOperationLogService(OperationLogService operationLogService) {
+        this.operationLogService = operationLogService;
     }
 
     @PostMapping("/login")
@@ -37,7 +47,10 @@ public class LoginController {
         jsonObject = JSONUtil.parseObj(payload);
         userInfo = new UserInfo();
 
-        setProperty("openid");
+        JSONObject code2sessionResp = WxUtils.wxAuth(new Code2SessionBody(jsonObject.getStr("code")));
+        userInfo.setOpenid(code2sessionResp.getInt("openid"));
+        userInfo.setSessionKey(code2sessionResp.getStr("session_key"));
+
         setProperty("name");
         setProperty("phone");
         setProperty("avatar");
@@ -48,7 +61,6 @@ public class LoginController {
         setProperty("schoolid");
         setProperty("signature");
         setProperty("wechat");
-        setProperty("session_key");
         setProperty("token");
         if (jsonObject.containsKey("role")) {
             int role = jsonObject.getInt("role");
@@ -57,6 +69,7 @@ public class LoginController {
             }
             userInfo.setRole(role);
         }
+        operationLogService.addLog(jsonObject.getInt("openid"), "Login", EventEnum.Login.event);
         try{
             userInfoRepository.save(userInfo);
         }catch (Exception e){

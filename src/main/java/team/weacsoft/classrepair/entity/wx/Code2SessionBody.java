@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
  **/
 
 @Data
-public class Code2Session {
+public class Code2SessionBody {
 
     @Value("${APPID}")
     private String appid;
@@ -20,4 +20,7 @@ public class Code2Session {
 
     private String grantType = "authorization_code";
 
+    public Code2SessionBody(String jsCode){
+        this.jsCode = jsCode;
+    }
 }
