@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "order_item")
 public class OrderItem extends AbstractBasicBean{
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private int userId;
 
     /**
@@ -56,6 +56,7 @@ public class OrderItem extends AbstractBasicBean{
      * 维护人员id
      * 当遇到取消接单，取消订单等操作时，重置为0，减少未来设计工作量统计时的难度
      */
-    private int repairId;
+    @Column(nullable = false)
+    private int repairId = 0;
 
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import team.weacsoft.classrepair.bean.OperationLog;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.contests.EventEnum;
 import team.weacsoft.classrepair.entity.Result;
@@ -69,6 +68,7 @@ public class LoginController {
             }
             userInfo.setRole(role);
         }
+        //todo 改名login
         operationLogService.addLog(jsonObject.getInt("openid"), "Login", EventEnum.Login.event);
         try{
             userInfoRepository.save(userInfo);
@@ -76,6 +76,7 @@ public class LoginController {
             e.printStackTrace();
             return ResultFactory.buildFailResult("保存失败，数据库已有该openid或name");
         }
+  //todo addlog
         return ResultFactory.buildSuccessResult("成功");
     }
 
