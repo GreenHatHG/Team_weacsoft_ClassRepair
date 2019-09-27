@@ -1,6 +1,7 @@
 package team.weacsoft.classrepair.bean;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,6 +40,7 @@ abstract class AbstractBasicBean{
      * 创建时间
      */
     @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date createTime;
@@ -47,6 +49,7 @@ abstract class AbstractBasicBean{
      * 更新时间
      */
     @LastModifiedDate
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
@@ -55,7 +58,7 @@ abstract class AbstractBasicBean{
      * 删除时间
      */
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date deleteTiome;
-
 
 }

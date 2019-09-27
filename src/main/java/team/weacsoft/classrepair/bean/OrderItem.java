@@ -2,9 +2,11 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
 /**
@@ -26,7 +28,7 @@ public class OrderItem extends AbstractBasicBean{
     /**
      * 订单id
      */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String orderId;
 
     /**
@@ -56,7 +58,6 @@ public class OrderItem extends AbstractBasicBean{
      * 维护人员id
      * 当遇到取消接单，取消订单等操作时，重置为0，减少未来设计工作量统计时的难度
      */
-    @Column(nullable = false)
     private int repairId = 0;
 
 }

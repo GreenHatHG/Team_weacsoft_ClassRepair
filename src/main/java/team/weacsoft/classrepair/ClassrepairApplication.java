@@ -12,5 +12,4 @@ public class ClassrepairApplication {
         SpringApplication.run(ClassrepairApplication.class, args);
     }
 
-
 }
