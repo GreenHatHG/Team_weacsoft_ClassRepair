@@ -3,7 +3,6 @@ package team.weacsoft.classrepair.controller;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +27,7 @@ import java.util.*;
  **/
 
 @RestController
-@RequestMapping(value="/api/v1")
+@RequestMapping(value="${api}")
 public class OrderItemController {
 
     private OrderItemRepository orderItemRepository;

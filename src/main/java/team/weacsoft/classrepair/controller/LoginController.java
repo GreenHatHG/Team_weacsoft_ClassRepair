@@ -24,7 +24,7 @@ import java.util.Map;
  **/
 
 @RestController
-@RequestMapping(value="/api/v1")
+@RequestMapping(value="${api}")
 public class LoginController {
 
     private JSONObject jsonObject = null;

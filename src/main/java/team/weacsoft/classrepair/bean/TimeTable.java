@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.sql.Time;
 
 /**
  * 值班表
@@ -21,4 +22,9 @@ public class TimeTable extends AbstractBasicBean {
 
     @Column(nullable = false, unique = true)
     private int userId;
+
+    public TimeTable(int userId, int status){
+        this.userId = userId;
+        this.setStatus(status);
+    }
 }
