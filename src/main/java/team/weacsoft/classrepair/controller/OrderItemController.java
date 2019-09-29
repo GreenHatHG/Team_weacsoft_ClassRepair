@@ -160,6 +160,22 @@ public class OrderItemController {
         return ResultFactory.buildSuccessResult("更新成功");
     }
 
+    @PutMapping("/orderitem/repairid")
+    public Result updateRepairId(int repairid, String orderid){
+        try{
+            if(orderItemRepository.findByOrderId(orderid) == null){
+                return ResultFactory.buildFailResult("未找到相关记录，修改失败");
+            }
+            orderItemRepository.updateRepairIdByOrderId(repairid, orderid);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultFactory.buildFailResult("修改失败");
+        }
+        operationLogService.addLog(repairid, "接单成功", "单号：" + orderid);
+        return ResultFactory.buildSuccessResult("修改成功");
+    }
+
+    //todo 添加删除记录
     @DeleteMapping("/orderitems")
     public Result deleteOrderItemByOrderId(String orderid){
         try{

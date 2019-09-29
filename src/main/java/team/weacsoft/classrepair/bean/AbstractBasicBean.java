@@ -54,11 +54,4 @@ abstract class AbstractBasicBean{
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
 
-    /**
-     * 删除时间
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date deleteTiome;
-
 }
