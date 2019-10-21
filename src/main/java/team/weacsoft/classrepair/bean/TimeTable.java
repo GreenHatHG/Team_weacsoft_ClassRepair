@@ -2,11 +2,11 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import team.weacsoft.classrepair.bean.basic.BasicBean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Time;
 
 /**
  * 值班表
@@ -18,13 +18,13 @@ import java.sql.Time;
 @Data
 @Entity
 @Table(name = "time_table")
-public class TimeTable extends AbstractBasicBean {
+public class TimeTable extends BasicBean {
 
     @Column(nullable = false, unique = true)
-    private int userId;
+    private String userId;
 
-    public TimeTable(int userId, int status){
+    public TimeTable(String userId, int status){
         this.userId = userId;
-        this.setStatus(status);
+        this.setState(status);
     }
 }

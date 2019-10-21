@@ -2,12 +2,11 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.GenericGenerator;
+import team.weacsoft.classrepair.bean.basic.BasicBean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.Base64;
 
 /**
  * 课室表
@@ -18,7 +17,7 @@ import java.util.Base64;
 @Data
 @Entity
 @Table(name = "class_room")
-public class ClassRoom extends AbstractBasicBean {
+public class ClassRoom extends BasicBean {
 
     @Column(nullable = false, unique = true)
     private String classId;

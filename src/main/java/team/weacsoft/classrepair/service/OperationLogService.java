@@ -19,9 +19,9 @@ public class OperationLogService {
         this.operationLogRepository = operationLogRepository;
     }
 
-    public void addLog(int userId, String event, String content){
+    public void addLog(String userInfoId, String event, String content){
         try{
-            operationLog = new OperationLog(userId, event, content);
+            operationLog = new OperationLog(userInfoId, event, content);
             operationLogRepository.save(operationLog);
         }catch (Exception e){
             System.out.println("保存操作事件失败");

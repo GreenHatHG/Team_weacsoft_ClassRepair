@@ -1,4 +1,4 @@
-package team.weacsoft.classrepair.bean;
+package team.weacsoft.classrepair.bean.basic;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +23,7 @@ import java.util.Date;
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(AuditingEntityListener.class)
-abstract class AbstractBasicBean{
+public abstract class BasicBean {
 
     @Id
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
@@ -31,16 +31,15 @@ abstract class AbstractBasicBean{
     private String id;
 
     /**
-     * 一般1为启用，0为停用，特殊情况除外
+     * 一般1为启用，0为停用，-1为删除,特殊情况除外
      */
     @Column(nullable = false)
-    private int status = 1;
+    private int state = 1;
 
     /**
      * 创建时间
      */
     @CreatedDate
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date createTime;
@@ -49,9 +48,13 @@ abstract class AbstractBasicBean{
      * 更新时间
      */
     @LastModifiedDate
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
 
+    /**
+     * 删除时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deleteTime;
 }

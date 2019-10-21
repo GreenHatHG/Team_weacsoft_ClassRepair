@@ -1,7 +1,8 @@
 package team.weacsoft.classrepair.entity;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import team.weacsoft.classrepair.contests.ResultCodeEnum;
 
 /**
  * @author GreenHatHG
@@ -9,25 +10,57 @@ import team.weacsoft.classrepair.contests.ResultCodeEnum;
 
 @Component
 public class ResultFactory {
-    public static Result buildSuccessResult(Object data) {
-        return new Result(ResultCodeEnum.SUCCESS.code, "成功", data);
+
+    private static Result result = new Result();
+
+    /* ----- SUCEESS -----*/
+    public static ResponseEntity<Result> buildSuccessResult(Object data) {
+        result.setAll(HttpStatus.OK.value(), "成功", data);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(result);
     }
 
-    public static Result buildSuccessResult(String message) {
-        return new Result(ResultCodeEnum.SUCCESS.code, message);
+    public static ResponseEntity<Result> buildSuccessResult(String message) {
+        result.setAll(HttpStatus.OK.value(), message, null);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(result);
+    }
+    /* ----- SUCEESS -----*/
+
+    /* ----- FAIL -----*/
+    public static ResponseEntity<Result> buildFailResult(String message) {
+        result.setAll(HttpStatus.BAD_REQUEST.value(), message, null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(result);
     }
 
-    public static Result buildFailResult(String message) {
-        return new Result(ResultCodeEnum.FAIL.code, message);
+    public static ResponseEntity<Result> buildFailResult(int code, String message) {
+        result.setAll(code, message, null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(result);
     }
 
-    public static Result builePropertyErroresult(String message){
-        return new Result(ResultCodeEnum.PROPERTY_ERROR.code, message);
+    public static ResponseEntity<Result> buildFailResult(String message, Object obj) {
+        result.setAll(HttpStatus.BAD_REQUEST.value(), message, obj);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(result);
     }
 
-    public static Result buildUnauthorizedResult(String message) {
-        return new Result(ResultCodeEnum.UNAUTHORIZED.code, message);
+    public static ResponseEntity<Result> buildFailResult(int code, String message, Object obj) {
+        result.setAll(code, message, obj);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(result);
+    }
+    /* ----- FAIL -----*/
+
+    public static ResponseEntity<Result> buildPropertyErroResult(String message){
+        return buildFailResult(HttpStatus.PRECONDITION_FAILED.value(), message);
     }
 
+    public static ResponseEntity<Result> buildNotAcceptableResult(String message, Object obj){
+        return buildFailResult(HttpStatus.NOT_ACCEPTABLE.value(), message, obj);
+    }
+
+    public static ResponseEntity<Result> buildNotAcceptableResult(String message){
+        return buildFailResult(HttpStatus.NOT_ACCEPTABLE.value(), message);
+    }
+
+    public static ResponseEntity<Result> buildFORBIDDENResult(String message){
+        return buildFailResult(HttpStatus.FORBIDDEN.value(), message);
+    }
 
 }

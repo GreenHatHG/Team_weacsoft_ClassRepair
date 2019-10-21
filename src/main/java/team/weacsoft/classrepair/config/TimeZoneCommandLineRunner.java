@@ -22,6 +22,5 @@ public class TimeZoneCommandLineRunner implements CommandLineRunner {
         //设置时区
         TimeZone.setDefault(zone);
 
-//        System.out.println("当前时区: " + TimeZone.getDefault());
     }
 }

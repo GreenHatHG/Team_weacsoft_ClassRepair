@@ -2,11 +2,10 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.GenericGenerator;
+import team.weacsoft.classrepair.bean.basic.BasicBeanWithOpenId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 
 /**
@@ -20,17 +19,23 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "order_item")
-public class OrderItem extends AbstractBasicBean{
-
-    @Column(nullable = false)
-    private int userId;
+public class OrderItem extends BasicBeanWithOpenId {
 
     /**
-     * 订单id
+     * 订单id，后端自动生成，规则：当前日期+时间戳前五位数字
      */
     @Column(nullable = false, unique = true)
-    private String orderId;
+    private String orderItemId;
 
+    /**
+     * 接单人ID，用户表里面的那个主键id
+     */
+    private String receiverId;
+
+    /**
+     * 下单人id
+     */
+    private String orderId;
     /**
      * 课室
      */
@@ -53,11 +58,5 @@ public class OrderItem extends AbstractBasicBean{
      * 手机号
      */
     private String phone;
-
-    /**
-     * 维护人员id
-     * 当遇到取消接单，取消订单等操作时，重置为0，减少未来设计工作量统计时的难度
-     */
-    private int repairId = 0;
 
 }

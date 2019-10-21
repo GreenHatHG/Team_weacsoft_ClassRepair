@@ -2,6 +2,7 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import team.weacsoft.classrepair.bean.basic.BasicBeanWithOpenId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,24 +18,22 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "feedback")
-public class Feedback extends AbstractBasicBean {
-
-    /**
-     * 用户id
-     */
-    @Column(nullable = false, unique = true)
-    private int userId;
+public class Feedback extends BasicBeanWithOpenId {
 
     /**
      * 手机号
      */
-    @Column(nullable = false)
     private String phone;
 
     /**
-     * 反馈内容
+     * 反馈内容,文本
      */
     @Lob
     @Column(nullable = false)
     private String content;
+
+    /**
+     * 反馈图片存放图片路径
+     */
+    private String imgUrl;
 }

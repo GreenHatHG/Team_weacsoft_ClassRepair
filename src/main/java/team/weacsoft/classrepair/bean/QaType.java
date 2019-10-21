@@ -2,6 +2,7 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import team.weacsoft.classrepair.bean.basic.BasicBean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "qa_type")
-public class QaType extends AbstractBasicBean{
+public class QaType extends BasicBean {
 
     /**
      * 顺序，显示的先后顺序

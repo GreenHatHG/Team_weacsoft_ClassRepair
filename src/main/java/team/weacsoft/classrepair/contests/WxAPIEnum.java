@@ -8,9 +8,7 @@ public enum WxAPIEnum {
     /**
      * 登录凭证校验
      */
-    CODE2SEESION("https://api.weixin.qq.com/sns/jscode2session?appid=" +
-            "APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code");
-
+    CODE2SEESION("https://api.weixin.qq.com/sns/jscode2session");
 
     public String api;
     WxAPIEnum(String api){

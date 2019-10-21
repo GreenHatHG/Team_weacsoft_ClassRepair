@@ -3,20 +3,18 @@ package team.weacsoft.classrepair.controller;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import team.weacsoft.classrepair.bean.OrderItem;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.contests.EventEnum;
 import team.weacsoft.classrepair.entity.Result;
 import team.weacsoft.classrepair.entity.ResultFactory;
-import team.weacsoft.classrepair.entity.wx.Code2SessionBody;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 import team.weacsoft.classrepair.service.OperationLogService;
-import team.weacsoft.classrepair.util.WxUtils;
+import team.weacsoft.classrepair.util.Jscode2session;
 
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,46 +25,83 @@ import java.util.Map;
 @RequestMapping(value="${api}")
 public class LoginController {
 
-    private JSONObject jsonObject = null;
-    private UserInfo userInfo = null;
-
+    @Autowired
     private UserInfoRepository userInfoRepository;
+    @Autowired
     private OperationLogService operationLogService;
     @Autowired
-    public void setUserInfoRepository(UserInfoRepository userInfoRepository) {
-        this.userInfoRepository = userInfoRepository;
-    }
-
-    @Autowired
-    public void setOperationLogService(OperationLogService operationLogService) {
-        this.operationLogService = operationLogService;
-    }
+    private Jscode2session jscode2session;
 
     @PostMapping("/login")
-    public Result login(@RequestBody Map<String, Object> payload) {
-        jsonObject = JSONUtil.parseObj(payload);
-        userInfo = new UserInfo();
+    public ResponseEntity<Result> login(@NotNull  @RequestBody Map<String, Object> payload) {
+        JSONObject jsonObject = JSONUtil.parseObj(payload);
 
-        userInfo = JSONUtil.toBean(JSONUtil.toJsonStr(payload), UserInfo.class);
-
-        JSONObject code2sessionResp = WxUtils.wxAuth(new Code2SessionBody(jsonObject.getStr("code")));
-        userInfo.setOpenid(code2sessionResp.getInt("openid"));
-        userInfo.setSessionKey(code2sessionResp.getStr("session_key"));
-
-        int role = userInfo.getRole();
-        if (!(role >= 1 && role <= 4)) {
-            return ResultFactory.builePropertyErroresult("role字段错误，role范围为1到4");
+        String jsCode = jsonObject.getStr("code");
+        if(jsCode == null){
+            return ResultFactory.buildPropertyErroResult("code参数为空");
         }
 
-        operationLogService.addLog(userInfo.getOpenid(), "登录", EventEnum.Login.event);
-        try{
-            userInfoRepository.save(userInfo);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResultFactory.buildFailResult("保存失败，数据库已有该openid或name");
+        //请求auth.code2Session
+        JSONObject code2sessionResp = jscode2session.get(jsCode);
+        if(code2sessionResp.getInt("errcode") != null){
+            operationLogService.addLog(""
+                    , EventEnum.Login.event, EventEnum.Login_Failed.event+"->"+"通过wx.login接口获得openid失败");
+            return ResultFactory.buildNotAcceptableResult("通过wx.login接口获得openid失败", code2sessionResp);
         }
 
-        return ResultFactory.buildSuccessResult("成功");
+        Map<String, Object> resp = new HashMap<>(4);
+        UserInfo userInfo = null;
+        //数据库中还没有该人
+        if(userInfoRepository.findByOpenid(code2sessionResp.getStr("openid")) == null){
+            userInfo = new UserInfo();
+            try{
+                userInfo = JSONUtil.toBean(JSONUtil.toJsonStr(payload), UserInfo.class);
+            }catch (Exception e){
+                return ResultFactory.buildNotAcceptableResult("参数过多,或者是参数名不符合要求");
+            }
+
+            userInfo.setOpenid(code2sessionResp.getStr("openid"));
+            userInfo.setSessionKey(code2sessionResp.getStr("session_key"));
+            userInfo.setAvatar(jsonObject.getStr("avatar"));
+            userInfo.setPhone(jsonObject.getStr("phone"));
+            userInfo.setNickname(jsonObject.getStr("nickname"));
+            userInfo.setPassword(jsonObject.getStr("password"));
+            userInfo.setIdentityId(jsonObject.getLong("identityId"));
+
+            int role = userInfo.getRole();
+            if(role == 0){
+                userInfo.setRole(0);
+            }
+            else if (!(role >= 1 && role <= 4)) {
+                return ResultFactory.buildPropertyErroResult("role字段错误，role范围为1到4");
+            }
+            else{
+                userInfo.setRole(role);
+            }
+
+            try{
+                userInfoRepository.save(userInfo);
+            }catch (Exception e){
+                e.printStackTrace();
+                operationLogService.addLog("", EventEnum.Login.event,
+                        EventEnum.Login_Failed.event+"->"+"保存用户信息失败");
+                return ResultFactory.buildFORBIDDENResult("保存用户信息失败" + "\n" + e.getMessage());
+            }
+            resp.put("session_key", code2sessionResp.getStr("session_key"));
+        }else{
+            userInfo = userInfoRepository.findByOpenid(code2sessionResp.getStr("openid"));
+            resp.put("session_key", userInfo.getSessionKey());
+        }
+        resp.put("role", userInfo.getRole());
+        resp.put("phone", userInfo.getPhone());
+        resp.put("name", userInfo.getName());
+        operationLogService.addLog(userInfo.getId()
+                , EventEnum.Login.event, EventEnum.Login_SUCCESS.event);
+        return ResultFactory.buildSuccessResult(resp);
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<Result> test(){
+        return ResultFactory.buildSuccessResult("已连接上塞伯坦星球");
+    }
 }

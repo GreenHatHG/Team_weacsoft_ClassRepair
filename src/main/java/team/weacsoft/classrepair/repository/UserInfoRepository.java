@@ -8,7 +8,6 @@ import team.weacsoft.classrepair.bean.UserInfo;
  * @author GreenHatHG
  **/
 public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
-
-
+    UserInfo findByOpenid(String openid);
 
 }

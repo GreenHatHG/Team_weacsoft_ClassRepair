@@ -20,8 +20,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, String> {
     @Override
     Optional<OrderItem> findById(String id);
 
-    List<OrderItem> findByUserId(int userId);
-
     OrderItem findByOrderId(String orderId);
 
     List<OrderItem> findByClassroom(String classroom);
@@ -30,11 +28,9 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, String> {
 
     List<OrderItem> findByPhone(String phone);
 
-    List<OrderItem> findByRepairId(String repairId);
+    List<OrderItem> findByState(int status);
 
-    List<OrderItem> findByStatus(int status);
-
-    Page<OrderItem> findByOrderId(String orderId, Pageable pageable);
+    Page<OrderItem> findByReceiverId(String orderId, Pageable pageable);
 
     @Transactional
     @Modifying
@@ -45,6 +41,5 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, String> {
     @Modifying
     @Query(value = "delete from order_item where order_item.order_id = ?1", nativeQuery=true)
     void deleteByOrderId(String orderId);
-
 
 }

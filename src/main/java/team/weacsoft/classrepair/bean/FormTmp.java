@@ -4,6 +4,7 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import team.weacsoft.classrepair.bean.basic.BasicBeanWithOpenId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,10 +21,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "form_tmp")
-public class FormTmp extends AbstractBasicBean{
-
-    @Column(nullable = false, unique = true)
-    private int userId;
+public class FormTmp extends BasicBeanWithOpenId {
 
     /**
      * 模板消息formid

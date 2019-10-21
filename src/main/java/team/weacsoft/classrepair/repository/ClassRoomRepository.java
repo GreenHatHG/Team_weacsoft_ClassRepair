@@ -7,7 +7,6 @@ import team.weacsoft.classrepair.bean.ClassRoom;
  * @author GreenHatHG
  **/
 public interface ClassRoomRepository extends JpaRepository<ClassRoom, String> {
-
-
+    ClassRoom findByClassId(String classId);
 
 }
