@@ -1,69 +1,125 @@
-//package team.weacsoft.classrepair.controller;
-//
-//import cn.hutool.core.util.IdUtil;
-//import cn.hutool.json.JSONObject;
-//import cn.hutool.json.JSONUtil;
-//import net.bytebuddy.asm.Advice;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageRequest;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.web.bind.annotation.*;
-//import team.weacsoft.classrepair.bean.OrderItem;
-//import team.weacsoft.classrepair.contests.EventEnum;
-//import team.weacsoft.classrepair.entity.Result;
-//import team.weacsoft.classrepair.entity.ResultFactory;
-//import team.weacsoft.classrepair.repository.OrderItemRepository;
-//import team.weacsoft.classrepair.service.OperationLogService;
-//import team.weacsoft.classrepair.util.WxUtils;
-//
-//import javax.servlet.http.HttpServletRequest;
-//import java.net.URLDecoder;
-//import java.nio.charset.StandardCharsets;
-//import java.util.*;
-//
-///**
-// * @author GreenHatHG
-// **/
-//
-//@RestController
-//@RequestMapping(value="${api}")
-//public class OrderItemController {
-//
-//    @Autowired
-//    private OrderItemRepository orderItemRepository;
-//    @Autowired
-//    private OperationLogService operationLogService;
-//
-//    /**
-//     * 提交表单
-//     * 可以插入相同记录的orderitem
-//     * @param payload
-//     * @return
-//     */
-//    @PostMapping("/orderitem")
-//    public Result order(@RequestBody Map<String, Object> payload){
-//        JSONObject jsonObject = JSONUtil.parseObj(payload);
-//        OrderItem orderItem = new OrderItem();
-//
-//        /**
-//         * 向auth.code2session发送请求
-//         */
-//        JSONObject code2sessionResp = WxUtils.wxAuth(new Code2SessionBody(jsonObject.getStr("code")));
-//
-//        try{
-//            orderItem = JSONUtil.toBean(JSONUtil.toJsonStr(payload), OrderItem.class);
-//            orderItem.setOrderId(IdUtil.objectId());
-//            orderItemRepository.save(orderItem);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            operationLogService.addLog(orderItem.getOpenId(), "提交订单失败", EventEnum.ADDORDERITEM.event);
-//            return ResultFactory.buildFailResult("传递的参数不符合要求");
-//        }
-//        operationLogService.addLog(orderItem.getOpenId(), "提交订单成功", "-");
-//        return ResultFactory.buildSuccessResult("成功");
-//    }
-//
+package team.weacsoft.classrepair.controller;
+
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import team.weacsoft.classrepair.bean.OrderItem;
+import team.weacsoft.classrepair.bean.UserInfo;
+import team.weacsoft.classrepair.contests.EventEnum;
+import team.weacsoft.classrepair.entity.Result;
+import team.weacsoft.classrepair.entity.ResultFactory;
+import team.weacsoft.classrepair.repository.OrderItemRepository;
+import team.weacsoft.classrepair.repository.UserInfoRepository;
+import team.weacsoft.classrepair.service.OperationLogService;
+import team.weacsoft.classrepair.util.Jscode2session;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author GreenHatHG
+ **/
+
+@RestController
+@RequestMapping(value="${api}")
+public class OrderItemController {
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+    @Autowired
+    private OperationLogService operationLogService;
+    @Autowired
+    private Jscode2session jscode2session;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
+    /**
+     * 提交表单
+     * @param payload
+     * @return
+     */
+    @PostMapping("/orderitems")
+    public ResponseEntity<Result> order(@RequestBody Map<String, Object> payload){
+        //todo 去除重复代码，目前没有好办法
+        JSONObject jsonObject = JSONUtil.parseObj(payload);
+
+        //获取必要值并且判断空
+        String jsCode = jsonObject.getStr("code");
+        String classroom = jsonObject.getStr("classroom");
+        String type = jsonObject.getStr("type");
+        String content = jsonObject.getStr("content");
+
+        if(jsCode == null){
+            return ResultFactory.buildPropertyErroResult("code参数为空");
+        }
+        if(classroom == null){
+            return ResultFactory.buildPropertyErroResult("classroom参数为空");
+        }
+        if(type == null){
+            return ResultFactory.buildPropertyErroResult("type参数为空");
+        }
+        if(content == null){
+            return ResultFactory.buildPropertyErroResult("content参数为空");
+        }
+
+        //请求微信接口
+        JSONObject code2sessionResp = jscode2session.get(jsCode);
+        if(code2sessionResp.getInt("errcode") != null){
+            operationLogService.addLog(""
+                    , EventEnum.ORDERITEM.event, EventEnum.ORDERITEM_FAILED.event+"-->通过wx.login接口获得openid失败");
+            return ResultFactory.buildNotAcceptableResult("通过wx.login接口获得openid失败", code2sessionResp);
+        }
+
+        //对orderItem赋值
+        OrderItem orderItem = new OrderItem();
+
+        UserInfo userInfo = userInfoRepository.findByOpenid(code2sessionResp.getStr("openid"));
+        if(userInfo == null){
+            return ResultFactory.buildNotAcceptableResult("数据库找不到此人，请检查code值的正确性", jsonObject);
+        }
+
+        //生成订单id
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date date = new Date();
+        orderItem.setOrderItemId(sdf.format(date) + System.currentTimeMillis() / 100);
+        orderItem.setOrderId(userInfo.getId());
+        orderItem.setClassroom(classroom);
+        orderItem.setType(type);
+        orderItem.setContent(content);
+        if(jsonObject.getStr("phone") != null){
+            orderItem.setPhone(jsonObject.getStr("phone"));
+        }else{
+            orderItem.setPhone(userInfo.getPhone());
+        }
+
+        try{
+            orderItemRepository.save(orderItem);
+        }catch (Exception e){
+            e.printStackTrace();
+            operationLogService.addLog(userInfo.getId(), EventEnum.ORDERITEM.event
+                    , EventEnum.ORDERITEM_FAILED.event+"->保存到数据库出错");
+            return ResultFactory.buildFailResult("保存订单到数据库失败" + "-->" + e.getMessage());
+        }
+        operationLogService.addLog(userInfo.getId(), EventEnum.ORDERITEM.event
+                    , EventEnum.ORDERITEM_SUCCESS.event);
+
+        Map<String, String> resp = new HashMap<>(6);
+        resp.put("orderItemId", orderItem.getOrderItemId());
+        resp.put("orderId", orderItem.getOrderId());
+        resp.put("classroom", orderItem.getClassroom());
+        resp.put("type", orderItem.getType());
+        resp.put("content", orderItem.getContent());
+        resp.put("phone", orderItem.getPhone());
+        return ResultFactory.buildSuccessResult(resp);
+    }
+
 //    /**
 //     * 查询全部或者按单条件查询
 //     */
@@ -178,4 +234,4 @@
 //        }
 //        return ResultFactory.buildSuccessResult("删除成功");
 //    }
-//}
+}

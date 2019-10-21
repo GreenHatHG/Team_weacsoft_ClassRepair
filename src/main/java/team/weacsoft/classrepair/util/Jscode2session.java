@@ -18,7 +18,8 @@ public class Jscode2session {
     @Value("${APPSECRET}")
     private String SECRET;
 
-    private String GRANT_TYPE = "authorization_code";
+    @Value("${GRANT_TYPE}")
+    private String GRANT_TYPE;
 
     public JSONObject get(String jsCode){
         return WxUtils.wxAuth(jsCode, APPID, SECRET, GRANT_TYPE);

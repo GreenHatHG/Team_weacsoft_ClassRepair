@@ -2,7 +2,7 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import team.weacsoft.classrepair.bean.basic.BasicBeanWithOpenId;
+import team.weacsoft.classrepair.bean.basic.BasicBean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,10 +19,10 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "order_item")
-public class OrderItem extends BasicBeanWithOpenId {
+public class OrderItem extends BasicBean{
 
     /**
-     * 订单id，后端自动生成，规则：当前日期+时间戳前五位数字
+     * 订单id，后端自动生成，规则：当前日期+时间戳前十一位数字
      */
     @Column(nullable = false, unique = true)
     private String orderItemId;

@@ -45,7 +45,7 @@ public class LoginController {
         JSONObject code2sessionResp = jscode2session.get(jsCode);
         if(code2sessionResp.getInt("errcode") != null){
             operationLogService.addLog(""
-                    , EventEnum.Login.event, EventEnum.Login_Failed.event+"->"+"通过wx.login接口获得openid失败");
+                    , EventEnum.Login.event, EventEnum.Login_FAILED.event+"->"+"通过wx.login接口获得openid失败");
             return ResultFactory.buildNotAcceptableResult("通过wx.login接口获得openid失败", code2sessionResp);
         }
 
@@ -79,7 +79,7 @@ public class LoginController {
             }catch (Exception e){
                 e.printStackTrace();
                 operationLogService.addLog("", EventEnum.Login.event,
-                        EventEnum.Login_Failed.event+"->"+"保存用户信息失败");
+                        EventEnum.Login_FAILED.event+"->"+"保存用户信息失败");
                 return ResultFactory.buildFORBIDDENResult("保存用户信息失败" + "\n" + e.getMessage());
             }
             resp.put("session_key", code2sessionResp.getStr("session_key"));
