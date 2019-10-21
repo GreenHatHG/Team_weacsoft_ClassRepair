@@ -54,11 +54,6 @@ public class LoginController {
         //数据库中还没有该人
         if(userInfoRepository.findByOpenid(code2sessionResp.getStr("openid")) == null){
             userInfo = new UserInfo();
-            try{
-                userInfo = JSONUtil.toBean(JSONUtil.toJsonStr(payload), UserInfo.class);
-            }catch (Exception e){
-                return ResultFactory.buildNotAcceptableResult("参数过多,或者是参数名不符合要求");
-            }
 
             userInfo.setOpenid(code2sessionResp.getStr("openid"));
             userInfo.setSessionKey(code2sessionResp.getStr("session_key"));
@@ -92,6 +87,7 @@ public class LoginController {
             userInfo = userInfoRepository.findByOpenid(code2sessionResp.getStr("openid"));
             resp.put("session_key", userInfo.getSessionKey());
         }
+        resp.put("identityId", userInfo.getIdentityId());
         resp.put("role", userInfo.getRole());
         resp.put("phone", userInfo.getPhone());
         resp.put("name", userInfo.getName());
