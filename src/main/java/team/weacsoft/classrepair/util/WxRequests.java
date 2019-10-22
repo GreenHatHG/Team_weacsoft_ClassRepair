@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class Jscode2session {
+public class WxRequests {
     @Value("${APPID}")
     private String APPID;
 
@@ -21,7 +21,14 @@ public class Jscode2session {
     @Value("${GRANT_TYPE}")
     private String GRANT_TYPE;
 
-    public JSONObject get(String jsCode){
+    @Value("${template_id}")
+    private String TEMPLATE_ID;
+
+    public JSONObject code2Session(String jsCode){
         return WxUtils.wxAuth(jsCode, APPID, SECRET, GRANT_TYPE);
+    }
+
+    public JSONObject subscribeMessage(String touser, String page){
+        return WxUtils.subscribeMessage(touser, TEMPLATE_ID, page, "");
     }
 }

@@ -11,7 +11,7 @@ import team.weacsoft.classrepair.entity.Result;
 import team.weacsoft.classrepair.entity.ResultFactory;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 import team.weacsoft.classrepair.service.OperationLogService;
-import team.weacsoft.classrepair.util.Jscode2session;
+import team.weacsoft.classrepair.util.WxRequests;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class LoginController {
     @Autowired
     private OperationLogService operationLogService;
     @Autowired
-    private Jscode2session jscode2session;
+    private WxRequests wxRequests;
 
     @PostMapping("/login")
     public ResponseEntity<Result> login(@NotNull  @RequestBody Map<String, Object> payload) {
@@ -42,7 +42,7 @@ public class LoginController {
         }
 
         //请求auth.code2Session
-        JSONObject code2sessionResp = jscode2session.get(jsCode);
+        JSONObject code2sessionResp = wxRequests.code2Session(jsCode);
         if(code2sessionResp.getInt("errcode") != null){
             operationLogService.addLog(""
                     , EventEnum.Login.event, EventEnum.Login_FAILED.event+"->"+"通过wx.login接口获得openid失败");

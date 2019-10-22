@@ -16,7 +16,7 @@ import team.weacsoft.classrepair.entity.ResultFactory;
 import team.weacsoft.classrepair.repository.OrderItemRepository;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 import team.weacsoft.classrepair.service.OperationLogService;
-import team.weacsoft.classrepair.util.Jscode2session;
+import team.weacsoft.classrepair.util.WxRequests;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class OrderItemController {
     @Autowired
     private OperationLogService operationLogService;
     @Autowired
-    private Jscode2session jscode2session;
+    private WxRequests wxRequests;
     @Autowired
     private UserInfoRepository userInfoRepository;
 
@@ -70,7 +70,7 @@ public class OrderItemController {
         }
 
         //请求微信接口
-        JSONObject code2sessionResp = jscode2session.get(jsCode);
+        JSONObject code2sessionResp = wxRequests.code2Session(jsCode);
         if(code2sessionResp.getInt("errcode") != null){
             operationLogService.addLog(""
                     , EventEnum.ORDERITEM.event, EventEnum.ORDERITEM_FAILED.event+"-->通过wx.login接口获得openid失败");

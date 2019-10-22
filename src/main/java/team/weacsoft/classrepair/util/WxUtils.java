@@ -3,10 +3,6 @@ package team.weacsoft.classrepair.util;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.contests.WxAPIEnum;
 
 import java.util.HashMap;
@@ -37,4 +33,25 @@ public class WxUtils {
         String result = HttpRequest.get(WxAPIEnum.CODE2SEESION.api).form(payload).execute().body();
         return JSONUtil.parseObj(result);
     }
+
+    /**
+     * 调用接口下发订阅消息
+     * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.send.html
+     * @param touser
+     * @param template_id
+     * @param page
+     * @param data
+     * @return
+     */
+    public static JSONObject subscribeMessage(String touser, String template_id, String page, String data){
+            Map<String, Object> payload = new HashMap<>(4);
+            payload.put("touser", touser);
+            payload.put("template_id", template_id);
+            payload.put("page", page);
+            payload.put("data", data);
+            String result = HttpRequest.post(WxAPIEnum.SUBSCRIBE_MESSAGE.api).form(payload).execute().body();
+            return JSONUtil.parseObj(result);
+    }
+
+
 }
