@@ -1,4 +1,4 @@
-package team.weacsoft.classrepair.util;
+package team.weacsoft.classrepair.commons.util;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;

@@ -1,8 +1,8 @@
 package team.weacsoft.classrepair.bean;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import team.weacsoft.classrepair.bean.basic.BasicBean;
 import team.weacsoft.classrepair.bean.basic.BasicBeanWithOpenId;
 
 import javax.persistence.Column;
@@ -18,6 +18,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Builder
 @Table(name = "user_info")
 public class UserInfo extends BasicBeanWithOpenId {
 

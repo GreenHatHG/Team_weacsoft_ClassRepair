@@ -1,4 +1,4 @@
-package team.weacsoft.classrepair.config;
+package team.weacsoft.classrepair.commons.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

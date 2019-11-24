@@ -1,14 +1,12 @@
 package team.weacsoft.classrepair;
 
 import cn.hutool.core.util.RandomUtil;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import team.weacsoft.classrepair.bean.ClassRoom;
-import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.repository.ClassRoomRepository;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 
@@ -206,13 +204,13 @@ public class ClassrepairApplicationTests {
         }
     }
 
-    @Test
-    @Ignore
-    public void addUser(){
-        UserInfo userInfo = new UserInfo();
-        userInfo.setOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
-        userInfo.setName("林浩铌");
-        userInfo.setSessionKey("a5CywnEAyIEFcBSaF4Bp6A==");
-        userInfoRepository.save(userInfo);
-    }
+//    @Test
+//    @Ignore
+//    public void addUser(){
+//        UserInfo userInfo = new UserInfo();
+//        userInfo.setOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
+//        userInfo.setName("林浩铌");
+//        userInfo.setSessionKey("a5CywnEAyIEFcBSaF4Bp6A==");
+//        userInfoRepository.save(userInfo);
+//    }
 }

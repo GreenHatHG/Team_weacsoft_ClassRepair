@@ -1,5 +1,6 @@
 package team.weacsoft.classrepair.bean;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import team.weacsoft.classrepair.bean.basic.BasicBean;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 @Entity
 @Table(name = "order_item")
 public class OrderItem extends BasicBean{
