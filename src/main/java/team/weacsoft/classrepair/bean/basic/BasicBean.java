@@ -1,18 +1,14 @@
 package team.weacsoft.classrepair.bean.basic;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
 
 //todo  统计分析表
-//todo  故障设备类型表 存图标 默认为null
+//todo  故障设备类型表 存图标 默认为""
 
 /**
  * 每个表都有的字段
@@ -34,27 +30,36 @@ public abstract class BasicBean {
      * 一般1为启用，0为停用，-1为删除,特殊情况除外
      */
     @Column(nullable = false)
-    private int state = 1;
+    private int state;
 
     /**
      * 创建时间
      */
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date createTime;
+    private Long createTime;
 
     /**
      * 更新时间
      */
-    @LastModifiedDate
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateTime;
+    private Long updateTime;
 
     /**
      * 删除时间
      */
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deleteTime;
+    @Column(nullable = false)
+    private Long deleteTime;
+
+    @PrePersist
+    protected void onCreate() {
+        state = 1;
+        createTime = System.currentTimeMillis();
+        updateTime = System.currentTimeMillis();
+        deleteTime = (long)0;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updateTime = System.currentTimeMillis();
+    }
 }

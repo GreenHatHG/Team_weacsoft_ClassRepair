@@ -1,8 +1,10 @@
 package team.weacsoft.classrepair;
 
 import cn.hutool.core.util.RandomUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -12,7 +14,12 @@ import team.weacsoft.classrepair.repository.UserInfoRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class ClassrepairApplicationTests {
+
+    public ClassrepairApplicationTests() {
+        MDC.put("username", "1243");
+    }
 
     @Autowired
     ClassRoomRepository classRoomRepository;
@@ -204,13 +211,22 @@ public class ClassrepairApplicationTests {
         }
     }
 
-//    @Test
-//    @Ignore
-//    public void addUser(){
-//        UserInfo userInfo = new UserInfo();
+    @Test
+    public void addUser(){
+        log.error("123");
+//        log.error("test", "test2eqeq");
+
+//        log.error("12");userid,
+//        UserInfo userInfo = UserInfo.builder()
+//                .name("林浩铌")
+//                .sessionKey("a5CywnEAyIEFcBSaF4Bp6A==").build();
 //        userInfo.setOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
-//        userInfo.setName("林浩铌");
-//        userInfo.setSessionKey("a5CywnEAyIEFcBSaF4Bp6A==");
+////        userInfoRepository.save(userInfo);
+//        MDC.put("userid", userInfo.getId());
+//        MDC.put("operateContent", "测试记录日志");
+//        log.info("123");
+//        UserInfo userInfo = userInfoRepository.findByOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
+//        userInfo.setAvatar("444");
 //        userInfoRepository.save(userInfo);
-//    }
+    }
 }

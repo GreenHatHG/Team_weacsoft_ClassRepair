@@ -44,8 +44,7 @@ public class LoginController {
                         @RequestParam(required = false) @Size(max = 100) String nickname,
                         @RequestParam(required = false) @Size(max = 100) String password,
                         @RequestParam(required = false) Long identityId,
-                        @RequestParam(required = false, defaultValue = "0") @Min(0) @Max(4) int role
-                        ) {
+                        @RequestParam(required = false, defaultValue = "0") @Min(0) @Max(4) int role) {
 
         //请求auth.code2Session
         JSONObject code2sessionResp = wxRequests.code2Session(code);
@@ -55,6 +54,7 @@ public class LoginController {
         if(userInfo == null){
             userInfo = UserInfo.builder()
                     .sessionKey(code2sessionResp.getStr("session_key"))
+                    .role(role)
                     .avatar(avatar)
                     .password(password)
                     .phone(phone)

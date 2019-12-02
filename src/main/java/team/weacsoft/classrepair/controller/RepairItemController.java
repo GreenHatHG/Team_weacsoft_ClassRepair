@@ -1,28 +1,22 @@
 package team.weacsoft.classrepair.controller;
 
-import cn.hutool.json.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import team.weacsoft.classrepair.bean.OrderItem;
+import org.springframework.web.bind.annotation.*;
+import team.weacsoft.classrepair.bean.RepairItem;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
-import team.weacsoft.classrepair.commons.exception.NotFoundException;
 import team.weacsoft.classrepair.commons.util.WxRequests;
 import team.weacsoft.classrepair.contests.EventEnum;
-import team.weacsoft.classrepair.repository.UserInfoRepository;
 import team.weacsoft.classrepair.service.OperationLogService;
-import team.weacsoft.classrepair.service.OrderItemService;
+import team.weacsoft.classrepair.service.RepairItemService;
+import team.weacsoft.classrepair.service.UserInfoService;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -30,75 +24,118 @@ import java.util.Map;
  **/
 
 @RestController
-@RequestMapping(value="${api}")
+@RequestMapping(value="${api}/repair_item")
 @Validated
-public class OrderItemController {
+public class RepairItemController {
 
     @Autowired
-    private OrderItemService orderItemService;
+    private RepairItemService repairItemService;
 
     @Autowired
     private OperationLogService operationLogService;
+
     @Autowired
     private WxRequests wxRequests;
+
     @Autowired
-    private UserInfoRepository userInfoRepository;
+    private UserInfoService userInfoService;
 
     /**
-     * 提交表单
+     * 报修
      * @param code
      * @param classroom
-     * @param type
-     * @param content
+     * @param equipment_type
+     * @param problem
+     * @param oder_user_phone
      * @return
      */
-    @PostMapping("/orderitem")
-    public Result order(@RequestParam @NotBlank @Size(max = 100) String code,
+    @PostMapping("/")
+    public Result addOrderItem(@RequestParam @NotBlank @Size(max = 100) String code,
                         @RequestParam @NotBlank @Size(max = 100) String classroom,
-                        @RequestParam @NotBlank @Size(max = 100) String type,
-                        @RequestParam @NotBlank String content,
-                        @RequestParam(required = false) String phone){
+                        @RequestParam @NotBlank @Size(max = 100) String equipment_type,
+                        @RequestParam @NotBlank String problem,
+                        @RequestParam(required = false) String oder_user_phone){
 
-        //请求微信接口
-        JSONObject code2sessionResp = wxRequests.code2Session(code);
-        UserInfo userInfo = userInfoRepository.findByOpenid(code2sessionResp.getStr("openid"));
-        if(userInfo == null){
-            throw new NotFoundException("数据库找不到此人，请检查code值的正确性 --> code:" + code);
-        }
+        UserInfo userInfo = userInfoService.findByOpenIdAndCheck(
+                wxRequests.code2Session(code).getStr("openid"), code);
 
-        //生成订单id
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date date = new Date();
-        OrderItem orderItem = OrderItem.builder()
-                .orderItemId(sdf.format(date) + System.currentTimeMillis() / 100)
-                .orderId(userInfo.getId())
+        RepairItem repairItem = RepairItem.builder()
+                .repairItemId(repairItemService.getRepairItemId())
+                .orderUserId(userInfo.getId())
                 .classroom(classroom)
-                .type(type)
-                .content(content)
-                .phone(phone == null ? userInfo.getPhone() : phone).build();
-        orderItemService.save(orderItem, userInfo.getId());
+                .equipmentType(equipment_type)
+                .problem(problem)
+                .oderUserPhone(oder_user_phone == null ? userInfo.getPhone() : oder_user_phone)
+                .build();
+        repairItemService.save(repairItem, userInfo.getId());
 
-        operationLogService.addLog(userInfo.getId(), EventEnum.ORDERITEM.event
-                    , EventEnum.ORDERITEM_SUCCESS.event);
+        operationLogService.addLog(userInfo.getId(), EventEnum.REPAIR.event
+                    , EventEnum.REPAIR_SUCCESS.event);
 
         Map<String, String> resp = ImmutableMap.<String, String> builder()
-                .put("orderItemId", orderItem.getOrderItemId())
-                .put("orderId", orderItem.getOrderId())
-                .put("classroom", orderItem.getClassroom())
-                .put("type", orderItem.getType())
-                .put("content", orderItem.getContent())
-                .put("phone", orderItem.getPhone()).build();
+                .put("repairItemId", repairItem.getRepairItemId())
+                .put("orderUserId", repairItem.getOrderUserId())
+                .put("classroom", repairItem.getClassroom())
+                .put("type", repairItem.getEquipmentType())
+                .put("content", repairItem.getProblem())
+                .put("oderUserPhone", repairItem.getOderUserPhone()).build();
 
         return ResultFactory.buildSuccessResult(resp);
     }
+
+    /**
+     * 接单
+     * @param repair_item_id
+     * @param code
+     * @return
+     */
+    @PostMapping("/actions/order")
+    public Result order(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
+                        @RequestParam @NotEmpty String code){
+        RepairItem repairItem = repairItemService.findByRepairItemId(repair_item_id);
+        UserInfo userInfo = userInfoService.findByOpenIdAndCheck(
+                wxRequests.code2Session(code).getStr("openid"), code);
+        repairItem.setReceiverUserId(userInfo.getId());
+        repairItem.setState(2);
+        repairItemService.update(repairItem);
+        operationLogService.addLog(userInfo.getId(), EventEnum.ORDER.event,
+                EventEnum.ORDER_SUCCESS.event);
+        return ResultFactory.buildSuccessResult("接单成功");
+    }
+
+    /**
+     * 取消用户报修订单
+     * @param repair_item_id
+     * @param code
+     * @return
+     */
+    @PutMapping("/actions/cancel_repair")
+    public Result cancelRepair(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
+                         @RequestParam @NotBlank @Size(max = 100) String code){
+        RepairItem repairItem = repairItemService.findByRepairItemId(repair_item_id);
+        UserInfo userInfo = userInfoService.findByOpenIdAndCheck(
+                wxRequests.code2Session(code).getStr("openid"), code);
+        repairItem.setState(4);
+//        repairItem.setDeleteTime(new Timestamp(System.currentTimeMillis()));
+        repairItemService.update(repairItem);
+        return ResultFactory.buildSuccessResult("取消成功");
+    }
+
+//    @PutMapping("/actions/cancel_order")
+//    public Result cancelOrder(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
+//                               @RequestParam @NotBlank @Size(max = 100) String code) {
+//        RepairItem repairItem = repairItemService.findByRepairItemId(repair_item_id);
+//    }
+
+
 
 //    /**
 //     * 查询全部或者按单条件查询
 //     */
 //    @GetMapping("/orderitems")
 //    public Result getOrderItem(HttpServletRequest request){
-//        OrderItem orderItem = null;
-//        List<OrderItem> orderItems = null;
+//        RepairItem orderItem = null;
+//        List<RepairItem> orderItems = null;
 //
 //        //解析传递过来的参数，只能解析第一个参数
 //        Iterator entries = request.getParameterMap().entrySet().iterator();
@@ -162,12 +199,12 @@ public class OrderItemController {
 //    @GetMapping("/orderitems/pages")
 //    public Result getOrderitemsWithPages(int page, int size){
 //        Pageable pageable = PageRequest.of(page - 1, size);
-//        Page<OrderItem> pages = orderItemRepository.findAll(pageable);
+//        Page<RepairItem> pages = orderItemRepository.findAll(pageable);
 //        return ResultFactory.buildSuccessResult(pages);
 //    }
 //
 //    @PutMapping("/orderitem")
-//    public Result updateOrderItem(@RequestBody OrderItem orderItem){
+//    public Result updateOrderItem(@RequestBody RepairItem orderItem){
 //        try{
 //            orderItemRepository.save(orderItem);
 //        }catch (Exception e){

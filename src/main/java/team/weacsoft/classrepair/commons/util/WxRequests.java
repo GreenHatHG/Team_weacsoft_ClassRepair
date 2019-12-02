@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.commons.exception.Code2SessionException;
-import team.weacsoft.classrepair.contests.EventEnum;
 import team.weacsoft.classrepair.service.OperationLogService;
 
 /**
@@ -35,8 +34,8 @@ public class WxRequests {
     public JSONObject code2Session(String jsCode){
         JSONObject code2sessionResp =  WxUtils.wxAuth(jsCode, APPID, SECRET, GRANT_TYPE);
         if(code2sessionResp.getInt("errcode") != null){
-            operationLogService.addLog(jsCode
-                    , EventEnum.ORDERITEM.event, EventEnum.ORDERITEM_FAILED.event+"-->通过wx.login接口获得openid失败");
+//            operationLogService.addLog(jsCode
+//                    , EventEnum.ORDERITEM.event, EventEnum.ORDERITEM_FAILED.event+"-->通过wx.login接口获得openid失败");
             throw new Code2SessionException(JSONUtil.toJsonStr(code2sessionResp));
         }
         return code2sessionResp;

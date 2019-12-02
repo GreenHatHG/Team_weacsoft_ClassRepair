@@ -1,0 +1,84 @@
+#日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
+Configuration:
+  #  这个用于设置log4j2自身内部的信息输出
+  status: warn
+  name: log4j2config
+
+  properties:
+    property:
+      -
+        name: LOG_PATTERN
+        # %date表示日期，%thread表示线程名
+        # %-5level：级别从左显示5个字符宽度
+        # %msg：日志消息，%n是换行符
+        # %logger{36} 表示 Logger 名字最长36个字符
+        value: "%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+      -
+        name: FILE_PATH
+        value: log
+
+  appenders:
+    #  输出控制台日志的配置
+    Console:
+      name: Console
+      target: SYSTEM_OUT
+      ThresholdFilter:
+        # 控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）
+        level: debug
+        onMatch: ACCEPT
+        onMismatch: DENY
+      PatternLayout:
+        pattern: ${LOG_PATTERN}
+
+    RollingFile:
+      name: errorfile
+      fileName: "${FILE_PATH}/error/error.log"
+      # 每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档
+      filePattern: "${FILE_PATH}/compressed/error-%d{yyyy-MM-dd}_%i.log.gz"
+      ThresholdFilter:
+        level: error
+        onMatch: ACCEPT
+        onMismatch: DENY
+      PatternLayout:
+        pattern: ${LOG_PATTERN}
+      Policies:
+        TimeBasedTriggeringPolicy:
+          # interval属性用来指定多久滚动一次，默认是1 hour
+          interval: "1"
+        SizeBasedTriggeringPolicy:
+          size: "1MB"
+      # 同一文件夹下15个文件开始覆盖
+      DefaultRolloverStrategy:
+        max: "15"
+
+  # Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。
+  # 然后定义loggers，只有定义了logger并引入的appender，appender才会生效
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console
+        - ref: errorfile
+
+    logger:
+      -
+        name: "org.springframework"
+        level: info
+        # 若是additivity设为false，则 子Logger 只会在自己的appender里输出，而不会在 父Logger 的appender里输出
+        additivity: false
+        #  定义该logger的输出目的地
+        AppenderRef:
+          ref: Console
+      -
+        name: "org.hibernate"
+        level: info
+        additivity: false
+        AppenderRef:
+          ref: Console
+#      -
+#        name: "team"
+#        level: info
+#        additivity: false
+#        AppenderRef:
+#          - ref: Console
+

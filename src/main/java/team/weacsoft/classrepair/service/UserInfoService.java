@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.commons.exception.DataBaseException;
+import team.weacsoft.classrepair.commons.exception.NotFoundException;
 import team.weacsoft.classrepair.contests.EventEnum;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 
@@ -37,6 +38,22 @@ public class UserInfoService {
 
     public UserInfo findByOpenid(String openid){
         return userInfoRepository.findByOpenid(openid);
+    }
+
+    public UserInfo findByOpenIdAndCheck(String openid, String code){
+        UserInfo userInfo = userInfoRepository.findByOpenid(openid);
+        if(userInfo == null){
+            throw new NotFoundException("找不到此用户，code -->" + code);
+        }
+        return userInfo;
+    }
+
+    public UserInfo findByIdentityId(long identityId){
+        UserInfo userInfo = userInfoRepository.findByIdentityId(identityId);
+        if(userInfo == null){
+            throw new NotFoundException("找不到此用户，identityId -->" + identityId);
+        }
+        return userInfo;
     }
 
 }

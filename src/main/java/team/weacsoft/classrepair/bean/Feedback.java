@@ -21,9 +21,10 @@ import javax.persistence.Table;
 public class Feedback extends BasicBeanWithOpenId {
 
     /**
-     * 手机号
+     * 反馈人的手机号
      */
-    private String phone;
+    @Column(nullable = false)
+    private String phone = "";
 
     /**
      * 反馈内容,文本
@@ -35,5 +36,6 @@ public class Feedback extends BasicBeanWithOpenId {
     /**
      * 反馈图片存放图片路径
      */
-    private String imgUrl;
+    @Column(nullable = false)
+    private String imgUrl = "";
 }
