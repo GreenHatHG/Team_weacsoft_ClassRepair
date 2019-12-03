@@ -2,15 +2,15 @@ package team.weacsoft.classrepair.controller;
 
 import cn.hutool.json.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
+import team.weacsoft.classrepair.commons.log.Log;
 import team.weacsoft.classrepair.commons.util.WxRequests;
-import team.weacsoft.classrepair.contests.EventEnum;
-import team.weacsoft.classrepair.service.OperationLogService;
 import team.weacsoft.classrepair.service.UserInfoService;
 
 import javax.validation.constraints.Max;
@@ -26,13 +26,14 @@ import java.util.Map;
 @RestController
 @RequestMapping(value="${api}")
 @Validated
+@Slf4j
 public class LoginController {
 
     @Autowired
     private UserInfoService userInfoService;
 
-    @Autowired
-    private OperationLogService operationLogService;
+//    @Autowired
+//    private OperationLogService operationLogService;
 
     @Autowired
     private WxRequests wxRequests;
@@ -71,14 +72,15 @@ public class LoginController {
                 .put("name", userInfo.getName())
                 .put("session_key", userInfo.getSessionKey()).build();
 
-        operationLogService.addLog(userInfo.getId()
-                , EventEnum.Login.event, EventEnum.Login_SUCCESS.event);
+//        operationLogService.addLog(userInfo.getId()
+//                , EventEnum.Login.event, EventEnum.Login_SUCCESS.event);
 
         return ResultFactory.buildSuccessResult(resp);
     }
 
+    @Log(module = "log4j2测试", operation = "测试是否成功")
     @GetMapping("/test")
-    public Result test(){
+    public Result test(@RequestParam @NotBlank @Size(max = 100) String code){
         return ResultFactory.buildSuccessResult("已连接上塞伯坦星球");
     }
 }

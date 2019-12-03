@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.commons.exception.DataBaseException;
 import team.weacsoft.classrepair.commons.exception.NotFoundException;
-import team.weacsoft.classrepair.contests.EventEnum;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 
 /**
@@ -21,7 +20,7 @@ public class UserInfoService {
     private UserInfoRepository userInfoRepository;
 
     @Autowired
-    private OperationLogService operationLogService;
+//    private OperationLogService operationLogService;
 
     private static final Logger log = LoggerFactory.getLogger(UserInfoService.class);
 
@@ -30,8 +29,8 @@ public class UserInfoService {
             userInfoRepository.save(userInfo);
         }catch (Exception e){
             log.error("UserInfoService", e);
-            operationLogService.addLog("", EventEnum.Login.event,
-                    EventEnum.Login_FAILED.event+"->"+"保存用户信息失败");
+//            operationLogService.addLog("", EventEnum.Login.event,
+//                    EventEnum.Login_FAILED.event+"->"+"保存用户信息失败");
             throw new DataBaseException("保存用户信息失败 -->"+ e.getMessage());
         }
     }

@@ -3,11 +3,9 @@ package team.weacsoft.classrepair.commons.util;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.commons.exception.Code2SessionException;
-import team.weacsoft.classrepair.service.OperationLogService;
 
 /**
  * @author GreenHatHG
@@ -28,8 +26,8 @@ public class WxRequests {
     @Value("${template_id}")
     private String TEMPLATE_ID;
 
-    @Autowired
-    private OperationLogService operationLogService;
+//    @Autowired
+//    private OperationLogService operationLogService;
 
     public JSONObject code2Session(String jsCode){
         JSONObject code2sessionResp =  WxUtils.wxAuth(jsCode, APPID, SECRET, GRANT_TYPE);

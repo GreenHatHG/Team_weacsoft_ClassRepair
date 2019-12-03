@@ -213,7 +213,7 @@ public class ClassrepairApplicationTests {
 
     @Test
     public void addUser(){
-        log.error("123");
+        log.error("123SDA");
 //        log.error("test", "test2eqeq");
 
 //        log.error("12");userid,
