@@ -32,12 +32,10 @@ public class LoginController {
     @Autowired
     private UserInfoService userInfoService;
 
-//    @Autowired
-//    private OperationLogService operationLogService;
-
     @Autowired
     private WxRequests wxRequests;
 
+    @Log(module = "用户管理", operation = "用户登录")
     @PostMapping("/login")
     public Result login(@RequestParam @NotBlank @Size(max = 100) String code,
                         @RequestParam(required = false) @Size(max = 100) String avatar,
@@ -72,15 +70,12 @@ public class LoginController {
                 .put("name", userInfo.getName())
                 .put("session_key", userInfo.getSessionKey()).build();
 
-//        operationLogService.addLog(userInfo.getId()
-//                , EventEnum.Login.event, EventEnum.Login_SUCCESS.event);
-
         return ResultFactory.buildSuccessResult(resp);
     }
 
-    @Log(module = "log4j2测试", operation = "测试是否成功")
+    @Log
     @GetMapping("/test")
-    public Result test(@RequestParam @NotBlank @Size(max = 100) String code){
+    public Result test(){
         return ResultFactory.buildSuccessResult("已连接上塞伯坦星球");
     }
 }

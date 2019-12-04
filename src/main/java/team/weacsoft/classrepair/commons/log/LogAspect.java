@@ -1,18 +1,24 @@
 package team.weacsoft.classrepair.commons.log;
 
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import team.weacsoft.classrepair.commons.util.WxRequests;
+import team.weacsoft.classrepair.service.UserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -28,6 +34,12 @@ import java.util.*;
 @Slf4j
 public class LogAspect {
 
+    @Autowired
+    private WxRequests wxRequests;
+
+    @Autowired
+    private UserInfoService userInfoService;
+
     //表示匹配带有自定义注解的方法
     @Pointcut("@annotation(team.weacsoft.classrepair.commons.log.Log)")
     public void pointcut() {}
@@ -41,25 +53,45 @@ public class LogAspect {
         MethodSignature signature = (MethodSignature)point.getSignature();
         Method method = signature.getMethod();
 
+        List<Object> list = getParameter(method, point.getArgs());
+        String id = getId(list);
         Log userAction = method.getAnnotation(Log.class);
         Object result = point.proceed();
-        log.info("Userid:{}，Module:{}，Operation:{}，Result:{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}"
-                ,"123",userAction.module(), userAction.operation(), JSONUtil.parse(result), request.getMethod()
-                    , point.getTarget().getClass().getName(),signature.getName(),getParameter(method, point.getArgs()));
+        log.info("Userid:{}，Module:{}，Operation:{}，Result:{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}, Reponse:{}"
+                ,id, userAction.module(), userAction.operation(), "成功", request.getMethod()
+                    , point.getTarget().getClass().getName(),signature.getName(),getParameter(method, point.getArgs()), JSONUtil.parse(result));
         return  result;
+    }
+
+    /**
+     * 配置异常通知
+     */
+    @AfterThrowing(pointcut = "pointcut()", throwing = "e")
+    public void afterThrowing(JoinPoint point, Throwable e) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
+
+        MethodSignature signature = (MethodSignature)point.getSignature();
+        Method method = signature.getMethod();
+
+        Log userAction = method.getAnnotation(Log.class);
+        log.info("Userid:{}，Module:{}，Operation:{}，Result:失败->{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}"
+                ,"123",userAction.module(), userAction.operation(), e.getMessage(), request.getMethod()
+                , point.getTarget().getClass().getName(),signature.getName(),getParameter(method, point.getArgs()));
     }
 
     /**
      * 根据方法和传入的参数获取请求参数
      */
-    private Object getParameter(Method method, Object[] args) {
+    private List<Object> getParameter(Method method, Object[] args) {
         List<Object> argList = new ArrayList<>();
         Parameter[] parameters = method.getParameters();
         for (int i = 0; i < parameters.length; i++) {
             //将RequestBody注解修饰的参数作为请求参数
             RequestBody requestBody = parameters[i].getAnnotation(RequestBody.class);
             if (requestBody != null) {
-                argList.add(args[i]);
+                argList.add(args[i].toString().replaceAll("\n", "")
+                .replaceAll("\t", ""));
             }
             //将RequestParam注解修饰的参数作为请求参数
             RequestParam requestParam = parameters[i].getAnnotation(RequestParam.class);
@@ -75,10 +107,24 @@ public class LogAspect {
         }
         if (argList.size() == 0) {
             return null;
-        } else if (argList.size() == 1) {
-            return argList.get(0);
-        } else {
-            return argList;
         }
+        return argList;
+    }
+
+    private String getId(List<Object> list){
+        int size = list.size();
+        String code = "";
+        for (Object aList : list) {
+            JSONObject jsonObject = JSONUtil.parseObj(aList);
+            if (jsonObject.containsKey("code")) {
+                code = jsonObject.getStr("code");
+                break;
+            }
+        }
+        if(!"".equals(code)){
+            code = userInfoService.findByOpenid(
+                    wxRequests.code2Session(code).getStr("openid")).getId();
+        }
+        return code;
     }
 }

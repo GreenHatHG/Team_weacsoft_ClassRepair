@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
 
@@ -48,20 +47,11 @@ public class ExceptionAdvice {
      * 捕捉所有自定义异常
      * @return
      */
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CustomException.class)
     public Result handle(HttpServletRequest request, CustomException e) {
         return ResultFactory.buildCustomResult(e.getCode(), e.getMessage(), null);
-    }
-
-    /**
-     * 捕捉404异常
-     * @return
-     */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public Result handle(NoHandlerFoundException e) {
-        return ResultFactory.buildVNotFoundResult(e.getMessage());
     }
 
     /**

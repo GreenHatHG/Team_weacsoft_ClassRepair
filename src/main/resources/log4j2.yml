@@ -98,4 +98,3 @@ Configuration:
         additivity: false
         AppenderRef:
           - ref: operationfile
-

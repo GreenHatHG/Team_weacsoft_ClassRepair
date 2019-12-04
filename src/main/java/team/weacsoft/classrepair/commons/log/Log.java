@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Log {
-    String module() default "";
-    String operation() default "";
+    String module() default "未定义";
+    String operation() default "未定义";
 }
