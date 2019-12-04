@@ -1,6 +1,5 @@
 package team.weacsoft.classrepair.commons.log;
 
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +10,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,12 +53,11 @@ public class LogAspect {
         MethodSignature signature = (MethodSignature)point.getSignature();
         Method method = signature.getMethod();
 
-        List<Object> list = getParameter(method, point.getArgs());
-        String id = getId(list);
         Log userAction = method.getAnnotation(Log.class);
         Object result = point.proceed();
+
         log.info("Userid:{}，Module:{}，Operation:{}，Result:{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}, Reponse:{}"
-                ,id, userAction.module(), userAction.operation(), "成功", request.getMethod()
+                , MDC.get("userTableId") == null ? "未设置" : MDC.get("userTableId"), userAction.module(), userAction.operation(), "成功", request.getMethod()
                     , point.getTarget().getClass().getName(),signature.getName(),getParameter(method, point.getArgs()), JSONUtil.parse(result));
         return  result;
     }
@@ -75,8 +74,9 @@ public class LogAspect {
         Method method = signature.getMethod();
 
         Log userAction = method.getAnnotation(Log.class);
+
         log.info("Userid:{}，Module:{}，Operation:{}，Result:失败->{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}"
-                ,"123",userAction.module(), userAction.operation(), e.getMessage(), request.getMethod()
+                ,MDC.get("userTableId") == null ? "未设置" : MDC.get("userTableId"),userAction.module(), userAction.operation(), e.getMessage(), request.getMethod()
                 , point.getTarget().getClass().getName(),signature.getName(),getParameter(method, point.getArgs()));
     }
 
@@ -109,22 +109,5 @@ public class LogAspect {
             return null;
         }
         return argList;
-    }
-
-    private String getId(List<Object> list){
-        int size = list.size();
-        String code = "";
-        for (Object aList : list) {
-            JSONObject jsonObject = JSONUtil.parseObj(aList);
-            if (jsonObject.containsKey("code")) {
-                code = jsonObject.getStr("code");
-                break;
-            }
-        }
-        if(!"".equals(code)){
-            code = userInfoService.findByOpenid(
-                    wxRequests.code2Session(code).getStr("openid")).getId();
-        }
-        return code;
     }
 }

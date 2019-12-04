@@ -10,7 +10,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
- * 问题详情表
+ * 故障详情表
  * @author GreenHatHG
  **/
 

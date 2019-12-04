@@ -2,6 +2,7 @@ package team.weacsoft.classrepair.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.bean.UserInfo;
@@ -42,8 +43,10 @@ public class UserInfoService {
     public UserInfo findByOpenIdAndCheck(String openid, String code){
         UserInfo userInfo = userInfoRepository.findByOpenid(openid);
         if(userInfo == null){
+            MDC.put("userTableId", "找不到用户");
             throw new NotFoundException("找不到此用户，code -->" + code);
         }
+        MDC.put("userTableId", userInfo.getId());
         return userInfo;
     }
 

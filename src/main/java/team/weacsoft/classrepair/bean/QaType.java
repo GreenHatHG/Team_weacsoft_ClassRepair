@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 问题目录表
+ * 常见故障分类表
  * @author GreenHatHG
  **/
 

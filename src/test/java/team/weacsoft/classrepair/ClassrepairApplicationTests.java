@@ -4,7 +4,6 @@ import cn.hutool.core.util.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,10 +15,6 @@ import team.weacsoft.classrepair.repository.UserInfoRepository;
 @SpringBootTest
 @Slf4j
 public class ClassrepairApplicationTests {
-
-    public ClassrepairApplicationTests() {
-        MDC.put("username", "1243");
-    }
 
     @Autowired
     ClassRoomRepository classRoomRepository;

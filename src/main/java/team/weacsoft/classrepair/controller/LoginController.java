@@ -3,6 +3,7 @@ package team.weacsoft.classrepair.controller;
 import cn.hutool.json.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +62,8 @@ public class LoginController {
                     .identityId(identityId).build();
             userInfo.setOpenid(code2sessionResp.getStr("openid"));
             userInfoService.save(userInfo);
+            // 再次查询，确保插入的数据正确
+            userInfo = userInfoService.findByOpenid(code2sessionResp.getStr("openid"));
         }
 
         Map<String, String> resp = ImmutableMap.<String, String> builder()
@@ -69,11 +72,11 @@ public class LoginController {
                 .put("phone", userInfo.getPhone())
                 .put("name", userInfo.getName())
                 .put("session_key", userInfo.getSessionKey()).build();
-
+        MDC.put("userTableId", userInfo.getId());
         return ResultFactory.buildSuccessResult(resp);
     }
 
-    @Log
+    @Log(module = "连通性测试", operation = "测试是否成功连接")
     @GetMapping("/test")
     public Result test(){
         return ResultFactory.buildSuccessResult("已连接上塞伯坦星球");
