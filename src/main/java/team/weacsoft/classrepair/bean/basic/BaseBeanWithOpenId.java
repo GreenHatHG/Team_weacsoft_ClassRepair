@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(AuditingEntityListener.class)
-public class BasicBeanWithOpenId extends BasicBean {
+public class BaseBeanWithOpenId extends BaseBean {
 
     @Column(nullable = false, unique = true)
     public String openid;

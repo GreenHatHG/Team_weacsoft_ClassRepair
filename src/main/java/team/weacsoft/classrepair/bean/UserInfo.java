@@ -1,7 +1,7 @@
 package team.weacsoft.classrepair.bean;
 
 import lombok.*;
-import team.weacsoft.classrepair.bean.basic.BasicBeanWithOpenId;
+import team.weacsoft.classrepair.bean.basic.BaseBeanWithOpenId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,50 +14,58 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "user_info")
-public class UserInfo extends BasicBeanWithOpenId {
+public class UserInfo extends BaseBeanWithOpenId {
 
     /**
      * 真实姓名
      */
-    @Column(nullable = false, insertable = false, columnDefinition = "varchar(50) default ''")
-    private String name;
+    @Builder.Default
+    @Column(nullable = false)
+    private String name = "";
 
-    @Column(nullable = false, insertable = false, columnDefinition = "varchar(50) default ''")
-    private String phone;
+    @Builder.Default
+    @Column(nullable = false)
+    private String phone = "";
 
     /**
      * 权限
      * 1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
      */
-    @Column(nullable = false, insertable = false, columnDefinition = "int default 1")
-    private int role;
+    @Builder.Default
+    @Column(nullable = false)
+    private int role = 1;
 
     /**
      * 微信头像
      */
-    @Column(nullable = false, insertable = false, columnDefinition = "varchar(50) default ''")
-    private String avatar;
+    @Builder.Default
+    @Column(nullable = false)
+    private String avatar = "";
 
     /**
      * 微信昵称
      */
-    @Column(nullable = false, insertable = false, columnDefinition = "varchar(50) default ''")
-    private String nickname;
+    @Builder.Default
+    @Column(nullable = false)
+    private String nickname = "";
 
-    @Column(nullable = false, insertable = false, columnDefinition = "varchar(50) default ''")
-    private String password;
+    @Builder.Default
+    @Column(nullable = false)
+    private String password = "";
 
     /**
      * 学号/工号
      */
-    @Column(nullable = false, insertable = false, columnDefinition = "int default 0")
-    private Long identityId;
+    @Builder.Default
+    @Column(nullable = false)
+    private long identityId = (long)0;
 
-    @Column(nullable = false, insertable = false, columnDefinition = "varchar(50) default ''")
-    private String sessionKey;
+    @Builder.Default
+    @Column(nullable = false)
+    private String sessionKey = "";
 
 }

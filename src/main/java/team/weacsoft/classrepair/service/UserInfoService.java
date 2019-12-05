@@ -20,9 +20,6 @@ public class UserInfoService {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    @Autowired
-//    private OperationLogService operationLogService;
-
     private static final Logger log = LoggerFactory.getLogger(UserInfoService.class);
 
     public void save(UserInfo userInfo){
@@ -30,8 +27,6 @@ public class UserInfoService {
             userInfoRepository.save(userInfo);
         }catch (Exception e){
             log.error("UserInfoService", e);
-//            operationLogService.addLog("", EventEnum.Login.event,
-//                    EventEnum.Login_FAILED.event+"->"+"保存用户信息失败");
             throw new DataBaseException("保存用户信息失败 -->"+ e.getMessage());
         }
     }

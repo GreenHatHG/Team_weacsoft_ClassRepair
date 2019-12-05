@@ -20,10 +20,11 @@ import java.util.Map;
 
 /**
  * @author GreenHatHG
+ * @menu 订单管理
  **/
 
 @RestController
-@RequestMapping(value="${api}/repair_item")
+@RequestMapping(value="/repair_item")
 @Validated
 public class RepairItemController {
 
@@ -36,6 +37,15 @@ public class RepairItemController {
     @Autowired
     private UserInfoService userInfoService;
 
+    /**
+     * 用户报修接口
+     * @param code 临时登录凭证
+     * @param classroom 课室号
+     * @param equipment_type 故障设备类型
+     * @param problem 故障详情描述
+     * @param oder_user_phone 用户电话
+     * @return
+     */
     @Log(module = "订单管理", operation = "用户增加报修单")
     @PostMapping("/")
     public Result addOrderItem(@RequestParam @NotBlank @Size(max = 100) String code,
@@ -62,6 +72,12 @@ public class RepairItemController {
         return ResultFactory.buildSuccessResult(getUpdateRepairItemResp(repairItem));
     }
 
+    /**
+     * 维修人员接单
+     * @param repair_item_id 订单号
+     * @param code 临时登录凭证
+     * @return
+     */
     @Log(module = "订单管理", operation = "维修人员接单")
     @PostMapping("/actions/order")
     public Result order(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
@@ -77,7 +93,12 @@ public class RepairItemController {
         return ResultFactory.buildSuccessResult(getUpdateRepairItemResp(repairItem));
     }
 
-
+    /**
+     * 维修人员取消报修
+     * @param repair_item_id 订单号
+     * @param code 临时登录凭证
+     * @return
+     */
     @Log(module = "订单管理", operation = "维修人员取消报修")
     @PutMapping("/actions/cancel_repair")
     public Result cancelRepair(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
@@ -85,6 +106,12 @@ public class RepairItemController {
         return updateRepairItem(repair_item_id, code, 1);
     }
 
+    /**
+     * 用户取消报修
+     * @param repair_item_id 订单号
+     * @param code 临时登录凭证
+     * @return
+     */
     @Log(module = "订单管理", operation = "用户取消报修")
     @PutMapping("/actions/cancel_order")
     public Result cancelOrder(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
@@ -92,6 +119,12 @@ public class RepairItemController {
         return updateRepairItem(repair_item_id, code, 4);
     }
 
+    /**
+     * 完成报修
+     * @param repair_item_id 订单号
+     * @param code 临时登录凭证
+     * @return
+     */
     @Log(module = "订单管理", operation = "完成报修")
     @PutMapping("/actions/complete")
     public Result completeOrder(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,

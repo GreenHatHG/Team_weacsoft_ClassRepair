@@ -2,7 +2,7 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import team.weacsoft.classrepair.bean.basic.BasicBean;
+import team.weacsoft.classrepair.bean.basic.BaseBean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "qa_answer")
-public class QaAnswer extends BasicBean {
+public class QaAnswer extends BaseBean {
 
     /**
      * 目录id，与qa_type表对应

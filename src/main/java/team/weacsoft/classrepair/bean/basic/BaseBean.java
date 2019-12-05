@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BasicBean {
+public abstract class BaseBean {
 
     @Id
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
@@ -52,7 +52,6 @@ public abstract class BasicBean {
 
     @PrePersist
     protected void onCreate() {
-        state = 1;
         createTime = System.currentTimeMillis();
         updateTime = System.currentTimeMillis();
         deleteTime = (long)0;

@@ -1,5 +1,6 @@
 package team.weacsoft.classrepair.commons.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,8 +23,8 @@ import java.util.Set;
  */
 @RestControllerAdvice
 @ResponseBody
+@Slf4j
 public class ExceptionAdvice {
-
 
     /**
      * 捕捉校验异常(ConstraintViolationException)
@@ -40,6 +41,7 @@ public class ExceptionAdvice {
             message.append(pathArr[1]).append(violation.getMessage()).append(",");
         }
         message = new StringBuilder(message.substring(0, message.length() - 1));
+        log.error("校验异常", e);
         return ResultFactory.buildViolationFailResult(message.toString());
     }
 
@@ -47,10 +49,10 @@ public class ExceptionAdvice {
      * 捕捉所有自定义异常
      * @return
      */
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CustomException.class)
     public Result handle(HttpServletRequest request, CustomException e) {
+        log.error("自定义异常", e);
         return ResultFactory.buildCustomResult(e.getCode(), e.getMessage(), null);
     }
 
@@ -62,6 +64,7 @@ public class ExceptionAdvice {
      */
     @ExceptionHandler(value =NullPointerException.class)
     public Result exceptionHandler(HttpServletRequest req, NullPointerException e){
+        log.error("处理空指针的异常", e);
         return ResultFactory.buildVNotFoundResult(e.getMessage());
     }
 
@@ -74,6 +77,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public Result globalException(HttpServletRequest request, Throwable ex) {
+        log.error("捕捉其他所有异常", ex);
         return ResultFactory.buildCustomResult(this.getStatus(request).value(), ex.toString() + ": " + ex.getMessage(), null);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import team.weacsoft.classrepair.bean.ClassRoom;
+import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.repository.ClassRoomRepository;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 
@@ -208,20 +209,16 @@ public class ClassrepairApplicationTests {
 
     @Test
     public void addUser(){
-        log.error("123SDA");
-//        log.error("test", "test2eqeq");
-
-//        log.error("12");userid,
-//        UserInfo userInfo = UserInfo.builder()
-//                .name("林浩铌")
-//                .sessionKey("a5CywnEAyIEFcBSaF4Bp6A==").build();
-//        userInfo.setOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
-////        userInfoRepository.save(userInfo);
-//        MDC.put("userid", userInfo.getId());
-//        MDC.put("operateContent", "测试记录日志");
-//        log.info("123");
-//        UserInfo userInfo = userInfoRepository.findByOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
-//        userInfo.setAvatar("444");
-//        userInfoRepository.save(userInfo);
+        UserInfo userInfo = UserInfo.builder()
+                .name("林浩铌")
+                .sessionKey("a5CywnEAyIEFcBSaF4Bp6A==").build();
+//        UserInfo userInfo = new UserInfo();
+//        userInfo.setName("林浩铌");
+//        userInfo.setSessionKey("a5CywnEAyIEFcBSaF4Bp6A==");
+        userInfo.setOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
+        log.info(userInfo.toString());
+        userInfoRepository.save(userInfo);
+        userInfo = userInfoRepository.findByOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
+        log.info(userInfo.toString());
     }
 }

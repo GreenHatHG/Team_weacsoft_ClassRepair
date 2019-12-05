@@ -2,7 +2,7 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import team.weacsoft.classrepair.bean.basic.BasicBean;
+import team.weacsoft.classrepair.bean.basic.BaseBean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "dist_ctrl")
-public class DistCtrl extends BasicBean {
+public class DistCtrl extends BaseBean {
 
     /**
      * 课室id

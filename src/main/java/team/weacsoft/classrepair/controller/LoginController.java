@@ -22,10 +22,9 @@ import java.util.Map;
 
 /**
  * @author GreenHatHG
+ * @menu 用户管理
  **/
-
 @RestController
-@RequestMapping(value="${api}")
 @Validated
 @Slf4j
 public class LoginController {
@@ -36,6 +35,17 @@ public class LoginController {
     @Autowired
     private WxRequests wxRequests;
 
+    /**
+     * 用户登录接口
+     * @param code 临时登录凭证
+     * @param avatar 微信头像
+     * @param phone
+     * @param nickname 微信昵称
+     * @param password
+     * @param identityId 学号/工号
+     * @param role 权限，1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
+     * @return
+     */
     @Log(module = "用户管理", operation = "用户登录")
     @PostMapping("/login")
     public Result login(@RequestParam @NotBlank @Size(max = 100) String code,
@@ -44,7 +54,7 @@ public class LoginController {
                         @RequestParam(required = false) @Size(max = 100) String nickname,
                         @RequestParam(required = false) @Size(max = 100) String password,
                         @RequestParam(required = false) Long identityId,
-                        @RequestParam(required = false, defaultValue = "0") @Min(0) @Max(4) int role) {
+                        @RequestParam(required = false, defaultValue = "1") @Min(1) @Max(4) int role) {
 
         //请求auth.code2Session
         JSONObject code2sessionResp = wxRequests.code2Session(code);
@@ -76,6 +86,10 @@ public class LoginController {
         return ResultFactory.buildSuccessResult(resp);
     }
 
+    /**
+     * 接口连接测试
+     * @return 已连接上塞伯坦星球
+     */
     @Log(module = "连通性测试", operation = "测试是否成功连接")
     @GetMapping("/test")
     public Result test(){

@@ -2,7 +2,7 @@ package team.weacsoft.classrepair.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import team.weacsoft.classrepair.bean.basic.BasicBean;
+import team.weacsoft.classrepair.bean.basic.BaseBean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "class_room")
-public class ClassRoom extends BasicBean {
+public class ClassRoom extends BaseBean {
 
     @Column(nullable = false, unique = true)
     private String classId;
