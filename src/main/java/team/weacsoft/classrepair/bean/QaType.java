@@ -1,7 +1,6 @@
 package team.weacsoft.classrepair.bean;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import team.weacsoft.classrepair.bean.basic.BaseBean;
 
 import javax.persistence.Column;
@@ -16,23 +15,30 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "qa_type")
 public class QaType extends BaseBean {
 
     /**
      * 顺序，显示的先后顺序
      */
+    @Builder.Default
     @Column(nullable = false)
-    private int sort;
+    private int sort = 0;
 
     /**
      * 显示的标题
      */
+    @Builder.Default
     @Column(nullable = false)
-    private String title;
+    private String title = "";
 
     /**
      * 备注
      */
-    private String remark;
+    @Builder.Default
+    @Column(nullable = false)
+    private String remark = "";
 }

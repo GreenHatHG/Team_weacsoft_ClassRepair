@@ -4,10 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
 import team.weacsoft.classrepair.service.QaTypeService;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author GreenHatHG
@@ -30,4 +34,13 @@ public class QaTypeController {
         return ResultFactory.buildSuccessResult(qaTypeService.getAll());
     }
 
+    /**
+     * 某分类下的所有常见问题
+     * @param id
+     * @return
+     */
+    @GetMapping("/qa_types/id")
+    public Result findById(@RequestParam @NotBlank @Size(max = 100) String id){
+        return ResultFactory.buildSuccessResult(qaTypeService.findById(id));
+    }
 }

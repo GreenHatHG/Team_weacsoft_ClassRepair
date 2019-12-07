@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import team.weacsoft.classrepair.bean.ClassRoom;
+import team.weacsoft.classrepair.bean.QaType;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.repository.ClassRoomRepository;
+import team.weacsoft.classrepair.repository.QaTypeRepository;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 
 @RunWith(SpringRunner.class)
@@ -22,6 +24,9 @@ public class ClassrepairApplicationTests {
 
     @Autowired
     UserInfoRepository userInfoRepository;
+
+    @Autowired
+    QaTypeRepository qaTypeRepository;
 
     @Test
     public void addClassRoom() {
@@ -204,6 +209,26 @@ public class ClassrepairApplicationTests {
                 System.out.println(classRoom + "保存失败");
             }
 
+        }
+    }
+
+    @Test
+    public void addQaType(){
+        String s = "1\t电脑\n" +
+                "2\t无线麦\n" +
+                "3\t鹅颈麦\n" +
+                "4\t投影\n" +
+                "5\t灯\n" +
+                "6\t风扇\n" +
+                "8\t其他问题\n" +
+                "7\t空调\n";
+        s = s.replaceAll("\n", "\t");
+        String[] ss = s.split("\t");
+        for(int i = 1; i < ss.length; i+=2){
+            QaType qaType = QaType.builder()
+                    .sort(Integer.valueOf(ss[i-1]))
+                    .title(ss[i]).build();
+            qaTypeRepository.save(qaType);
         }
     }
 
