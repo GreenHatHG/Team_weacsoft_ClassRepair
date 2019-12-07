@@ -12,7 +12,7 @@ public class ResultFactory {
     private static final int success = 0;
 
     public static Result buildSuccessResult(Object data) {
-        return new Result(success, "成功", data);
+        return new Result(success, "success", data);
     }
 
     public static Result buildSuccessResult(String message) {

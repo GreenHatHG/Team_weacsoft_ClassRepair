@@ -1,6 +1,8 @@
 package team.weacsoft.classrepair;
 
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,10 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import team.weacsoft.classrepair.bean.ClassRoom;
 import team.weacsoft.classrepair.bean.QaType;
+import team.weacsoft.classrepair.bean.RepairItem;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.repository.ClassRoomRepository;
 import team.weacsoft.classrepair.repository.QaTypeRepository;
+import team.weacsoft.classrepair.repository.RepairItemRepository;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,6 +33,9 @@ public class ClassrepairApplicationTests {
 
     @Autowired
     QaTypeRepository qaTypeRepository;
+
+    @Autowired
+    RepairItemRepository repairItemRepository;
 
     @Test
     public void addClassRoom() {
@@ -245,5 +254,16 @@ public class ClassrepairApplicationTests {
         userInfoRepository.save(userInfo);
         userInfo = userInfoRepository.findByOpenid("o0Dsd5ApwqBIrc7TjFk8VUnzJipg");
         log.info(userInfo.toString());
+    }
+
+    private List<RepairItem> data(){
+        return repairItemRepository.findAll();
+    }
+
+    @Test
+    public void toExcel(){
+
+        EasyExcel.write("repair_item.xlsx", RepairItem.class)
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(data());
     }
 }

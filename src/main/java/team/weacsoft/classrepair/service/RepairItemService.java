@@ -1,5 +1,7 @@
 package team.weacsoft.classrepair.service;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,6 +12,7 @@ import team.weacsoft.classrepair.repository.RepairItemRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author GreenHatHG
@@ -20,7 +23,7 @@ import java.util.Date;
 public class RepairItemService {
 
     @Autowired
-    private RepairItemRepository orderItemRepository;
+    private RepairItemRepository repairItemRepository;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -29,7 +32,7 @@ public class RepairItemService {
      */
     public void save(RepairItem orderItem){
         try{
-            orderItemRepository.save(orderItem);
+            repairItemRepository.save(orderItem);
         }catch (Exception e){
             log.error("保存报修单到数据库失败", e);
             throw new DataBaseException("保存报修单到数据库失败：" + e.getMessage());
@@ -42,7 +45,7 @@ public class RepairItemService {
      */
     public void update(RepairItem repairItem){
         try {
-            orderItemRepository.save(repairItem);
+            repairItemRepository.save(repairItem);
         }catch (Exception e){
             log.error("接单失败，数据库出错", e);
             throw new DataBaseException("接单失败：" + e.getMessage());
@@ -60,11 +63,19 @@ public class RepairItemService {
     }
 
     public RepairItem findByRepairItemId(String repairItemId){
-        RepairItem repairItem = orderItemRepository.findByRepairItemId(repairItemId);
+        RepairItem repairItem = repairItemRepository.findByRepairItemId(repairItemId);
         if(repairItem == null){
             throw new NotFoundException("找不到此报修单，repairItemId：" + repairItemId);
         }
         return repairItem;
     }
 
+    private List<RepairItem> data(){
+        return repairItemRepository.findAll();
+    }
+
+    public void toExcel(){
+        EasyExcel.write("repair_item.xlsx", RepairItem.class)
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(data());
+    }
 }

@@ -1,9 +1,13 @@
 package team.weacsoft.classrepair.bean.basic;
 
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team.weacsoft.classrepair.commons.converter.DateConverter;
+import team.weacsoft.classrepair.commons.converter.StateConverter;
 
 import javax.persistence.*;
 
@@ -22,6 +26,7 @@ import javax.persistence.*;
 public abstract class BaseBean {
 
     @Id
+    @ExcelIgnore
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
     @GeneratedValue(generator = "jpa-uuid")
     private String id;
@@ -29,24 +34,28 @@ public abstract class BaseBean {
     /**
      * 一般1为启用，0为停用，-1为删除,特殊情况除外
      */
+    @ExcelProperty(value = "状态", converter = StateConverter.class)
     @Column(nullable = false)
     private int state = 1;
 
     /**
      * 创建时间
      */
+    @ExcelProperty(value = "创建时间", converter = DateConverter.class)
     @Column(nullable = false)
     private long createTime;
 
     /**
      * 更新时间
      */
+    @ExcelProperty(value = "更新时间", converter = DateConverter.class)
     @Column(nullable = false)
     private long updateTime;
 
     /**
      * 删除时间
      */
+    @ExcelProperty(value = "删除时间", converter = DateConverter.class)
     @Column(nullable = false)
     private long deleteTime;
 

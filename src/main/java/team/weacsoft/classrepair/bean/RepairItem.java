@@ -1,5 +1,6 @@
 package team.weacsoft.classrepair.bean;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.*;
 import team.weacsoft.classrepair.bean.basic.BaseBean;
 
@@ -26,13 +27,15 @@ public class RepairItem extends BaseBean {
     /**
      * 报修单id，后端自动生成，规则：当前日期+时间戳前十一位数字
      */
+    @ExcelProperty("订单ID")
     @Builder.Default
     @Column(nullable = false, unique = true)
     private String repairItemId = "";
 
     /**
-     * 接单人ID，用户工号/学号
+     * 接单人ID(表id)
      */
+    @ExcelProperty("接单人ID")
     @Builder.Default
     @Column(nullable = false)
     private String receiverUserId = "";
@@ -40,6 +43,7 @@ public class RepairItem extends BaseBean {
     /**
      * 报修人
      */
+    @ExcelProperty("报修人ID")
     @Builder.Default
     @Column(nullable = false)
     private String orderUserId = "";
@@ -47,6 +51,7 @@ public class RepairItem extends BaseBean {
     /**
      * 课室
      */
+    @ExcelProperty("课室")
     @Builder.Default
     @Column(nullable = false)
     private String classroom = "";
@@ -54,6 +59,7 @@ public class RepairItem extends BaseBean {
     /**
      * 故障设备
      */
+    @ExcelProperty("故障设备")
     @Builder.Default
     @Column(nullable = false)
     private String equipmentType = "";
@@ -61,6 +67,7 @@ public class RepairItem extends BaseBean {
     /**
      * 问题描述
      */
+    @ExcelProperty("问题")
     @Builder.Default
     @Column(nullable = false)
     private String problem = "";
@@ -68,6 +75,7 @@ public class RepairItem extends BaseBean {
     /**
      * 报修人手机号
      */
+    @ExcelProperty("报修人手机号")
     @Builder.Default
     @Column(nullable = false)
     private String oderUserPhone = "";

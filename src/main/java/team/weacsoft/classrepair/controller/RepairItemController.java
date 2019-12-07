@@ -53,7 +53,7 @@ public class RepairItemController {
                         @RequestParam @NotBlank @Size(max = 100) String classroom,
                         @RequestParam @NotBlank @Size(max = 100) String equipment_type,
                         @RequestParam @NotBlank String problem,
-                        @RequestParam(required = false) String oder_user_phone){
+                        @RequestParam(required = false) @NotBlank String oder_user_phone){
 
         UserInfo userInfo = userInfoService.findByOpenIdAndCheck(
                 wxRequests.code2Session(code).getStr("openid"), code);
