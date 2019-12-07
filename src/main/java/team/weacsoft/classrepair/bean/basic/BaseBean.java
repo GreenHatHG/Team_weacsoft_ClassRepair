@@ -30,25 +30,25 @@ public abstract class BaseBean {
      * 一般1为启用，0为停用，-1为删除,特殊情况除外
      */
     @Column(nullable = false)
-    private int state;
+    private int state = 1;
 
     /**
      * 创建时间
      */
     @Column(nullable = false)
-    private Long createTime;
+    private long createTime;
 
     /**
      * 更新时间
      */
     @Column(nullable = false)
-    private Long updateTime;
+    private long updateTime;
 
     /**
      * 删除时间
      */
     @Column(nullable = false)
-    private Long deleteTime;
+    private long deleteTime;
 
     @PrePersist
     protected void onCreate() {

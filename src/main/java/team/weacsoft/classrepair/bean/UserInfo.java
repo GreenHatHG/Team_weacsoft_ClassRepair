@@ -62,7 +62,7 @@ public class UserInfo extends BaseBeanWithOpenId {
      */
     @Builder.Default
     @Column(nullable = false)
-    private long identityId = (long)0;
+    private Long identityId = 0L;
 
     @Builder.Default
     @Column(nullable = false)

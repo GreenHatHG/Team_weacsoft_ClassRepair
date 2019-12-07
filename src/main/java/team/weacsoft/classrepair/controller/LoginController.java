@@ -38,6 +38,7 @@ public class LoginController {
     /**
      * 用户登录接口
      * @param code 临时登录凭证
+     * @param name 真实姓名
      * @param avatar 微信头像
      * @param phone
      * @param nickname 微信昵称
@@ -49,11 +50,12 @@ public class LoginController {
     @Log(module = "用户管理", operation = "用户登录")
     @PostMapping("/login")
     public Result login(@RequestParam @NotBlank @Size(max = 100) String code,
-                        @RequestParam(required = false) @Size(max = 100) String avatar,
-                        @RequestParam(required = false) @Size(max = 100) String phone,
-                        @RequestParam(required = false) @Size(max = 100) String nickname,
-                        @RequestParam(required = false) @Size(max = 100) String password,
-                        @RequestParam(required = false) Long identityId,
+                        @RequestParam(required = false, defaultValue = "") @Size(max = 100) String name,
+                        @RequestParam(required = false, defaultValue = "") @Size(max = 100) String avatar,
+                        @RequestParam(required = false, defaultValue = "") @Size(max = 100) String phone,
+                        @RequestParam(required = false, defaultValue = "") @Size(max = 100) String nickname,
+                        @RequestParam(required = false, defaultValue = "") @Size(max = 100) String password,
+                        @RequestParam(required = false, defaultValue = "0") long identityId,
                         @RequestParam(required = false, defaultValue = "1") @Min(1) @Max(4) int role) {
 
         //请求auth.code2Session
@@ -64,6 +66,7 @@ public class LoginController {
         if(userInfo == null){
             userInfo = UserInfo.builder()
                     .sessionKey(code2sessionResp.getStr("session_key"))
+                    .name(name)
                     .role(role)
                     .avatar(avatar)
                     .password(password)

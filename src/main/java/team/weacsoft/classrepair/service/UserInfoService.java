@@ -26,7 +26,6 @@ public class UserInfoService {
         try{
             userInfoRepository.save(userInfo);
         }catch (Exception e){
-            log.error("UserInfoService", e);
             throw new DataBaseException("保存用户信息失败 -->"+ e.getMessage());
         }
     }

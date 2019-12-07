@@ -54,7 +54,9 @@ public class LogAspect {
         Method method = signature.getMethod();
 
         Log userAction = method.getAnnotation(Log.class);
-        Object result = point.proceed();
+
+        Object result = null;
+        result = point.proceed();
 
         log.info("Userid:{}，Module:{}，Operation:{}，Result:{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}, Reponse:{}"
                 , MDC.get("userTableId") == null ? "未设置" : MDC.get("userTableId"), userAction.module(), userAction.operation(), "成功", request.getMethod()

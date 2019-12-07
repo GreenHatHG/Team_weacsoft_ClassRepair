@@ -8,6 +8,7 @@ import team.weacsoft.classrepair.bean.RepairItem;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
+import team.weacsoft.classrepair.commons.exception.CustomException;
 import team.weacsoft.classrepair.commons.log.Log;
 import team.weacsoft.classrepair.commons.util.WxRequests;
 import team.weacsoft.classrepair.service.RepairItemService;
@@ -47,7 +48,7 @@ public class RepairItemController {
      * @return
      */
     @Log(module = "订单管理", operation = "用户增加报修单")
-    @PostMapping("/")
+    @PostMapping("")
     public Result addOrderItem(@RequestParam @NotBlank @Size(max = 100) String code,
                         @RequestParam @NotBlank @Size(max = 100) String classroom,
                         @RequestParam @NotBlank @Size(max = 100) String equipment_type,
@@ -85,6 +86,9 @@ public class RepairItemController {
         RepairItem repairItem = repairItemService.findByRepairItemId(repair_item_id);
         UserInfo userInfo = userInfoService.findByOpenIdAndCheck(
                 wxRequests.code2Session(code).getStr("openid"), code);
+        if(repairItem.getState() == 2){
+            throw new CustomException(465, "该单已接", getUpdateRepairItemResp(repairItem));
+        }
         repairItem.setReceiverUserId(userInfo.getId());
         repairItem.setState(2);
         repairItemService.update(repairItem);
@@ -144,7 +148,8 @@ public class RepairItemController {
                 .put("classroom", repairItem.getClassroom())
                 .put("type", repairItem.getEquipmentType())
                 .put("content", repairItem.getProblem())
-                .put("orderUserPhone", repairItem.getOderUserPhone()).build();
+                .put("orderUserPhone", repairItem.getOderUserPhone())
+                .put("state", String.valueOf(repairItem.getState())).build();
     }
 
     /**
@@ -155,15 +160,15 @@ public class RepairItemController {
      * @return
      */
     private Result updateRepairItem(String repair_item_id, String code, int i) {
-        RepairItem repairItem = repairItemService.findByRepairItemId(repair_item_id);
         userInfoService.findByOpenIdAndCheck(
                 wxRequests.code2Session(code).getStr("openid"), code);
+        RepairItem repairItem = repairItemService.findByRepairItemId(repair_item_id);
         repairItem.setState(i);
         repairItem.setDeleteTime(System.currentTimeMillis());
         repairItemService.update(repairItem);
         // 再次查询，确保插入的数据正确
         repairItem = repairItemService.findByRepairItemId(repairItem.getRepairItemId());
-        return ResultFactory.buildSuccessResult(repairItem);
+        return ResultFactory.buildSuccessResult(getUpdateRepairItemResp(repairItem));
     }
 
 }

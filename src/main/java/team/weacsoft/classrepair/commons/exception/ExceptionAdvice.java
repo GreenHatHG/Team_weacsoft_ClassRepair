@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
 
@@ -16,7 +17,6 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
 import java.util.Set;
 
-
 /**
  * 异常控制处理器
  * @author GreenHatHG
@@ -24,7 +24,7 @@ import java.util.Set;
 @RestControllerAdvice
 @ResponseBody
 @Slf4j
-public class ExceptionAdvice {
+public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
     /**
      * 捕捉校验异常(ConstraintViolationException)
@@ -41,7 +41,6 @@ public class ExceptionAdvice {
             message.append(pathArr[1]).append(violation.getMessage()).append(",");
         }
         message = new StringBuilder(message.substring(0, message.length() - 1));
-        log.error("校验异常", e);
         return ResultFactory.buildViolationFailResult(message.toString());
     }
 
@@ -52,8 +51,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CustomException.class)
     public Result handle(HttpServletRequest request, CustomException e) {
-        log.error("自定义异常", e);
-        return ResultFactory.buildCustomResult(e.getCode(), e.getMessage(), null);
+        return ResultFactory.buildCustomResult(e.getCode(), e.getMessage(), e.getData());
     }
 
     /**
@@ -64,21 +62,21 @@ public class ExceptionAdvice {
      */
     @ExceptionHandler(value =NullPointerException.class)
     public Result exceptionHandler(HttpServletRequest req, NullPointerException e){
-        log.error("处理空指针的异常", e);
-        return ResultFactory.buildVNotFoundResult(e.getMessage());
+        log.error("空指针异常", e);
+        return ResultFactory.buildVNotFoundResult(e.toString());
     }
 
     /**
      * 捕捉其他所有异常
      * @param request
-     * @param ex
+     * @param e
      * @return
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
-    public Result globalException(HttpServletRequest request, Throwable ex) {
-        log.error("捕捉其他所有异常", ex);
-        return ResultFactory.buildCustomResult(this.getStatus(request).value(), ex.toString() + ": " + ex.getMessage(), null);
+    public Result globalException(HttpServletRequest request, Throwable e) {
+        log.error("其他异常", e);
+        return ResultFactory.buildCustomResult(this.getStatus(request).value(), e.toString() + ": " + e.getMessage(), null);
     }
 
     /**
