@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
+import team.weacsoft.classrepair.commons.jwt.JwtUtil;
 import team.weacsoft.classrepair.commons.log.Log;
 import team.weacsoft.classrepair.commons.util.WxRequests;
 import team.weacsoft.classrepair.service.UserInfoService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -35,6 +37,9 @@ public class LoginController {
     @Autowired
     private WxRequests wxRequests;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     /**
      * 用户登录接口
      * @param code 临时登录凭证
@@ -48,7 +53,7 @@ public class LoginController {
      * @return
      */
     @Log(module = "用户管理", operation = "用户登录")
-    @PostMapping("/login")
+    @PostMapping("/wx/login")
     public Result login(@RequestParam @NotBlank @Size(max = 100) String code,
                         @RequestParam(required = false, defaultValue = "") @Size(max = 100) String name,
                         @RequestParam(required = false, defaultValue = "") @Size(max = 100) String avatar,
@@ -56,7 +61,8 @@ public class LoginController {
                         @RequestParam(required = false, defaultValue = "") @Size(max = 100) String nickname,
                         @RequestParam(required = false, defaultValue = "") @Size(max = 100) String password,
                         @RequestParam(required = false, defaultValue = "0") long identityId,
-                        @RequestParam(required = false, defaultValue = "1") @Min(1) @Max(4) int role) {
+                        @RequestParam(required = false, defaultValue = "1") @Min(1) @Max(4) int role,
+                        HttpServletResponse response) {
 
         //请求auth.code2Session
         JSONObject code2sessionResp = wxRequests.code2Session(code);
@@ -86,6 +92,7 @@ public class LoginController {
                 .put("name", userInfo.getName())
                 .put("session_key", userInfo.getSessionKey()).build();
         MDC.put("userTableId", userInfo.getId());
+        response.setHeader("Authorization", jwtUtil.getJWT(userInfo.getId()));
         return ResultFactory.buildSuccessResult(resp);
     }
 
@@ -94,7 +101,7 @@ public class LoginController {
      * @return 已连接上塞伯坦星球
      */
     @Log(module = "连通性测试", operation = "测试是否成功连接")
-    @GetMapping("/test")
+    @GetMapping("/public/test")
     public Result test(){
         return ResultFactory.buildSuccessResult("已连接上塞伯坦星球");
     }
