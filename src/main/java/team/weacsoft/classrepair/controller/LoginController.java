@@ -53,7 +53,7 @@ public class LoginController {
      * @return
      */
     @Log(module = "用户管理", operation = "用户登录")
-    @PostMapping("/wx/login")
+    @PostMapping("/public/wx/login")
     public Result login(@RequestParam @NotBlank @Size(max = 100) String code,
                         @RequestParam(required = false, defaultValue = "") @Size(max = 100) String name,
                         @RequestParam(required = false, defaultValue = "") @Size(max = 100) String avatar,

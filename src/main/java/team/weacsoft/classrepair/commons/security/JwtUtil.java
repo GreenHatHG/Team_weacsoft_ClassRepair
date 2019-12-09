@@ -78,7 +78,7 @@ public class JwtUtil {
         try {
             //对秘钥进行加密后再与用户名混淆在一起
             Algorithm algorithm = Algorithm.HMAC256(
-                    Objects.requireNonNull(stringRedisTemplate.opsForValue().get(id)));
+                    Objects.requireNonNull(stringRedisTemplate.opsForValue().get(REDIS_JWT_KEY_PREFIX + id)));
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim("id", id)
                     .build();
@@ -99,7 +99,7 @@ public class JwtUtil {
         if (StrUtil.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
-        return null;
+        return bearerToken;
     }
 
     public String getId(String token){
