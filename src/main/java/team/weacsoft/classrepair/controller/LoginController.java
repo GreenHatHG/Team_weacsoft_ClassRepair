@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import team.weacsoft.classrepair.bean.UserInfo;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
-import team.weacsoft.classrepair.commons.jwt.JwtUtil;
 import team.weacsoft.classrepair.commons.log.Log;
+import team.weacsoft.classrepair.commons.security.JwtUtil;
 import team.weacsoft.classrepair.commons.util.WxRequests;
 import team.weacsoft.classrepair.service.UserInfoService;
 

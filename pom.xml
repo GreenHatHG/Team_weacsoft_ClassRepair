@@ -21,7 +21,7 @@
 
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
         <easyexcel.version>2.1.4</easyexcel.version>
-        <jjwt.version>0.9.1</jjwt.version>
+        <java-jwt.version>3.8.3</java-jwt.version>
     </properties>
 
     <dependencies>
@@ -123,9 +123,9 @@
         </dependency>
 
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
 
     </dependencies>
