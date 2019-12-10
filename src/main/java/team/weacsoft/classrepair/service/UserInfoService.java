@@ -1,5 +1,6 @@
 package team.weacsoft.classrepair.service;
 
+import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -11,6 +12,7 @@ import team.weacsoft.classrepair.commons.exception.NotFoundException;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -81,4 +83,14 @@ public class UserInfoService {
         return userInfo;
     }
 
+    public Map<String, String> updateRoleById(String id, int role){
+        UserInfo userInfo = findById(id);
+        userInfo.setRole(role);
+        save(userInfo);
+        userInfo = findById(userInfo.getId());
+        Map<String, String> resp =  ImmutableMap.<String, String> builder()
+                .put("id", userInfo.getId())
+                .put("role", String.valueOf(userInfo.getRole())).build();
+        return resp;
+    }
 }

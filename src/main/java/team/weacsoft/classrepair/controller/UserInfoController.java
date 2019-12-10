@@ -48,14 +48,7 @@ public class UserInfoController {
     @PutMapping("/role")
     public Result udateRole(@RequestParam @NotBlank @Size(max = 100) String id,
                             @RequestParam @Min(1) @Max(4) int role){
-        UserInfo userInfo = userInfoService.findById(id);
-        userInfo.setRole(role);
-        userInfoService.save(userInfo);
-        userInfo = userInfoService.findById(userInfo.getId());
-        Map<String, String> resp =  ImmutableMap.<String, String> builder()
-                .put("id", userInfo.getId())
-                .put("role", String.valueOf(userInfo.getRole())).build();
-        return ResultFactory.buildSuccessResult(resp);
+        return ResultFactory.buildSuccessResult(userInfoService.updateRoleById(id, role));
     }
 
     /**

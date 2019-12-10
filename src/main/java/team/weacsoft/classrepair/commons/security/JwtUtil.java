@@ -94,8 +94,11 @@ public class JwtUtil {
      * @param request 请求
      * @return JWT
      */
-    public String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+    String getJwtFromRequest(HttpServletRequest request) {
+        return getJwtFromBearerToken(request.getHeader("Authorization"));
+    }
+
+    private String getJwtFromBearerToken(String bearerToken){
         if (StrUtil.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
@@ -111,7 +114,11 @@ public class JwtUtil {
         }
     }
 
-    public static void response401(HttpServletResponse response, Exception e) throws IOException {
+    public String getIdFromHeader(String header){
+        return getId(getJwtFromBearerToken(header));
+    }
+
+    static void response401(HttpServletResponse response, Exception e) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
