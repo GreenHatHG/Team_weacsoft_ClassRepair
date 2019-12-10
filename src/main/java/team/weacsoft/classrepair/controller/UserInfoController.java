@@ -26,7 +26,6 @@ import java.util.Map;
  * @author GreenHatHG
  * @menu 用户管理
  */
-
 @RestController
 @Validated
 @Slf4j
@@ -108,7 +107,49 @@ public class UserInfoController {
                 .put("role", String.valueOf(userInfo.getRole()))
                 .put("phone", userInfo.getPhone())
                 .put("name", userInfo.getName())
-
+                .put("nickname", userInfo.getNickname())
+                .put("avatar", userInfo.getAvatar())
                 .put("session_key", userInfo.getSessionKey()).build();
     }
+
+    //todo 管理员或者以上可以修改别人的信息普通用户只能修改自己的信息，需要设置安全验证
+
+    /**
+     * 修改用户信息
+     * @param id
+     * @param name 真实姓名
+     * @param avatar 头像
+     * @param phone 电话
+     * @param nickname 微信昵称
+     * @param identityId 学号/工号
+     * @return
+     */
+    @PutMapping("/actions/update_info")
+    public Result updateUserInfo(
+            @RequestParam @Size(max = 100) String id,
+            @RequestParam(required = false, defaultValue = "") @Size(max = 100) String name,
+            @RequestParam(required = false, defaultValue = "") @Size(max = 100) String avatar,
+            @RequestParam(required = false, defaultValue = "") @Size(max = 100) String phone,
+            @RequestParam(required = false, defaultValue = "") @Size(max = 100) String nickname,
+            @RequestParam(required = false, defaultValue = "0") long identityId){
+        UserInfo userInfo = userInfoService.findById(id);
+        if(!"".equals(name)){
+            userInfo.setName(name);
+        }
+        if(!"".equals(avatar)){
+            userInfo.setName(avatar);
+        }
+        if(!"".equals(phone)){
+            userInfo.setName(phone);
+        }
+        if(!"".equals(nickname)){
+            userInfo.setName(nickname);
+        }
+        if(identityId != 0){
+            userInfo.setIdentityId(identityId);
+        }
+        userInfoService.save(userInfo);
+        return ResultFactory.buildSuccessResult(filterUserInfo(userInfoService.findById(id)));
+    }
+
 }
