@@ -10,6 +10,9 @@ import team.weacsoft.classrepair.commons.exception.DataBaseException;
 import team.weacsoft.classrepair.commons.exception.NotFoundException;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author GreenHatHG
  */
@@ -38,7 +41,7 @@ public class UserInfoService {
         UserInfo userInfo = userInfoRepository.findByOpenid(openid);
         if(userInfo == null){
             MDC.put("userTableId", "找不到用户");
-            throw new NotFoundException("找不到此用户，code -->" + code);
+            throw new NotFoundException("找不到此用户，code:" + code);
         }
         MDC.put("userTableId", userInfo.getId());
         return userInfo;
@@ -47,11 +50,35 @@ public class UserInfoService {
     public UserInfo findByIdentityId(long identityId){
         UserInfo userInfo = userInfoRepository.findByIdentityId(identityId);
         if(userInfo == null){
-            throw new NotFoundException("找不到此用户，identityId -->" + identityId);
+            throw new NotFoundException("找不到此用户，identityId:" + identityId);
         }
         return userInfo;
     }
 
+    public UserInfo findById(String id){
+        Optional<UserInfo> optionalUserInfo = userInfoRepository.findById(id);
+        if(!optionalUserInfo.isPresent()){
+            throw new NotFoundException("找不到此用户，id:" + id);
+        }
+        UserInfo userInfo = optionalUserInfo.get();
+        MDC.put("userTableId", userInfo.getId());
+        return userInfo;
+    }
 
+    public List<UserInfo> findByName(String name){
+        List<UserInfo> userInfos = userInfoRepository.findByName(name);
+        if(userInfos.size() == 0){
+            throw new NotFoundException("找不到此用户，name:" + name);
+        }
+        return userInfos;
+    }
+
+    public UserInfo findByNickname(String nickname){
+        UserInfo userInfo = userInfoRepository.findByNickname(nickname);
+        if(userInfo == null){
+            throw new NotFoundException("找不到此用户，nickname:" + nickname);
+        }
+        return userInfo;
+    }
 
 }

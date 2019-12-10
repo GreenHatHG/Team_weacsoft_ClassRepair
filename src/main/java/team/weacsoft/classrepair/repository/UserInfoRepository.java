@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.bean.UserInfo;
 
+import java.util.List;
+
 /**
  * @author GreenHatHG
  **/
@@ -13,4 +15,8 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
     UserInfo findByOpenid(String openid);
 
     UserInfo findByIdentityId(long identityId);
+
+    List<UserInfo> findByName(String name);
+
+    UserInfo findByNickname(String nickname);
 }

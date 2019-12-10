@@ -86,6 +86,7 @@ public class LoginController {
         }
 
         Map<String, String> resp = ImmutableMap.<String, String> builder()
+                .put("id", userInfo.getId())
                 .put("identityId", String.valueOf(userInfo.getIdentityId()))
                 .put("role", String.valueOf(userInfo.getRole()))
                 .put("phone", userInfo.getPhone())
