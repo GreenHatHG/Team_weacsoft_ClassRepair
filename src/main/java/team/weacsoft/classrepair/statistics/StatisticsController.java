@@ -28,7 +28,8 @@ public class StatisticsController {
      */
     @GetMapping("/type")
     public Result getStatisticsByEquipmentType(){
-        return ResultFactory.buildSuccessResult(statisticsService.getStatisticsByEquipmentType());
+        return ResultFactory.buildSuccessResult(
+                statisticsService.getStatisticsByEquipmentType());
     }
 
     /**
@@ -37,7 +38,8 @@ public class StatisticsController {
      */
     @GetMapping("/classroom")
     public Result getStatisticsByClassroom(){
-        return ResultFactory.buildSuccessResult(null);
+        return ResultFactory.buildSuccessResult(
+                statisticsService.getStatisticsByClassroom());
     }
 
     /**
