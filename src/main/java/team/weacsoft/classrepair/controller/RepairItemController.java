@@ -53,7 +53,7 @@ public class RepairItemController {
                         @RequestParam @NotBlank @Size(max = 100) String classroom,
                         @RequestParam @NotBlank @Size(max = 100) String equipment_type,
                         @RequestParam @NotBlank String problem,
-                        @RequestParam(required = false) @NotBlank String oder_user_phone){
+                        @RequestParam(required = false) String oder_user_phone){
 
         UserInfo userInfo = userInfoService.findByOpenIdAndCheck(
                 wxRequests.code2Session(code).getStr("openid"), code);
@@ -134,6 +134,15 @@ public class RepairItemController {
     public Result completeOrder(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
                               @RequestParam @NotBlank @Size(max = 100) String code) {
         return updateRepairItem(repair_item_id, code, 3);
+    }
+
+    /**
+     * 获取所有的未接订单
+     * @return
+     */
+    @GetMapping("/missed_orders")
+    public Result getAllMissedOrder(){
+        return ResultFactory.buildSuccessResult(null);
     }
 
     /**

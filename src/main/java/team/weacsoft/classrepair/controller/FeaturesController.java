@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.classrepair.commons.control.InvitationControl;
 import team.weacsoft.classrepair.commons.dto.Result;
 import team.weacsoft.classrepair.commons.dto.ResultFactory;
@@ -18,9 +18,9 @@ import javax.validation.constraints.Min;
  * @menu 系统控制
  */
 
-@RestController(value = "/control")
 @Validated
 @Slf4j
+@RequestMapping(value="/control")
 public class FeaturesController {
 
     /**

@@ -12,5 +12,4 @@ import team.weacsoft.classrepair.bean.RepairItem;
 public interface RepairItemRepository extends JpaRepository<RepairItem, String> {
 
     RepairItem findByRepairItemId(String repairItemId);
-
 }

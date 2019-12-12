@@ -1,7 +1,6 @@
 package team.weacsoft.classrepair.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,12 +18,11 @@ import java.util.*;
  */
 
 @Component
+@Slf4j
 public class ClassRoomService {
 
     @Autowired
     private ClassRoomRepository classRoomRepository;
-
-    private static final Logger log = LoggerFactory.getLogger(ClassRoomService.class);
 
     public List<ClassRoom> findAll(){
         return classRoomRepository.findAll();

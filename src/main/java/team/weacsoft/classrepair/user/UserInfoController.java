@@ -1,4 +1,4 @@
-package team.weacsoft.classrepair.controller;
+package team.weacsoft.classrepair.user;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
@@ -145,4 +145,21 @@ public class UserInfoController {
         return ResultFactory.buildSuccessResult(filterUserInfo(userInfoService.findById(id)));
     }
 
+    /**
+     * 获得我的所有未处理订单
+     * @return
+     */
+    @GetMapping("/my/missed_orders")
+    public Result getAllMyMissedOrders(){
+        return ResultFactory.buildSuccessResult(null);
+    }
+
+    /**
+     * 获得我的所有已处理订单
+     * @return
+     */
+    @GetMapping("/my/processed_orders")
+    public Result getAllMyProcessedOrders(){
+        return ResultFactory.buildSuccessResult(null);
+    }
 }

@@ -52,7 +52,6 @@ public class RepairItemService {
         }
     }
 
-
     /**
      * 生成订单id
      * @return
@@ -70,12 +69,12 @@ public class RepairItemService {
         return repairItem;
     }
 
-    private List<RepairItem> data(){
+    public List<RepairItem> findAll(){
         return repairItemRepository.findAll();
     }
 
     public void toExcel(){
         EasyExcel.write("repair_item.xlsx", RepairItem.class)
-                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(data());
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(findAll());
     }
 }
