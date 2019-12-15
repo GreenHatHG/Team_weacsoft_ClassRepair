@@ -5,7 +5,11 @@ import org.springframework.stereotype.Component;
 import team.weacsoft.classrepair.bean.RepairItem;
 import team.weacsoft.classrepair.service.RepairItemService;
 
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -36,6 +40,33 @@ public class StatisticsService {
             String classroom = repairItem.getClassroom().split("-")[0];
             int oldCount = data.getOrDefault(classroom, 0);
             data.put(classroom, oldCount+1);
+        }
+        return data;
+    }
+
+    public Map<String, Integer> getStatisticsByperiod(){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        List<RepairItem> repairItemList =  repairItemService.findAll();
+        Map<String, Integer> data = new HashMap<>(3);
+        //初始化
+        data.put("早上", 0);
+        data.put("下午", 0);
+        data.put("晚上", 0);
+
+        for(RepairItem repairItem : repairItemList) {
+            String period = sdf.format(new Date((repairItem.getCreateTime())));
+            if("05:00".compareTo(period) <= 0 && "12:00".compareTo(period) >= 0){
+                int oldCount = data.getOrDefault("早上", 0);
+                data.put("早上", oldCount+1);
+            }
+            else if("12:00".compareTo(period) < 0 && "19:00".compareTo(period) > 0){
+                int oldCount = data.getOrDefault("下午", 0);
+                data.put("下午", oldCount+1);
+            }
+            else if("19:00".compareTo(period) <= 0 && "23:00".compareTo(period) >= 0){
+                int oldCount = data.getOrDefault("下午", 0);
+                data.put("晚上", oldCount+1);
+            }
         }
         return data;
     }

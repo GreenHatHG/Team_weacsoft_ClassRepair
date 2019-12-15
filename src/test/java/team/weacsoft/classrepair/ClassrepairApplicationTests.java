@@ -17,6 +17,7 @@ import team.weacsoft.classrepair.repository.ClassRoomRepository;
 import team.weacsoft.classrepair.repository.QaTypeRepository;
 import team.weacsoft.classrepair.repository.RepairItemRepository;
 import team.weacsoft.classrepair.repository.UserInfoRepository;
+import team.weacsoft.classrepair.statistics.StatisticsService;
 
 import java.util.List;
 
@@ -265,5 +266,12 @@ public class ClassrepairApplicationTests {
 
         EasyExcel.write("repair_item.xlsx", RepairItem.class)
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(data());
+    }
+
+    @Autowired
+    private StatisticsService statisticsService;
+    @Test
+    public void getStatisticsByperiod(){
+        statisticsService.getStatisticsByperiod();
     }
 }

@@ -48,7 +48,8 @@ public class StatisticsController {
      */
     @GetMapping("/period")
     public Result getStatisticsByPeriod(){
-        return ResultFactory.buildSuccessResult(null);
+        return ResultFactory.buildSuccessResult(
+                statisticsService.getStatisticsByperiod());
     }
 
     /**
