@@ -71,4 +71,17 @@ public class StatisticsService {
         return data;
     }
 
+    public Map<String, Integer> getStatisticsByReceiver(){
+        List<RepairItem> repairItemList =  repairItemService.findAll();
+        Map<String, Integer> data = new HashMap<>(3);
+
+        for(RepairItem repairItem : repairItemList) {
+            if(!"".equals(repairItem.getReceiverUserId())){
+                int oldCount = data.getOrDefault(repairItem.getReceiverUserId(), 0);
+                data.put(repairItem.getReceiverUserId(), oldCount+1);
+            }
+        }
+        return data;
+    }
+
 }

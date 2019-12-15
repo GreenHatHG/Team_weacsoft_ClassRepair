@@ -58,6 +58,7 @@ public class StatisticsController {
      */
     @GetMapping("/receiver")
     public Result getStatisticsByReceiver(){
-        return ResultFactory.buildSuccessResult(null);
+        return ResultFactory.buildSuccessResult(
+                statisticsService.getStatisticsByReceiver());
     }
 }
