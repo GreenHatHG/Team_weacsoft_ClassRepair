@@ -2,6 +2,7 @@ package team.weacsoft.classrepair.service;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
+import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,10 @@ import team.weacsoft.classrepair.commons.exception.NotFoundException;
 import team.weacsoft.classrepair.repository.RepairItemRepository;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -76,5 +79,27 @@ public class RepairItemService {
     public void toExcel(){
         EasyExcel.write("repair_item.xlsx", RepairItem.class)
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(findAll());
+    }
+
+    public List<Map<String, String>> getAllMissedOrder(){
+        List<RepairItem> repairItemList = findAll();
+        List<Map<String, String>> resp = new ArrayList<>();
+        for(RepairItem repairItem : repairItemList){
+            if("".equals(repairItem.getReceiverUserId())
+                    && repairItem.getDeleteTime() == 0){
+                resp.add(repairItemFilter(repairItem));
+            }
+        }
+        return resp;
+    }
+
+    private Map<String, String> repairItemFilter(RepairItem repairItem){
+        return ImmutableMap.<String, String>builder()
+                .put("id", repairItem.getId())
+                .put("repairItemId", repairItem.getRepairItemId())
+                .put("classroom", repairItem.getClassroom())
+                .put("equipmentType", repairItem.getEquipmentType())
+                .put("problem", repairItem.getProblem())
+                .build();
     }
 }

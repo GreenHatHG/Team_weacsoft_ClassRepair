@@ -142,7 +142,8 @@ public class RepairItemController {
      */
     @GetMapping("/missed_orders")
     public Result getAllMissedOrder(){
-        return ResultFactory.buildSuccessResult(null);
+        return ResultFactory.buildSuccessResult(
+                repairItemService.getAllMissedOrder());
     }
 
     /**
