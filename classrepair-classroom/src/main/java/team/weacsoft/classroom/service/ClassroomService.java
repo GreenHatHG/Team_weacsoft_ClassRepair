@@ -2,13 +2,11 @@ package team.weacsoft.classroom.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import team.weacsoft.classroom.domain.ClassroomDo;
 import team.weacsoft.classroom.repository.ClassroomRepository;
-import team.weacsoft.common.exception.handler.ApiResp;
 
 import java.io.Serializable;
 import java.util.*;
@@ -28,7 +26,7 @@ public class ClassroomService {
         return classroomRepository.findAll();
     }
 
-    public ResponseEntity<ApiResp> getClassRooms(){
+    public List<Map<String, Object>> getClassRooms(){
         List<ClassroomDo> classRooms = findAll();
 
         Map<String, Resp> map= new HashMap<>(11);
@@ -61,7 +59,7 @@ public class ClassroomService {
             temp.put("room", lists);
             resps.add(temp);
         }
-        return ApiResp.ok(resps);
+        return resps;
     }
 
     private static class Resp implements Serializable {

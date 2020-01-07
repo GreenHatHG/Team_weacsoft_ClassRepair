@@ -27,7 +27,7 @@ public class ClassRoomController {
      */
     @GetMapping("/classrooms")
     public ResponseEntity<ApiResp> getClassRooms(){
-        return classroomService.getClassRooms();
+        return ApiResp.ok(classroomService.getClassRooms());
     }
 
 }

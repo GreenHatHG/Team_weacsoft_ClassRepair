@@ -15,6 +15,7 @@
         <module>../classrepair-system</module>
         <module>../classrepair-invitation</module>
         <module>../classrepair-classroom</module>
+        <module>../classrepair-qatype</module>
     </modules>
 
     <parent>
