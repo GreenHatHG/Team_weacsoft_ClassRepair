@@ -10,15 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>classrepair-user</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-db</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
+    <artifactId>classrepair-classroom</artifactId>
 
+    <dependencies>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-common</artifactId>
@@ -26,15 +20,11 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-db</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
     </dependencies>
-
 
 </project>

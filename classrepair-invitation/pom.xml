@@ -10,31 +10,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>classrepair-user</artifactId>
+    <artifactId>classrepair-invitation</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-db</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
+            <artifactId>classrepair-common</artifactId>
+            <version>1.0.0</version>
         </dependency>
-
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <artifactId>classrepair-user</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
-
-
 </project>

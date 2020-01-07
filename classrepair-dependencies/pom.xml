@@ -13,6 +13,8 @@
         <module>../classrepair-db</module>
         <module>../classrepair-user</module>
         <module>../classrepair-system</module>
+        <module>../classrepair-invitation</module>
+        <module>../classrepair-classroom</module>
     </modules>
 
     <parent>
@@ -40,12 +42,6 @@
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!--lombok插件-->
         <dependency>

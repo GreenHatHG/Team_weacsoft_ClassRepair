@@ -24,6 +24,12 @@
             <artifactId>classrepair-user</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-classroom</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
