@@ -36,6 +36,12 @@
             <artifactId>classrepair-qatype</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-invitation</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -1,14 +1,16 @@
 package team.weacsoft.invitation.service;
 
-import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.user.service.UserInfoService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author GreenHatHG
  */
+
+@Component
 public class InvitationService {
 
     @Autowired
@@ -34,23 +38,24 @@ public class InvitationService {
 
     /**
      * 获得邀请码
-     * @param auth header中Authorization的值
      * @return
      */
-    public Map<String, String> getInvitionCode(String auth){
-        String code = REDIS_INVITATION_KEY_PREFIX + IdUtil.simpleUUID();
+    public Map<String, String> getInvitionCode(){
+        //2位随机数+时间戳后6位
+        String code = String.valueOf(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli())
+                .substring(7) + RandomUtil.randomInt(9) + RandomUtil.randomInt(9);;
         stringRedisTemplate.opsForValue()
-                .set(code, "", EXPIRE_TIME, TimeUnit.MILLISECONDS);
+                .set(REDIS_INVITATION_KEY_PREFIX + code, "", EXPIRE_TIME, TimeUnit.MILLISECONDS);
         return ImmutableMap.<String, String> builder().put("code", code).build();
     }
 
     public Map<String, String> updtaeRoleByCode(String code, String auth){
         try{
             String id = jwtUtil.getIdFromHeader(auth);
-            Objects.requireNonNull(stringRedisTemplate.opsForValue().get(code));
+            Objects.requireNonNull(stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_PREFIX + code));
             return userInfoService.updateRoleById(id, 2);
         }catch (Exception e){
-            throw new BadRequestException(HttpStatus.valueOf(478), "邀请码无效或已过期");
+            throw new BadRequestException(478, "邀请码无效或已过期");
         }
     }
 }

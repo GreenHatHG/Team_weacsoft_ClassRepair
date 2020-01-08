@@ -1,17 +1,14 @@
 package team.weacsoft.user.controller;
 
 import com.google.common.collect.ImmutableMap;
-import com.sun.xml.internal.txw2.output.ResultFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
-import team.weacsoft.common.wx.WxRequests;
 import team.weacsoft.common.wx.WxUtils;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
@@ -91,7 +88,7 @@ public class UserInfoController {
         try{
             nickname = URLDecoder.decode(nickname, "utf-8");
         }catch (Exception e){
-            throw new BadRequestException(HttpStatus.valueOf(432), "转义失败：nickname:"+nickname);
+            throw new BadRequestException(432, "转义失败：nickname:"+nickname);
         }
         return ApiResp.ok(userInfoService.findByNickname(nickname));
     }

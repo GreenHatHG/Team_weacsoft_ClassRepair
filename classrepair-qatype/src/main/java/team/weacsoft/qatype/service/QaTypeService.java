@@ -2,7 +2,6 @@ package team.weacsoft.qatype.service;
 
 import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.qatype.domain.QaTypeDo;
@@ -36,7 +35,7 @@ public class QaTypeService {
     public Map<String, String> findById(String id){
         Optional<QaTypeDo> optionalQaType = qaTypeRepository.findById(id);
         if(!optionalQaType.isPresent()){
-            throw new BadRequestException(HttpStatus.NOT_FOUND, "找不到对应的分类信息,id:"+id);
+            throw new BadRequestException(404, "找不到对应的分类信息,id:"+id);
         }
         QaTypeDo qaType = optionalQaType.get();
         return ImmutableMap.<String, String>builder()

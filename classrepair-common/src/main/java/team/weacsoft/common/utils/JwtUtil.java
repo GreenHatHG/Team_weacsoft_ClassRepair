@@ -8,10 +8,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.sun.xml.internal.txw2.output.ResultFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import team.weacsoft.common.exception.handler.ApiResp;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author GreenHatHG
  */
+
+@Component
 public class JwtUtil {
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -88,7 +91,7 @@ public class JwtUtil {
      * @param request 请求
      * @return JWT
      */
-    String getJwtFromRequest(HttpServletRequest request) {
+    public String getJwtFromRequest(HttpServletRequest request) {
         return getJwtFromBearerToken(request.getHeader("Authorization"));
     }
 
@@ -112,7 +115,7 @@ public class JwtUtil {
         return getId(getJwtFromBearerToken(header));
     }
 
-    static void response401(HttpServletResponse response, Exception e) throws IOException {
+    public static void response401(HttpServletResponse response, Exception e) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");

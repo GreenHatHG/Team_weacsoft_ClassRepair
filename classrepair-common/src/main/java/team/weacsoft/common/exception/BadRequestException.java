@@ -1,7 +1,6 @@
 package team.weacsoft.common.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -19,8 +18,8 @@ public class BadRequestException extends RuntimeException{
         super(msg);
     }
 
-    public BadRequestException(HttpStatus status, String msg){
+    public BadRequestException(int status, String msg){
         super(msg);
-        this.status = status.value();
+        this.status = status;
     }
 }

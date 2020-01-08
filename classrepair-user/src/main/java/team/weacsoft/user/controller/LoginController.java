@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
+import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.wx.WxUtils;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.domain.dto.LoginDto;
@@ -30,6 +31,9 @@ public class LoginController {
 
     @Autowired
     private WxUtils wxUtils;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * 小程序登录接口
@@ -66,7 +70,7 @@ public class LoginController {
                 .put("phone", userInfo.getPhone())
                 .put("name", userInfo.getName())
                 .put("session_key", userInfo.getSessionKey())
-                .put("token", "123").build();
+                .put("token", jwtUtil.getJWT(userInfo.getId())).build();
         MDC.put("userTableId", userInfo.getId());
         return ApiResp.ok(resp);
     }

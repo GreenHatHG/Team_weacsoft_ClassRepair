@@ -1,10 +1,7 @@
 package team.weacsoft.common.exception.handler;
 
-import com.sun.xml.internal.txw2.output.ResultFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.TypeMismatchException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityExistException;
 import team.weacsoft.common.exception.EntityNotFoundException;
@@ -23,9 +19,7 @@ import team.weacsoft.common.utils.ThrowableUtil;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Path;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -46,7 +40,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResp> badRequestException(BadRequestException e) {
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
-        return buildResponseEntity(ApiResp.error(e.getStatus(),e.getMessage()));
+        return new ResponseEntity<>(ApiResp.error(e.getStatus(),e.getMessage()), BAD_REQUEST);
     }
 
     /**
