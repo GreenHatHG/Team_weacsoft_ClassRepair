@@ -1,0 +1,100 @@
+#日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
+Configuration:
+  #  这个用于设置log4j2自身内部的信息输出
+  status: warn
+  name: log4j2config
+
+  properties:
+    property:
+      - name: LOG_PATTERN
+        # %date表示日期，%thread表示线程名
+        # %-5level：级别从左显示5个字符宽度
+        # %msg：日志消息，%n是换行符
+        # %logger{36} 表示 Logger 名字最长36个字符
+        value: "%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %m%n"
+
+      - name: FILE_PATH
+        value: log
+
+  appenders:
+    #  输出控制台日志的配置
+    Console:
+      name: Console
+      target: SYSTEM_OUT
+      ThresholdFilter:
+        # 控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）
+        level: debug
+        onMatch: ACCEPT
+        onMismatch: DENY
+      PatternLayout:
+        pattern: ${LOG_PATTERN}
+
+    # 同样输出结果到指定文件，但是使用buffer，速度会快点
+    RollingFile:
+      - name: errorfile
+        fileName: "${FILE_PATH}/error/error.log"
+        # 表示当日志到达指定的大小或者时间，产生新日志时，旧日志的命名路径
+        filePattern: "${FILE_PATH}/error/compressed/%d{yyyy-MM-dd}-error_%i.log.gz"
+        ThresholdFilter:
+          level: error
+          onMatch: ACCEPT
+          onMismatch: DENY
+        PatternLayout:
+          pattern: ${LOG_PATTERN}
+        Policies:
+          # 时间策略，每隔24小时产生新的日志文件
+          TimeBasedTriggeringPolicy:
+            interval: "24"
+          # 大小策略，每到指定size大小时产生新的日志文件
+          SizeBasedTriggeringPolicy:
+            size: "1MB"
+        # 同一文件夹下30个文件开始覆盖
+        DefaultRolloverStrategy:
+          # max参数是与filePattern中的计数器%i配合起作用的，其具体作用方式与filePattern的配置密切相关
+          max: "30"
+
+      - name: operationfile
+        fileName: "${FILE_PATH}/operation/operation.log"
+        filePattern: "${FILE_PATH}/operation/compressed/%d{yyyy-MM-dd}-operation_%i.log.gz"
+        ThresholdFilter:
+          level: info
+          onMatch: ACCEPT
+          onMismatch: DENY
+        PatternLayout:
+          pattern: "%d{yyyy-MM-dd HH:mm:ss} - %m%n"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: "24"
+          SizeBasedTriggeringPolicy:
+            size: "1MB"
+        DefaultRolloverStrategy:
+          max: "30"
+
+
+  # Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。
+  # 然后定义loggers，只有定义了logger并引入的appender，appender才会生效
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console
+        - ref: errorfile
+
+    logger:
+      - name: "org.springframework"
+        level: info
+        # 若是additivity设为false，则 子Logger 只会在自己的appender里输出，而不会在 父Logger 的appender里输出
+        additivity: false
+        #  定义该logger的输出目的地
+        AppenderRef:
+          ref: Console
+      - name: "org.hibernate"
+        level: info
+        additivity: false
+        AppenderRef:
+          ref: Console
+      - name: "team.weacsoft.classrepair.commons.log.LogAspect"
+        level: info
+        additivity: false
+        AppenderRef:
+          - ref: operationfile

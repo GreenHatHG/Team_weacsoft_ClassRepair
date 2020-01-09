@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
+import team.weacsoft.common.log.Log;
 import team.weacsoft.invitation.service.InvitationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class InvitationController {
      * 获得邀请码
      * @return
      */
+    @Log(module = "邀请码管理", operation = "获得邀请码")
     @GetMapping("")
     public ResponseEntity<ApiResp> getCode(){
         return ApiResp.ok(invitationService.getInvitionCode());

@@ -91,6 +91,7 @@ public class UserInfoController {
      * @param dto 要修改的信息，不需要修改的字段留空
      * @return
      */
+    @Log(module = "用户管理", operation = "修改用户信息")
     @PutMapping("/actions/update_info")
     public ResponseEntity<ApiResp> updateUserInfo(@Validated @RequestBody UpdateUserInfoDto dto){
         UserInfoDo userInfo = userInfoService.findById(dto.getId());

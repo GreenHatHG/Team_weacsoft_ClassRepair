@@ -74,14 +74,4 @@ public class LoginController {
         MDC.put("userTableId", userInfo.getId());
         return ApiResp.ok(resp);
     }
-
-//    /**
-//     * 接口连接测试
-//     * @return 已连接上塞伯坦星球
-//     */
-//    @Log(module = "连通性测试", operation = "测试是否成功连接")
-//    @GetMapping("/public/test")
-//    public Result test(){
-//        return ResultFactory.buildSuccessResult("已连接上塞伯坦星球");
-//    }
 }
