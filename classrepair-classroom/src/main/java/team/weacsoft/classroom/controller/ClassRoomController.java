@@ -25,7 +25,7 @@ public class ClassRoomController {
      * 获取课室信息
      * @return
      */
-    @GetMapping("/classrooms")
+    @GetMapping("/public/classrooms")
     public ResponseEntity<ApiResp> getClassRooms(){
         return ApiResp.ok(classroomService.getClassRooms());
     }

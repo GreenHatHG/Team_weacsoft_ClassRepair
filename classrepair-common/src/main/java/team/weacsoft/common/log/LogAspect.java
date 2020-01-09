@@ -1,6 +1,6 @@
 package team.weacsoft.common.log;
 
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -51,7 +51,7 @@ public class LogAspect {
 
         log.info("Userid:{}，Module:{}，Operation:{}，Result:{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}, Reponse:{}"
                 , MDC.get("userTableId") == null ? "未设置" : MDC.get("userTableId"), userAction.module(), userAction.operation(), "成功", request.getMethod()
-                    , point.getTarget().getClass().getName(),signature.getName(),getParameter(method, point.getArgs()), JSONUtil.parse(result));
+                    , point.getTarget().getClass().getName(),signature.getName(),JSON.toJSON(getParameter(method, point.getArgs())), JSON.toJSON(result));
         return  result;
     }
 
@@ -70,21 +70,20 @@ public class LogAspect {
 
         log.info("Userid:{}，Module:{}，Operation:{}，Result:失败->{}，Request_type:{}，Class:{}，Method:{}，Parameter:{}"
                 ,MDC.get("userTableId") == null ? "未设置" : MDC.get("userTableId"),userAction.module(), userAction.operation(), e.getMessage(), request.getMethod()
-                , point.getTarget().getClass().getName(),signature.getName(),getParameter(method, point.getArgs()));
+                , point.getTarget().getClass().getName(),signature.getName(), JSON.toJSON(getParameter(method, point.getArgs())));
     }
 
     /**
      * 根据方法和传入的参数获取请求参数
      */
-    private List<Object> getParameter(Method method, Object[] args) {
+    private Object getParameter(Method method, Object[] args) {
         List<Object> argList = new ArrayList<>();
         Parameter[] parameters = method.getParameters();
         for (int i = 0; i < parameters.length; i++) {
             //将RequestBody注解修饰的参数作为请求参数
             RequestBody requestBody = parameters[i].getAnnotation(RequestBody.class);
             if (requestBody != null) {
-                argList.add(args[i].toString().replaceAll("\n", "")
-                .replaceAll("\t", ""));
+                argList.add(args[i]);
             }
             //将RequestParam注解修饰的参数作为请求参数
             RequestParam requestParam = parameters[i].getAnnotation(RequestParam.class);
@@ -100,7 +99,10 @@ public class LogAspect {
         }
         if (argList.size() == 0) {
             return null;
+        } else if (argList.size() == 1) {
+            return argList.get(0);
+        } else {
+            return argList;
         }
-        return argList;
     }
 }
