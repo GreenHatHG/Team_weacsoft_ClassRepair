@@ -17,6 +17,7 @@
         <module>../classrepair-classroom</module>
         <module>../classrepair-qatype</module>
         <module>../classrepair-repair-item</module>
+        <module>../classrepair-statistics</module>
     </modules>
 
     <parent>

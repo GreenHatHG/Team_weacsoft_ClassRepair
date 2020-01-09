@@ -48,6 +48,12 @@
             <artifactId>classrepair-repair-item</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-statistics</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
