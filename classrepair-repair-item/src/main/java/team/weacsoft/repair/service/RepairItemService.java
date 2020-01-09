@@ -1,8 +1,6 @@
 package team.weacsoft.repair.service;
 
 import cn.hutool.core.date.DateUtil;
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +8,6 @@ import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.repair.domain.RepairItemDo;
 import team.weacsoft.repair.repository.RepairItemRepository;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,21 +47,8 @@ public class RepairItemService {
         return repairItemRepository.findAll();
     }
 
-    public void toExcel(){
-        EasyExcel.write("repair_item.xlsx", RepairItemDo.class)
-                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(findAll());
-    }
-
-    public List<RepairItemDo> getAllMissedOrder(){
-        List<RepairItemDo> repairItemList = findAll();
-        List<RepairItemDo> resp = new ArrayList<>();
-        for(RepairItemDo repairItem : repairItemList){
-            if("".equals(repairItem.getReceiverUserId())
-                    && repairItem.getDeleteTime() == 0){
-                resp.add((repairItem));
-            }
-        }
-        return resp;
+    public List<RepairItemDo> findAllByOrderUserId(String id){
+        return repairItemRepository.findByOrderUserId(id);
     }
 
 }

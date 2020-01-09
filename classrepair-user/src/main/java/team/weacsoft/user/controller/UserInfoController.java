@@ -112,22 +112,5 @@ public class UserInfoController {
 
         return ApiResp.ok(userInfoService.save(userInfo));
     }
-//
-//    /**
-//     * 获得我的所有未处理订单
-//     * @return
-//     */
-//    @GetMapping("/my/missed_orders")
-//    public Result getAllMyMissedOrders(){
-//        return ResultFactory.buildSuccessResult(null);
-//    }
-//
-//    /**
-//     * 获得我的所有已处理订单
-//     * @return
-//     */
-//    @GetMapping("/my/processed_orders")
-//    public Result getAllMyProcessedOrders(){
-//        return ResultFactory.buildSuccessResult(null);
-//    }
+
 }

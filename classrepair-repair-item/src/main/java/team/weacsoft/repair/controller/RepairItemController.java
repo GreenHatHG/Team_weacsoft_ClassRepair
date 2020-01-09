@@ -24,6 +24,7 @@ import javax.validation.constraints.Size;
  * @menu 订单管理
  **/
 
+//todo 可以精简，idea重构
 @RestController
 @RequestMapping(value="/repair_item")
 @Validated
@@ -130,16 +131,5 @@ public class RepairItemController {
         return ApiResp.ok(JsonUtil.entityExclude(repairItemService.save(repairItem),
                 "deleteTime", "id"));
     }
-//
-//    /**
-//     * 获取所有的未接订单
-//     * @return
-//     */
-//    @GetMapping("/missed_orders")
-//    public Result getAllMissedOrder(){
-//        return ResultFactory.buildSuccessResult(
-//                repairItemService.getAllMissedOrder());
-//    }
-//
 
 }
