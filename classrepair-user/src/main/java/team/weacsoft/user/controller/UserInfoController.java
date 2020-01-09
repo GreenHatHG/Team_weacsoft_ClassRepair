@@ -1,6 +1,5 @@
 package team.weacsoft.user.controller;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +18,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -60,12 +56,7 @@ public class UserInfoController {
      */
     @GetMapping("/name")
     public  ResponseEntity<ApiResp> findByName(@RequestParam @NotBlank @Size(max = 100) String name){
-        List<UserInfoDo> userInfos = userInfoService.findByName(name);
-        List<Map<String, String>> resp = new ArrayList<>();
-        for(UserInfoDo userInfo : userInfos){
-            resp.add(filterUserInfo(userInfo));
-        }
-        return ApiResp.ok(resp);
+        return ApiResp.ok(userInfoService.findByName(name));
     }
 
     /**
@@ -91,18 +82,6 @@ public class UserInfoController {
             throw new BadRequestException(432, "转义失败：nickname:"+nickname);
         }
         return ApiResp.ok(userInfoService.findByNickname(nickname));
-    }
-
-    private Map<String, String> filterUserInfo(UserInfoDo userInfo){
-        return ImmutableMap.<String, String> builder()
-                .put("id", userInfo.getId())
-                .put("identityId", String.valueOf(userInfo.getIdentityId()))
-                .put("role", String.valueOf(userInfo.getRole()))
-                .put("phone", userInfo.getPhone())
-                .put("name", userInfo.getName())
-                .put("nickname", userInfo.getNickname())
-                .put("avatar", userInfo.getAvatar())
-                .put("session_key", userInfo.getSessionKey()).build();
     }
 
     //todo 管理员或者以上可以修改别人的信息普通用户只能修改自己的信息，需要设置安全验证

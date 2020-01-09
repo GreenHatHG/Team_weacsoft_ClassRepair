@@ -41,6 +41,7 @@
         <druid.version>1.1.10</druid.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <weixin-java-miniapp.version>3.6.0</weixin-java-miniapp.version>
+        <fastjson.version>1.2.60</fastjson.version>
     </properties>
 
     <dependencies>
@@ -54,6 +55,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!--使用fastjson代替jackjson-->
+            <exclusions>
+                <exclusion>
+                    <artifactId>jackson-databind</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -89,6 +97,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
 
     </dependencies>
 

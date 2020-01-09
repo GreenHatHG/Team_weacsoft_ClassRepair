@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_item")
+@Table(name = "repair_item")
 public class RepairItemDo extends BaseDo {
 
     /**
