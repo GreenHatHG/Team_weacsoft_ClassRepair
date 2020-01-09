@@ -39,7 +39,6 @@ public class UserInfoService {
             MDC.put("userTableId", "找不到用户");
             throw new EntityNotFoundException(UserInfoDo.class, "openid", openid);
         }
-        MDC.put("userTableId", userInfo.getId());
         return userInfo;
     }
 
@@ -57,7 +56,7 @@ public class UserInfoService {
             throw new EntityNotFoundException(UserInfoDo.class, "id", id);
         }
         UserInfoDo userInfo = optionalUserInfo.get();
-        MDC.put("userTableId", userInfo.getId());
+
         return userInfo;
     }
 

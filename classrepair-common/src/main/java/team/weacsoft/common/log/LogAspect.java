@@ -11,13 +11,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import team.weacsoft.user.service.UserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -32,9 +30,6 @@ import java.util.*;
 @Component
 @Slf4j
 public class LogAspect {
-
-    @Autowired
-    private UserInfoService userInfoService;
 
     //表示匹配带有自定义注解的方法
     @Pointcut("@annotation(team.weacsoft.common.log.Log)")

@@ -93,7 +93,7 @@ Configuration:
         additivity: false
         AppenderRef:
           ref: Console
-      - name: "team.weacsoft.classrepair.commons.log.LogAspect"
+      - name: "team.weacsoft.common.log.LogAspect"
         level: info
         additivity: false
         AppenderRef:

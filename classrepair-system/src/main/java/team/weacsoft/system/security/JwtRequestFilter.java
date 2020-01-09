@@ -1,5 +1,6 @@
-package team.weacsoft.common.security;
+package team.weacsoft.system.security;
 
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         final String token = jwtUtil.getJwtFromRequest(request);
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            if(jwtUtil.verify(token, jwtUtil.getId(token))){
+            final String id = jwtUtil.getId(token);
+            if(jwtUtil.verify(token, id)){
+                MDC.put("userTableId", id);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         null, null, null);
                 usernamePasswordAuthenticationToken

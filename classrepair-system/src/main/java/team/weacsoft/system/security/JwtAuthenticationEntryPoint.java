@@ -1,4 +1,4 @@
-package team.weacsoft.common.security;
+package team.weacsoft.system.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

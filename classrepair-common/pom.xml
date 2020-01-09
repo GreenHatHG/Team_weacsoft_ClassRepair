@@ -37,10 +37,5 @@
             <version>${java-jwt.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-user</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 </project>
