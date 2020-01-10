@@ -35,6 +35,12 @@ public class LoginService {
     @Value("${web.login.pwd}")
     private String webLoginPwd;
 
+    @Value("${classrepair.root.id}")
+    private String rootId;
+
+    @Value("${classrepair.root.pwd}")
+    private String rootPwd;
+
     public JSONObject wxLogin(WxLoginDto userInfoDto){
         //请求auth.code2Session
         JSONObject code2sessionResp = wxUtils.code2Session(userInfoDto.getCode());
@@ -63,6 +69,16 @@ public class LoginService {
      * @return
      */
     public JSONObject webLogin(WebLoginDto dto){
+        if(StringUtils.equals(String.valueOf(dto.getAccount()), rootId)){
+            if(StringUtils.equals(dto.getPwd(), rootPwd)){
+                MDC.put("userTableId", rootId);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("token", jwtUtil.getJWT(rootId));
+                return jsonObject;
+            }else {
+                throw new UnauthorizedException("密码不正确");
+            }
+        }
         UserInfoDo userInfo = userInfoService.findByIdentityId(dto.getAccount());
         if(userInfo == null){
             throw new EntityNotFoundException(UserInfoDo.class, "IdentityId", String.valueOf(dto.getAccount()));

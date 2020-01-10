@@ -58,13 +58,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private Set<SimpleGrantedAuthority> getAuthorities(String id){
-        UserInfoDo userInfoDo = userInfoSelectService.findById(id);
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-
         if(StringUtils.equals(id, rootId)){
             authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(5)));
         }
         else{
+            UserInfoDo userInfoDo = userInfoSelectService.findById(id);
             if(userInfoDo == null){
                 throw new UsernameNotFoundException("查无此人");
             }
