@@ -3,7 +3,7 @@ package team.weacsoft.db.domain.basic;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -42,7 +42,6 @@ public abstract class BaseDo {
     /**
      * 创建时间
      */
-    @JsonIgnore
     @ExcelProperty(value = "创建时间", converter = DateConverter.class)
     @Column(nullable = false)
     private long createTime;
@@ -50,7 +49,6 @@ public abstract class BaseDo {
     /**
      * 更新时间
      */
-    @JsonIgnore
     @ExcelProperty(value = "更新时间", converter = DateConverter.class)
     @Column(nullable = false)
     private long updateTime;
@@ -58,7 +56,7 @@ public abstract class BaseDo {
     /**
      * 删除时间
      */
-    @JsonIgnore
+    @JSONField(serialize=false)
     @ExcelProperty(value = "删除时间", converter = DateConverter.class)
     @Column(nullable = false)
     private long deleteTime;

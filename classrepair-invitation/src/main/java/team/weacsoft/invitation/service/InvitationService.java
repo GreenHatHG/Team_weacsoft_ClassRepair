@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.utils.JwtUtil;
-import team.weacsoft.user.service.UserInfoService;
+import team.weacsoft.user.service.UserInfoUpdateService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -29,7 +29,7 @@ public class InvitationService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    private UserInfoService userInfoService;
+    private UserInfoUpdateService userInfoService;
 
     // 过期时间1天
     private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;

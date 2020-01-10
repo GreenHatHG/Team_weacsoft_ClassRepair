@@ -13,7 +13,7 @@ import team.weacsoft.repair.domain.RepairItemDo;
 import team.weacsoft.repair.domain.dto.OrderItemDto;
 import team.weacsoft.repair.service.RepairItemService;
 import team.weacsoft.user.domain.UserInfoDo;
-import team.weacsoft.user.service.UserInfoService;
+import team.weacsoft.user.service.UserInfoSelectService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -37,7 +37,7 @@ public class RepairItemController {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserInfoService userInfoService;
+    private UserInfoSelectService userInfoService;
 
     /**
      * 用户报修接口

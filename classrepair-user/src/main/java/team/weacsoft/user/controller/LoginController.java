@@ -14,7 +14,7 @@ import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.wx.WxUtils;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.domain.dto.LoginDto;
-import team.weacsoft.user.service.UserInfoService;
+import team.weacsoft.user.service.UserInfoSelectService;
 
 import java.util.Map;
 
@@ -27,7 +27,7 @@ import java.util.Map;
 public class LoginController {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private UserInfoSelectService userInfoService;
 
     @Autowired
     private WxUtils wxUtils;

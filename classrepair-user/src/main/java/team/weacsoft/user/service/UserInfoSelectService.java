@@ -1,19 +1,18 @@
 package team.weacsoft.user.service;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.user.domain.UserInfoDo;
-import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
 import team.weacsoft.user.repository.UserInfoRepository;
 
 import java.net.URLDecoder;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -22,7 +21,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class UserInfoService {
+public class UserInfoSelectService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
@@ -57,9 +56,8 @@ public class UserInfoService {
         if(!optionalUserInfo.isPresent()){
             throw new EntityNotFoundException(UserInfoDo.class, "id", id);
         }
-        UserInfoDo userInfo = optionalUserInfo.get();
 
-        return userInfo;
+        return optionalUserInfo.get();
     }
 
     public List<UserInfoDo> findByName(String name){
@@ -83,32 +81,7 @@ public class UserInfoService {
         return userInfo;
     }
 
-    public Map<String, String> updateRoleById(String id, int role){
-        UserInfoDo userInfo = findById(id);
-        userInfo.setRole(role);
-        userInfo = save(userInfo);
-        return ImmutableMap.<String, String> builder()
-                .put("id", userInfo.getId())
-                .put("role", String.valueOf(userInfo.getRole())).build();
-    }
-
-    public UserInfoDo updateUserInfo(UpdateUserInfoDto dto){
-        UserInfoDo userInfo = findById(dto.getId());
-        if(!"".equals(dto.getName())){
-            userInfo.setName(dto.getName());
-        }
-        if(!"".equals(dto.getAvatar())){
-            userInfo.setName(dto.getAvatar());
-        }
-        if(!"".equals(dto.getPhone())){
-            userInfo.setName(dto.getPhone());
-        }
-        if(!"".equals(dto.getNickname())){
-            userInfo.setName(dto.getNickname());
-        }
-        if(dto.getIdentityId() != 0){
-            userInfo.setIdentityId(dto.getIdentityId());
-        }
-        return save(userInfo);
+    public Page<UserInfoDo> getUserList(Pageable pageable){
+        return userInfoRepository.findAll(pageable);
     }
 }

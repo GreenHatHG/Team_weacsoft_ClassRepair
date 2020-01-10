@@ -1,6 +1,6 @@
 package team.weacsoft.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.*;
 import team.weacsoft.db.domain.basic.BaseDoWithOpenId;
 
@@ -54,7 +54,7 @@ public class UserInfoDo extends BaseDoWithOpenId {
     @Column(nullable = false)
     private String nickname = "";
 
-    @JsonIgnore
+    @JSONField(serialize=false)
     @Builder.Default
     @Column(nullable = false)
     private String password = "";

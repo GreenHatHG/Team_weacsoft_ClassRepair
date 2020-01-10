@@ -2,6 +2,7 @@ package team.weacsoft.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -9,12 +10,14 @@ import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
 import team.weacsoft.common.wx.WxUtils;
 import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
-import team.weacsoft.user.service.UserInfoService;
+import team.weacsoft.user.service.UserInfoSelectService;
+import team.weacsoft.user.service.UserInfoUpdateService;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
 
 /**
  * @author GreenHatHG
@@ -27,7 +30,10 @@ import javax.validation.constraints.Size;
 public class UserInfoController {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private UserInfoSelectService userInfoSelectService;
+
+    @Autowired
+    private UserInfoUpdateService userInfoUpdateService;
 
     @Autowired
     private WxUtils wxUtils;
@@ -42,7 +48,7 @@ public class UserInfoController {
     @PutMapping("/actions/update_role")
     public  ResponseEntity<ApiResp> updateRole(@RequestParam @NotBlank @Size(max = 100) String id,
                             @RequestParam @Min(1) @Max(4) int role){
-        return ApiResp.ok(userInfoService.updateRoleById(id, role));
+        return ApiResp.ok(userInfoUpdateService.updateRoleById(id, role));
     }
 
 
@@ -53,7 +59,7 @@ public class UserInfoController {
      */
     @GetMapping("/name")
     public  ResponseEntity<ApiResp> findByName(@RequestParam @NotBlank @Size(max = 100) String name){
-        return ApiResp.ok(userInfoService.findByName(name));
+        return ApiResp.ok(userInfoSelectService.findByName(name));
     }
 
     /**
@@ -63,7 +69,7 @@ public class UserInfoController {
      */
     @GetMapping("/identity_id")
     public ResponseEntity<ApiResp> findByIdentityId(@RequestParam Long identity_id){
-        return ApiResp.ok(userInfoService.findByIdentityId(identity_id));
+        return ApiResp.ok(userInfoSelectService.findByIdentityId(identity_id));
     }
 
     /**
@@ -73,7 +79,7 @@ public class UserInfoController {
      */
     @GetMapping("/nickname")
     public ResponseEntity<ApiResp> findByNickname(@RequestParam @NotBlank @Size(max = 100) String nickname){
-        return ApiResp.ok(userInfoService.findByNickname(nickname));
+        return ApiResp.ok(userInfoSelectService.findByNickname(nickname));
     }
 
     //todo 管理员或者以上可以修改别人的信息普通用户只能修改自己的信息，需要设置安全验证
@@ -86,7 +92,16 @@ public class UserInfoController {
     @Log(module = "用户管理", operation = "修改用户信息")
     @PutMapping("/actions/update_info")
     public ResponseEntity<ApiResp> updateUserInfo(@Validated @RequestBody UpdateUserInfoDto dto){
-        return ApiResp.ok(userInfoService.updateUserInfo(dto));
+        return ApiResp.ok(userInfoUpdateService.updateUserInfo(dto));
+    }
+
+    /**
+     * 获取用户列表
+     * @return
+     */
+    @GetMapping("/userlist")
+    public ResponseEntity<ApiResp> getUserList(Pageable pageable){
+        return ApiResp.ok(userInfoSelectService.getUserList(pageable));
     }
 
 }

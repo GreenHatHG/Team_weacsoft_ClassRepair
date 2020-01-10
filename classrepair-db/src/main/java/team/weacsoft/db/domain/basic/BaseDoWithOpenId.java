@@ -1,6 +1,6 @@
 package team.weacsoft.db.domain.basic;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,7 +18,7 @@ import javax.persistence.*;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseDoWithOpenId extends BaseDo {
 
-    @JsonIgnore
+    @JSONField(serialize=false)
     @Column(nullable = false, unique = true)
     public String openid;
 }
