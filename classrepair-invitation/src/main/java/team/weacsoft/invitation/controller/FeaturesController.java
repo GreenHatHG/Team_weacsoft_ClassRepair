@@ -3,6 +3,7 @@ package team.weacsoft.invitation.controller;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class FeaturesController {
      * @param open 1-开启，0-关闭
      * @return
      */
+    @PreAuthorize("hasAnyRole('3', '4', '5')")
     @PutMapping("/invitation")
     public ResponseEntity<ApiResp> updateInvitation(@RequestParam @Min(0) @Max(1) int open){
         if(open == 0){

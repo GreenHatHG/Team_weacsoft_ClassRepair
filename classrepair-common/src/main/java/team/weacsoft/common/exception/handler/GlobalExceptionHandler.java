@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -23,9 +24,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Set;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.*;
 
 /**
  * 全局异常拦截
@@ -43,6 +42,13 @@ public class GlobalExceptionHandler {
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
         return new ResponseEntity<>(ApiResp.error(e.getStatus(),e.getMessage()), BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<ApiResp> badRequestException(AccessDeniedException e) {
+        // 打印堆栈信息
+        log.error(ThrowableUtil.getStackTrace(e));
+        return new ResponseEntity<>(ApiResp.error(FORBIDDEN.value(),e.getMessage()), FORBIDDEN);
     }
 
     /**

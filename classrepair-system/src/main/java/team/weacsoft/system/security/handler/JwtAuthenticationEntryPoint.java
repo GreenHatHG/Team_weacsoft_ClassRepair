@@ -1,4 +1,4 @@
-package team.weacsoft.system.security;
+package team.weacsoft.system.security.handler;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -10,6 +10,12 @@ import java.io.IOException;
 
 /**
  * @author GreenHatHG
+ */
+
+
+/**
+ * 请求发送到服务器，然后服务器确定您已请求保护资源，如果您目前没有通过身份验证，服务器将发回一个响应，指示您必须进行身份验证
+ * AuthenticationEntryPoin则是负责这一个
  */
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     /**

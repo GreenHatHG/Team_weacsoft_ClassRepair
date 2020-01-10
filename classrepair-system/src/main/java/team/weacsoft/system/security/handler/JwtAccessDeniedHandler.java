@@ -1,4 +1,4 @@
-package team.weacsoft.system.security;
+package team.weacsoft.system.security.handler;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -12,6 +12,8 @@ import java.io.IOException;
 /**
  * @author GreenHatHG
  */
+
+
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override

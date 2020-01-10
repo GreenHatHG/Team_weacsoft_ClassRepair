@@ -3,6 +3,7 @@ package team.weacsoft.invitation.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
@@ -30,6 +31,7 @@ public class InvitationController {
      * 获得邀请码
      * @return
      */
+    @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @Log(module = "邀请码管理", operation = "获得邀请码")
     @GetMapping("")
     public ResponseEntity<ApiResp> getCode(){
@@ -42,6 +44,7 @@ public class InvitationController {
      * @param code
      * @return
      */
+    @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @PostMapping("/actions/update_role")
     public ResponseEntity<ApiResp> updateRoleByCode(HttpServletRequest request,
                                    @RequestParam @NotBlank @Size(max = 100) String code){

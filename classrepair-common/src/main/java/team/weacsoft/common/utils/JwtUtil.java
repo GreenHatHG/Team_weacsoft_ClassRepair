@@ -1,9 +1,9 @@
 package team.weacsoft.common.utils;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -59,7 +59,7 @@ public class JwtUtil {
      */
     public String getJWT(String id){
         //ObjectId是MongoDB数据库的一种唯一ID生成策略
-        String key = IdUtil.objectId();
+        String key = IdUtil.objectId() + RandomUtil.randomString(50);
         stringRedisTemplate.opsForValue()
                 .set(REDIS_JWT_KEY_PREFIX + id, key, EXPIRE_TIME, TimeUnit.MILLISECONDS);
         return createJwt(id, key);
@@ -120,8 +120,7 @@ public class JwtUtil {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = response.getWriter();
-        JSONObject jsonObject = JSONUtil.parseObj(ApiResp.error(HttpStatus.UNAUTHORIZED.value(),
-                "无权访问(Unauthorized):" + e.getMessage()));
-        out.append(jsonObject.toString());
+        out.append(JSON.toJSON(ApiResp.error(HttpStatus.UNAUTHORIZED.value(),
+                "无权访问(Unauthorized):验证信息已过期或者不存在")).toString());
     }
 }
