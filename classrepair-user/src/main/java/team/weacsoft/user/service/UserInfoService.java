@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.user.domain.UserInfoDo;
+import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
 import team.weacsoft.user.repository.UserInfoRepository;
 
-
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -69,6 +71,11 @@ public class UserInfoService {
     }
 
     public UserInfoDo findByNickname(String nickname){
+        try{
+            nickname = URLDecoder.decode(nickname, "utf-8");
+        }catch (Exception e){
+            throw new BadRequestException(432, "转义失败：nickname:"+nickname);
+        }
         UserInfoDo userInfo = userInfoRepository.findByNickname(nickname);
         if(userInfo == null){
             throw new EntityNotFoundException(UserInfoDo.class, "nickname", nickname);
@@ -83,5 +90,25 @@ public class UserInfoService {
         return ImmutableMap.<String, String> builder()
                 .put("id", userInfo.getId())
                 .put("role", String.valueOf(userInfo.getRole())).build();
+    }
+
+    public UserInfoDo updateUserInfo(UpdateUserInfoDto dto){
+        UserInfoDo userInfo = findById(dto.getId());
+        if(!"".equals(dto.getName())){
+            userInfo.setName(dto.getName());
+        }
+        if(!"".equals(dto.getAvatar())){
+            userInfo.setName(dto.getAvatar());
+        }
+        if(!"".equals(dto.getPhone())){
+            userInfo.setName(dto.getPhone());
+        }
+        if(!"".equals(dto.getNickname())){
+            userInfo.setName(dto.getNickname());
+        }
+        if(dto.getIdentityId() != 0){
+            userInfo.setIdentityId(dto.getIdentityId());
+        }
+        return save(userInfo);
     }
 }
