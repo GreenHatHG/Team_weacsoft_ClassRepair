@@ -1,7 +1,7 @@
 package team.weacsoft.common.wx;
 
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

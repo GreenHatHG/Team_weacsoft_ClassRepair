@@ -1,8 +1,6 @@
 package team.weacsoft.common.exception.handler;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +13,8 @@ import java.time.LocalDateTime;
  */
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResp {
     private Integer errorcode = 0;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private LocalDateTime timestamp;
     private String errormsg;
     private Object data;

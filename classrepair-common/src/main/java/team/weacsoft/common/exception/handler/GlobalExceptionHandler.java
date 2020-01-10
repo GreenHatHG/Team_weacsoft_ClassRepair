@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityExistException;
 import team.weacsoft.common.exception.EntityNotFoundException;
+import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.utils.ThrowableUtil;
 
 import javax.validation.ConstraintViolation;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 /**
  * 全局异常拦截
@@ -63,21 +65,13 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(ApiResp.error(NOT_FOUND.value(),e.getMessage()));
     }
 
-//    /**
-//     * 处理所有接口数据验证异常
-//     */
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<ApiResp> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
-//        // 打印堆栈信息
-//        log.error(ThrowableUtil.getStackTrace(e));
-//        String[] str = Objects.requireNonNull(e.getBindingResult().getAllErrors().get(0).getCodes())[1].split("\\.");
-//        String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-//        String msg = "不能为空";
-//        if(msg.equals(message)){
-//            message = str[1] + ":" + message;
-//        }
-//        return buildResponseEntity(ApiResp.error(message));
-//    }
+    @ExceptionHandler(value = UnauthorizedException.class)
+    public ResponseEntity<ApiResp> unauthorizedException(UnauthorizedException e) {
+        // 打印堆栈信息
+        log.error(ThrowableUtil.getStackTrace(e));
+        return buildResponseEntity(ApiResp.error(UNAUTHORIZED.value(),e.getMessage()));
+    }
+
 
     @ExceptionHandler(value = { ConstraintViolationException.class })
     public ResponseEntity<ApiResp> handle(ConstraintViolationException e) {

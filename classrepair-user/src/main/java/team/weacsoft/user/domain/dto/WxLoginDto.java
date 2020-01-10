@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class LoginDto {
+public class WxLoginDto {
 
     /**
      * 临时登录凭证

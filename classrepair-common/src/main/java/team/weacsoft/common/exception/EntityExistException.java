@@ -11,7 +11,7 @@ public class EntityExistException extends RuntimeException {
         super(EntityExistException.generateMessage(clazz.getSimpleName(), field, val));
     }
 
-    private static String generateMessage(String entity, String field, String val) {
+    private static String generateMessage(String entity, String field, String val){
         return StringUtils.capitalize(entity)
                 + " with " + field + " "+ val + " existed";
     }
