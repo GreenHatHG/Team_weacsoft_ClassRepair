@@ -35,11 +35,6 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>de.mkammerer</groupId>
-            <artifactId>argon2-jvm</artifactId>
-            <version>${argon2-jvm.version}</version>
-        </dependency>
     </dependencies>
 
 </project>

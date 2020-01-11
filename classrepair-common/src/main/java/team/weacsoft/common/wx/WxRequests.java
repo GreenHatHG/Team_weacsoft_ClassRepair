@@ -1,8 +1,7 @@
 package team.weacsoft.common.wx;
 
 import cn.hutool.http.HttpRequest;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class WxRequests {
         payload.put("js_code", jsCode);
         payload.put("grant_type", grantType);
         String result = HttpRequest.get("https://api.weixin.qq.com/sns/jscode2session").form(payload).execute().body();
-        return JSONUtil.parseObj(result);
+        return JSONObject.parseObject(result);
     }
 
     /**

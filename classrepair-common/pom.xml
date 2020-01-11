@@ -37,5 +37,11 @@
             <version>${java-jwt.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.mkammerer</groupId>
+            <artifactId>argon2-jvm</artifactId>
+            <version>${argon2-jvm.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

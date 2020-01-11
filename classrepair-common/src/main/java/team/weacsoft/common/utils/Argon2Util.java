@@ -1,4 +1,4 @@
-package team.weacsoft.user.utils;
+package team.weacsoft.common.utils;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;

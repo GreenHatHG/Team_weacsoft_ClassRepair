@@ -14,7 +14,7 @@ import team.weacsoft.common.wx.WxUtils;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.domain.dto.WebLoginDto;
 import team.weacsoft.user.domain.dto.WxLoginDto;
-import team.weacsoft.user.utils.Argon2Util;
+import team.weacsoft.common.utils.Argon2Util;
 
 /**
  * @author GreenHatHG
