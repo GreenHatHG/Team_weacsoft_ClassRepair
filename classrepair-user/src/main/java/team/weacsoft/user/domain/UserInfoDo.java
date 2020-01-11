@@ -12,10 +12,11 @@ import javax.persistence.Table;
  * 用户表
  * @author GreenHatHG
  **/
+
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_info")

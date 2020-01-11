@@ -3,7 +3,6 @@ package team.weacsoft.system.security;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import team.weacsoft.common.utils.JwtUtil;
+import team.weacsoft.user.domain.Admin;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.service.UserInfoSelectService;
 
@@ -29,9 +29,6 @@ import java.util.Set;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
-    @Value("${classrepair.root.id}")
-    private String rootId;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -59,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private Set<SimpleGrantedAuthority> getAuthorities(String id){
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        if(StringUtils.equals(id, rootId)){
+        if(StringUtils.equals(id, Admin.getRootId())){
             authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(5)));
         }
         else{
@@ -67,7 +64,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             if(userInfoDo == null){
                 throw new UsernameNotFoundException("查无此人");
             }
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(userInfoDo.getState())));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(userInfoDo.getRole())));
         }
         return authorities;
     }

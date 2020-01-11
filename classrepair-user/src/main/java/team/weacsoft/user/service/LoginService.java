@@ -11,6 +11,7 @@ import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.wx.WxUtils;
+import team.weacsoft.user.domain.Admin;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.domain.dto.WebLoginDto;
 import team.weacsoft.user.domain.dto.WxLoginDto;
@@ -34,12 +35,6 @@ public class LoginService {
 
     @Value("${web.login.pwd}")
     private String webLoginPwd;
-
-    @Value("${classrepair.root.id}")
-    private String rootId;
-
-    @Value("${classrepair.root.pwd}")
-    private String rootPwd;
 
     public JSONObject wxLogin(WxLoginDto userInfoDto){
         //请求auth.code2Session
@@ -69,11 +64,12 @@ public class LoginService {
      * @return
      */
     public JSONObject webLogin(WebLoginDto dto){
-        if(StringUtils.equals(String.valueOf(dto.getAccount()), rootId)){
-            if(StringUtils.equals(dto.getPwd(), rootPwd)){
-                MDC.put("userTableId", rootId);
+        if(StringUtils.equals(String.valueOf(dto.getAccount()), Admin.getRootId())){
+            if(Argon2Util.verify(userInfoService.findByIdentityId(Long.valueOf(Admin.getRootId())).getPassword(),
+                    dto.getPwd())){
+                MDC.put("userTableId", Admin.getRootId());
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("token", jwtUtil.getJWT(rootId));
+                jsonObject.put("token", jwtUtil.getJWT(Admin.getRootId()));
                 return jsonObject;
             }else {
                 throw new UnauthorizedException("密码不正确");
