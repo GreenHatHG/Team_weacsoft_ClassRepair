@@ -18,11 +18,11 @@ jobs:
       run:  mvn clean package -f classrepair-dependencies/pom.xml
     - name: Cache maven
       uses: actions/cache@master
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Build Docker container
       run: docker build -t weacsoft:latest .
     - name: push to aliyun
