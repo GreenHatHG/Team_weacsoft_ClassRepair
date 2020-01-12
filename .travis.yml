@@ -24,12 +24,13 @@ script:
   - docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}
   - docker tag weacsoft:latest registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair
   - docker push registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'scp classrepair-system/target/*.jar /home/room/classrepair-java'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker stop classrepair && docker rm classrepair'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker stop classrepair && docker rm classrepair'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker rmi registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker pull registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest'
-  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker run --name classrepair --restart=always -v /home/room/log:/log -p 8085:8085 registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair -Dspring.profiles.active=product'
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker run --name classrepair --restart=always -v /home/room/log:/log -p 8085:8085 -e JAVA_OPTS=-Dspring.profiles.active=product registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair'
 
 branches:
   only:

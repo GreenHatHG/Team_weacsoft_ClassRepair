@@ -35,6 +35,7 @@
         <maven.test.skip>true</maven.test.skip>
 
         <!-- version Settings -->
+        <mysql.version>8.0.17</mysql.version>
         <java-jwt.version>3.8.3</java-jwt.version>
         <hutool-all.version>4.6.3</hutool-all.version>
         <guava.version>28.1-jre</guava.version>
