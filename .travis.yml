@@ -1,0 +1,36 @@
+anguage: java
+
+jdk:
+  - openjdk8
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+    - sshpass
+
+cache:
+  directories:
+  - $HOME/.m2
+
+install:
+  - ssh-keyscan ${ip} >> ~/.ssh/known_hosts
+
+script:
+  - mvn clean package -f classrepair-dependencies/pom.xml
+  - docker build -t weacsoft:latest .
+  - docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}
+  - docker tag weacsoft:latest registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair
+  - docker push registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest
+
+after_success:
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}:${port} 'docker pull registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest'
+
+branches:
+  only:
+  - master
+
+notifications:
+  email: true
