@@ -16,7 +16,8 @@ jobs:
         java-version: 8
     - name: Build and test project
       run:  mvn clean package -f classrepair-dependencies/pom.xml
-    - uses: actions/cache@master
+    - name: Cache maven
+      uses: actions/cache@master
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
