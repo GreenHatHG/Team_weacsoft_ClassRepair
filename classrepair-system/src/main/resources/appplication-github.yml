@@ -1,0 +1,55 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /api/v1
+
+spring:
+  datasource:
+    password: 11
+    url: jdbc:mysql://127.0.0.1:3306/classrepair?useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&serverTimezone=GMT%2B8
+    username: root
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  redis:
+    host: 127.0.0.1
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-active: 8
+        # 连接池中的最小空闲连接 默认 0
+        max-idle: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: -1ms
+        # 连接池中的最大空闲连接 默认 8
+        min-idle: 0
+    port: 6379
+    # 连接超时时间（记得添加单位，Duration）
+    timeout: 10000ms
+
+# project
+classrepair:
+  #  小程序信息
+  wx:
+    appid:
+    appsecret:
+    grant_type:
+  # 超级管理员密码
+  root:
+    id:
+    pwd:
+  #网页维护人员登录的密码
+  web:
+    login:

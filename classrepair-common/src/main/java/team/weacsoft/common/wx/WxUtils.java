@@ -1,6 +1,5 @@
 package team.weacsoft.common.wx;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
@@ -16,7 +15,7 @@ import team.weacsoft.common.exception.BadRequestException;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "wx.utils")
+@ConfigurationProperties(prefix = "classrepair.wx")
 public class WxUtils {
 
     private String appid;

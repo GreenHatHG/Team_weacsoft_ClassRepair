@@ -33,7 +33,7 @@ public class LoginService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Value("${web.login.pwd}")
+    @Value("${classrepair.web.login}")
     private String webLoginPwd;
 
     public JSONObject wxLogin(WxLoginDto userInfoDto){

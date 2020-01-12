@@ -24,10 +24,11 @@ script:
   - docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}
   - docker tag weacsoft:latest registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair
   - docker push registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest
-
-after_success:
-  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}:${port} 'docker pull registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest'
-
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker stop classrepair && docker rm classrepair'
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker rmi registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest'
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker pull registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest'
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker run --name classrepair --restart=always -p 8085:8085 registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair -Dspring.profiles.active=product'
+  -
 branches:
   only:
   - master
