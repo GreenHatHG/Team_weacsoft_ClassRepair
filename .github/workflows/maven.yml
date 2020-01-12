@@ -31,12 +31,12 @@ jobs:
         docker login --username=${{ secrets.registryu }} registry.cn-shenzhen.aliyuncs.com --password=${{secrets.registryp}}
         docker tag weacsoft:latest registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair
         docker push registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest
-    -name: push to staging server with ssh
+    - name: push to staging server with ssh
       env:
         ip: ${{ secrets.ssh_address }}
-        port: ${{ secrets.ssh_port}}
-        user: ${{ ssh_user }}
-        pwd: ${{ secrets.ssh_pwd}}
+        port: ${{ secrets.ssh_port }}
+        user: ${{ secrets.ssh_user }}
+        pwd: ${{ secrets.ssh_pwd }}
       run: |
         sudo apt-get update
         sudo apt-get install sshpass -y
