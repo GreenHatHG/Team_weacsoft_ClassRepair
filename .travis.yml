@@ -24,7 +24,7 @@ script:
   - docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}
   - docker tag weacsoft:latest registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair
   - docker push registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest
-  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'scp classrepair-system/target/*.jar /home/room/classrepair-java'
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'scp ./classrepair-system/target/*.jar /home/room/classrepair-java'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker stop classrepair && docker rm classrepair'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker stop classrepair && docker rm classrepair'
