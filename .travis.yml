@@ -19,6 +19,7 @@ install:
   - ssh-keyscan ${ip} >> ~/.ssh/known_hosts
 
 script:
+  - ${download}
   - mvn clean package -f classrepair-dependencies/pom.xml
   - docker build -t weacsoft:latest .
   - docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}
