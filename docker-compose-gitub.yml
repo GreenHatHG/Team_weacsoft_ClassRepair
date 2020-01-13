@@ -21,14 +21,15 @@ services:
     ports:
     - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: pwd
     command: --init-file /data/application/init.sql
     volumes:
     - ./init.sql:/data/application/init.sql
+    - ./mysql-data:/var/lib/mysql
 
   redis:
     restart: always
     image: redis:5.0.5-alpine
     container_name: redis
     command:
-    - --requirepass "password
+    - --requirepass "pwd"
