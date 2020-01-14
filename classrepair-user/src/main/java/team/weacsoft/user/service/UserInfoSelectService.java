@@ -84,4 +84,5 @@ public class UserInfoSelectService {
     public Page<UserInfoDo> getUserList(Pageable pageable){
         return userInfoRepository.findAll(pageable);
     }
+
 }

@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.exception.handler.ApiResp;
-import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
-import team.weacsoft.user.service.UserInfoSelectService;
+import team.weacsoft.user.service.UserInfoTokenService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -30,11 +29,12 @@ import javax.validation.constraints.Size;
 @RequestMapping(value="/user")
 public class UserInfoTokenController {
 
-    @Autowired
-    private UserInfoSelectService userInfoSelectService;
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserInfoTokenService userInfoTokenService;
 
     @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
     @GetMapping("/token/info")
@@ -44,7 +44,6 @@ public class UserInfoTokenController {
         if(!StringUtils.equals(requestToken, token)){
             throw new UnauthorizedException("身份信息不正确");
         }
-        return ApiResp.ok(JsonUtil.entityInclude(userInfoSelectService.findById(jwtUtil.getId(token)),
-                "name", "phone", "role", "avatar"));
+        return ApiResp.ok(userInfoTokenService.getUserInfoByTokenResp(token));
     }
 }
