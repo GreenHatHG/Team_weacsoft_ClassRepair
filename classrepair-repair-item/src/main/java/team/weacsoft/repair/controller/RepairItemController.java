@@ -50,7 +50,7 @@ public class RepairItemController {
     @PostMapping("")
     public ResponseEntity<ApiResp> addOrderItem(@Validated @RequestBody OrderItemDto orderItemDto,
                                                 HttpServletRequest request){
-        UserInfoDo userInfo = userInfoService.findById(jwtUtil.getId(jwtUtil.getJwtFromRequest(request)));
+        UserInfoDo userInfo = userInfoService.findById(jwtUtil.getIdFromHttpServletRequest(request));
         RepairItemDo repairItem = RepairItemDo.builder()
                 .repairItemId(repairItemService.getRepairItemId())
                 .orderUserId(userInfo.getId())
@@ -74,7 +74,7 @@ public class RepairItemController {
     public ResponseEntity<ApiResp> order(@RequestParam @NotBlank @Size(max = 100) String repair_item_id,
                                          HttpServletRequest request){
         RepairItemDo repairItem = repairItemService.findByRepairItemId(repair_item_id);
-        UserInfoDo userInfo = userInfoService.findById(jwtUtil.getId(jwtUtil.getJwtFromRequest(request)));
+        UserInfoDo userInfo = userInfoService.findById(jwtUtil.getIdFromHttpServletRequest(request));
         if(repairItem.getState() == 2){
             throw new BadRequestException(465, "该单已接，接单人:" +
                     userInfoService.findById(repairItem.getReceiverUserId()).getName());

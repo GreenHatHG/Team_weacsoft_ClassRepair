@@ -1,5 +1,7 @@
 package team.weacsoft.user.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,29 +10,16 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
+@Getter
+@Setter
 public class Admin {
 
-    private static String rootId;
-
-    private static String rootPwd;
-
-    @Value("${classrepair.root.id}")
-    public void setRootId(String rootId) {
-        Admin.rootId = rootId;
-    }
-
     @Value("${classrepair.root.pwd}")
-    public void setRootPwd(String rootPwd) {
-        Admin.rootPwd = rootPwd;
-    }
+    private String rootPwd;
 
+    @Value("${classrepair.root.identityId}")
+    private String rootIdentityId;
 
-    public static String getRootId() {
-        return rootId;
-    }
-
-    public static String getRootPwdFromProperties() {
-        return rootPwd;
-    }
+    private String rootId;
 
 }

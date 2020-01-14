@@ -2,9 +2,7 @@ package team.weacsoft.user.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
@@ -16,22 +14,21 @@ import javax.validation.constraints.Size;
 public class UpdateUserInfoDto {
 
     /**
-     * 要修改的那个人的id
+     * 要修改的那个人的id，当修改的人别的信息时候则为空
      */
     @Size(max = 100)
-    @NotBlank
     String id;
 
     @Size(max = 100)
-    String name = "";
+    String name;
 
     @Size(max = 100)
-    String avatar = "";
+    String avatar;
 
     @Size(max = 100)
-    String phone = "";
+    String phone;
 
-    @Size(max = 100) String nickname = "";
+    @Size(max = 100) String nickname;
 
-    Long identityId = (long)0;
+    Long identityId;
 }

@@ -18,22 +18,28 @@ import team.weacsoft.user.service.UserInfoSelectService;
 @Component
 public class AdminAccounntListener {
 
-    @Autowired
+    private Admin admin;
     private UserInfoSelectService userInfoSelectService;
+
+    @Autowired
+    public AdminAccounntListener(Admin admin, UserInfoSelectService userInfoSelectService) {
+        this.admin = admin;
+        this.userInfoSelectService = userInfoSelectService;
+    }
 
     @EventListener(ApplicationReadyEvent.class)
     public void checkAdminAccount(){
         long id = 0;
         try{
-            id = Long.valueOf(Admin.getRootId());
-            userInfoSelectService.findByIdentityId(id);
+            id = Long.valueOf(admin.getRootIdentityId());
+            admin.setRootId(userInfoSelectService.findByIdentityId(id).getId());
         }catch (EntityNotFoundException e){
             UserInfoDo userInfoDo = UserInfoDo.builder()
                     .identityId(id)
                     .role(5)
-                    .password(Argon2Util.hash(Admin.getRootPwdFromProperties())).build();
+                    .password(Argon2Util.hash(admin.getRootPwd())).build();
             userInfoDo.setOpenid("");
-            userInfoSelectService.save(userInfoDo);
+            admin.setRootId(userInfoSelectService.save(userInfoDo).getId());
         }catch (NumberFormatException e){
             log.error(e.getMessage());
         }

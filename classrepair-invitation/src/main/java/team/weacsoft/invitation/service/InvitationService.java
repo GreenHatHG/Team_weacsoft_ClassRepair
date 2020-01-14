@@ -9,6 +9,7 @@ import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.user.service.UserInfoUpdateService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Map;
@@ -49,9 +50,9 @@ public class InvitationService {
         return ImmutableMap.<String, String> builder().put("code", code).build();
     }
 
-    public Map<String, String> updtaeRoleByCode(String code, String auth){
+    public Map<String, String> updtaeRoleByCode(String code, HttpServletRequest request){
         try{
-            String id = jwtUtil.getIdFromHeader(auth);
+            String id = jwtUtil.getIdFromHttpServletRequest(request);
             Objects.requireNonNull(stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_PREFIX + code));
             return userInfoService.updateRoleById(id, 2);
         }catch (Exception e){

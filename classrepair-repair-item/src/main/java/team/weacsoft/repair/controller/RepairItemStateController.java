@@ -53,7 +53,7 @@ public class RepairItemStateController {
     @GetMapping("/my/missed_orders")
     public ResponseEntity<ApiResp> getMyAllMissedOrders(Pageable pageable, HttpServletRequest request){
         return ApiResp.ok(JsonUtil.entityExclude(repairItemStateService.getMyAllMissedOrders(
-                jwtUtil.getId(jwtUtil.getJwtFromRequest(request)), pageable),
+                jwtUtil.getIdFromHttpServletRequest(request), pageable),
                 "deleteTime", "id", "receiverUserId"));
     }
 
@@ -65,7 +65,7 @@ public class RepairItemStateController {
     @GetMapping("/my/processed_orders")
     public ResponseEntity<ApiResp> getMyAllProcessedOrders(Pageable pageable, HttpServletRequest request){
         return ApiResp.ok(JsonUtil.entityExclude(repairItemStateService.getMyAllProcessedOrders(
-                jwtUtil.getId(jwtUtil.getJwtFromRequest(request)), pageable),
+                jwtUtil.getIdFromHttpServletRequest(request), pageable),
                 "deleteTime", "id", "receiverUserId"));
     }
 

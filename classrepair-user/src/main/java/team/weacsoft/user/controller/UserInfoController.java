@@ -14,6 +14,7 @@ import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
 import team.weacsoft.user.service.UserInfoSelectService;
 import team.weacsoft.user.service.UserInfoUpdateService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -87,8 +88,6 @@ public class UserInfoController {
         return ApiResp.ok(userInfoSelectService.findByNickname(nickname));
     }
 
-    //todo 管理员或者以上可以修改别人的信息普通用户只能修改自己的信息，需要设置安全验证
-
     /**
      * 修改用户信息
      * @param dto 要修改的信息，不需要修改的字段留空
@@ -97,8 +96,9 @@ public class UserInfoController {
     @Log(module = "用户管理", operation = "修改用户信息")
     @PutMapping("/actions/update_info")
     @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
-    public ResponseEntity<ApiResp> updateUserInfo(@Validated @RequestBody UpdateUserInfoDto dto){
-        return ApiResp.ok(userInfoUpdateService.updateUserInfo(dto));
+    public ResponseEntity<ApiResp> updateUserInfo(HttpServletRequest request,
+            @Validated @RequestBody UpdateUserInfoDto dto){
+        return ApiResp.ok(userInfoUpdateService.updateUserInfo(dto, request));
     }
 
     /**

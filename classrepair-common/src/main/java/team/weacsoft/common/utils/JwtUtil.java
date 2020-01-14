@@ -56,7 +56,7 @@ public class JwtUtil {
      * @param id 用户表id
      * @return jwt字符串
      */
-    public String getJWT(String id){
+    public String responseJwt(String id){
         //ObjectId是MongoDB数据库的一种唯一ID生成策略
         String key = Argon2Util.hash(IdUtil.objectId());
         stringRedisTemplate.opsForValue()
@@ -90,18 +90,25 @@ public class JwtUtil {
      * @param request 请求
      * @return JWT
      */
-    public String getJwtFromRequest(HttpServletRequest request) {
-        return getJwtFromBearerToken(request.getHeader("Authorization"));
-    }
-
-    private String getJwtFromBearerToken(String bearerToken){
-        if (StrUtil.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+    public String getJwtFromHttpServletRequest(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (StrUtil.isNotBlank(token) && token.startsWith("Bearer ")) {
+            return token.substring(7);
         }
-        return bearerToken;
+        return token;
     }
 
-    public String getId(String token){
+
+    public String getIdFromHttpServletRequest(HttpServletRequest request){
+        try {
+            DecodedJWT jwt = JWT.decode(getJwtFromHttpServletRequest(request));
+            return jwt.getClaim("id").asString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public String getIdFromJwt(String token){
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getClaim("id").asString();
@@ -109,11 +116,6 @@ public class JwtUtil {
             return null;
         }
     }
-
-    public String getIdFromHeader(String header){
-        return getId(getJwtFromBearerToken(header));
-    }
-
     public static void response401(HttpServletResponse response, Exception e) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setCharacterEncoding("UTF-8");

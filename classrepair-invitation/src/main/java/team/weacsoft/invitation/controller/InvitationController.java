@@ -49,6 +49,6 @@ public class InvitationController {
     public ResponseEntity<ApiResp> updateRoleByCode(HttpServletRequest request,
                                    @RequestParam @NotBlank @Size(max = 100) String code){
         return ApiResp.ok(invitationService
-                .updtaeRoleByCode(code, request.getHeader("Authorization")));
+                .updtaeRoleByCode(code, request));
     }
 }

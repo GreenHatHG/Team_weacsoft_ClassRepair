@@ -1,6 +1,5 @@
 package team.weacsoft.system.security;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +10,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import team.weacsoft.common.utils.JwtUtil;
-import team.weacsoft.user.domain.Admin;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.service.UserInfoSelectService;
 
@@ -38,9 +36,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        final String token = jwtUtil.getJwtFromRequest(request);
+        final String token = jwtUtil.getJwtFromHttpServletRequest(request);
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            final String id = jwtUtil.getId(token);
+            final String id = jwtUtil.getIdFromJwt(token);
             if(jwtUtil.verify(token, id)){
                 MDC.put("userTableId", id);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
@@ -56,17 +54,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private Set<SimpleGrantedAuthority> getAuthorities(String id){
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        if(StringUtils.equals(id, Admin.getRootId())){
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(5)));
+        UserInfoDo userInfoDo = userInfoSelectService.findById(id);
+        if(userInfoDo == null){
+            throw new UsernameNotFoundException("查无此人");
         }
-        else{
-            UserInfoDo userInfoDo = userInfoSelectService.findById(id);
-            if(userInfoDo == null){
-                throw new UsernameNotFoundException("查无此人");
-            }
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(userInfoDo.getRole())));
-        }
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(userInfoDo.getRole())));
         return authorities;
     }
-
 }

@@ -24,14 +24,18 @@ import team.weacsoft.common.utils.Argon2Util;
 @Component
 public class LoginService {
 
-    @Autowired
     private UserInfoSelectService userInfoService;
-
-    @Autowired
     private WxUtils wxUtils;
+    private JwtUtil jwtUtil;
+    private Admin admin;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    public LoginService(UserInfoSelectService userInfoService, WxUtils wxUtils, JwtUtil jwtUtil, Admin admin) {
+        this.userInfoService = userInfoService;
+        this.wxUtils = wxUtils;
+        this.jwtUtil = jwtUtil;
+        this.admin = admin;
+    }
 
     @Value("${classrepair.web.login}")
     private String webLoginPwd;
@@ -64,12 +68,12 @@ public class LoginService {
      * @return
      */
     public JSONObject webLogin(WebLoginDto dto){
-        if(StringUtils.equals(String.valueOf(dto.getAccount()), Admin.getRootId())){
-            if(Argon2Util.verify(userInfoService.findByIdentityId(Long.valueOf(Admin.getRootId())).getPassword(),
+        if(StringUtils.equals(String.valueOf(dto.getAccount()), admin.getRootIdentityId())){
+            if(Argon2Util.verify(userInfoService.findById(admin.getRootId()).getPassword(),
                     dto.getPwd())){
-                MDC.put("userTableId", Admin.getRootId());
+                MDC.put("userTableId", admin.getRootId());
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("token", jwtUtil.getJWT(Admin.getRootId()));
+                jsonObject.put("token", jwtUtil.responseJwt(admin.getRootId()));
                 return jsonObject;
             }else {
                 throw new UnauthorizedException("密码不正确");
@@ -94,7 +98,7 @@ public class LoginService {
     private JSONObject userInfoDoToResp(UserInfoDo userInfo){
         JSONObject resp = JSONObject.parseObject(JsonUtil.entityExclude(userInfo,
                 "password", "createTime", "updateTime").toJSONString());
-        resp.put("token", jwtUtil.getJWT(userInfo.getId()));
+        resp.put("token", jwtUtil.responseJwt(userInfo.getId()));
         MDC.put("userTableId", userInfo.getId());
         return resp;
     }

@@ -1,10 +1,8 @@
 package team.weacsoft.user.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import team.weacsoft.common.utils.JwtUtil;
-import team.weacsoft.user.domain.Admin;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.domain.dto.GetUserInfoByTokenResp;
 
@@ -24,13 +22,8 @@ public class UserInfoTokenService {
     private JwtUtil jwtUtil;
 
     public GetUserInfoByTokenResp getUserInfoByTokenResp(HttpServletRequest request){
-        String id = jwtUtil.getId(jwtUtil.getJwtFromRequest(request));
-        UserInfoDo userInfoDo = null;
-        if(StringUtils.equals(Admin.getRootId(), id)){
-            userInfoDo = userInfoSelectService.findByIdentityId(Long.valueOf(id));
-        }else{
-            userInfoDo = userInfoSelectService.findById(id);
-        }
+        UserInfoDo userInfoDo = userInfoDo = userInfoSelectService.findById(
+                jwtUtil.getIdFromHttpServletRequest(request));
 
         String identity = null;
         //2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
