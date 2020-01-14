@@ -30,6 +30,7 @@ public class AdminAccounntListener {
         }catch (EntityNotFoundException e){
             UserInfoDo userInfoDo = UserInfoDo.builder()
                     .identityId(id)
+                    .role(5)
                     .password(Argon2Util.hash(Admin.getRootPwdFromProperties())).build();
             userInfoDo.setOpenid("");
             userInfoSelectService.save(userInfoDo);
