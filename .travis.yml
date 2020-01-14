@@ -19,9 +19,10 @@ install:
   - ssh-keyscan ${ip} >> ~/.ssh/known_hosts
 
 script:
-  - curl https://raw.githubusercontent.com/GreenHatHG/classrepair-config/master/application-product.yml?token=${token} >> application-product.yml
+  - wget -q -nv -O application-product.yml https://transfer.sh/${download}/${file}
   - mv application-product.yml classrepair-system/src/main/resources && ls classrepair-system/src/main/resources
   - mvn clean package -f classrepair-dependencies/pom.xml
+  - sshpass -p ${pwd} scp classrepair-system/target/*.jar ${user}@${ip}:${filepath}'
   - docker build -t weacsoft:latest .
   - docker login --username=${registryu} registry.cn-shenzhen.aliyuncs.com --password=${registryp}
   - docker tag weacsoft:latest registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair
