@@ -10,5 +10,5 @@ import team.weacsoft.classroom.domain.ClassroomDo;
 
 @Component
 public interface ClassroomRepository extends JpaRepository<ClassroomDo, String> {
-
+    ClassroomDo findByClassId(int classId);
 }

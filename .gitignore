@@ -81,5 +81,5 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 /src/main/resources/application.yml
-/log
+log
 docker-compose.yml

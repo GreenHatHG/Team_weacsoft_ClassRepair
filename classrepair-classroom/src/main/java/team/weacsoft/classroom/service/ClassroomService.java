@@ -82,4 +82,8 @@ public class ClassroomService {
                     '}';
         }
     }
+
+    public ClassroomDo findByClassId(int classId){
+        return classroomRepository.findByClassId(classId);
+    }
 }

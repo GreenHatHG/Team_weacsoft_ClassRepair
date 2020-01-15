@@ -21,6 +21,12 @@ import javax.persistence.Table;
 public class ClassroomDo extends BaseDo {
 
     /**
+     * 已经生成好的，固定死的
+     */
+    @Column(nullable = false)
+    private int classId;
+
+    /**
      * 建筑物
      */
     @Column(nullable = false)
