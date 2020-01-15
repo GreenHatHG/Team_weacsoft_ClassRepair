@@ -19,7 +19,7 @@ install:
   - ssh-keyscan ${ip} >> ~/.ssh/known_hosts
 
 script:
-  - sshpass -p ${pwd} scp ${user}@${ip}:${filepath}/application-product.yml
+  - sshpass -p ${pwd} scp ${user}@${ip}:${filepath}/application-product.yml .
   - mv application-product.yml classrepair-system/src/main/resources && ls classrepair-system/src/main/resources
   - mvn clean package -f classrepair-dependencies/pom.xml
   - sshpass -p ${pwd} scp classrepair-system/target/*.jar ${user}@${ip}:${filepath}
