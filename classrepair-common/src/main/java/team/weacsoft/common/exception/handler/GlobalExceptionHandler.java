@@ -44,6 +44,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ApiResp.error(e.getStatus(),e.getMessage()), BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<ApiResp> nullPointerException(NullPointerException e) {
+        // 打印堆栈信息
+        log.error(ThrowableUtil.getStackTrace(e));
+        return new ResponseEntity<>(ApiResp.error("发生空指针异常！请检查发送的请求"), BAD_REQUEST);
+    }
+
     @ExceptionHandler(value = AccessDeniedException.class)
     public ResponseEntity<ApiResp> badRequestException(AccessDeniedException e) {
         // 打印堆栈信息

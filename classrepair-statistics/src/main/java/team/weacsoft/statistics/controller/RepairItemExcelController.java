@@ -27,10 +27,6 @@ public class RepairItemExcelController {
     @GetMapping("/excel")
     public ResponseEntity<ApiResp> getExcel(@RequestParam(name = "start_time", required = false)Long startTime,
                                             @RequestParam(name = "end_time", required = false) Long endTime){
-        if(startTime == null || endTime == null){
-            startTime = 0L;
-            endTime = 0L;
-        }
         return ApiResp.ok(repairItemExcelService.getExcel(startTime, endTime));
     }
 }
