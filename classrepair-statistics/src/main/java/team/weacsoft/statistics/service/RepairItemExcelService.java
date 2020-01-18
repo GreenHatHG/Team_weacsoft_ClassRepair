@@ -39,21 +39,20 @@ public class RepairItemExcelService {
 
     private void toExcel(Long startTime, Long endTime){
         EasyExcel.write("repair_item.xlsx", RepairItemDo.class)
-                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(
-                        filterByPeriod(startTime, endTime).orElseThrow(() -> new BadRequestException("还没有订单信息，不能生成excel")));
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(filterByPeriod(startTime, endTime));
     }
 
-
-    private Optional<List<RepairItemDo>> filterByPeriod(Long startTime, Long endTime){
+    private List<RepairItemDo> filterByPeriod(Long startTime, Long endTime){
         List<RepairItemDo> list = repairItemService.findAll();
-        Optional<List<RepairItemDo>> optionalRepairItemDos = Optional.ofNullable(list.size() == 0 ? null : list);
-        if(startTime == null || endTime == null){
-            return optionalRepairItemDos;
+        if(list == null || list.size() == 0){
+            throw new BadRequestException("还没有订单信息，不能生成excel");
         }
-        return optionalRepairItemDos.map(repairItemDos -> repairItemDos.stream()
-                        .filter(repairItemDo -> startTime <= repairItemDo.getUpdateTime()
-                                && endTime >= repairItemDo.getUpdateTime())
-                .collect(Collectors.toList()));
+        if(startTime == null || endTime == null){
+            return list;
+        }
+        return list.stream()
+                .filter(repairItemDo -> startTime <= repairItemDo.getUpdateTime() && endTime >= repairItemDo.getUpdateTime())
+                .collect(Collectors.toList());
     }
 
 }
