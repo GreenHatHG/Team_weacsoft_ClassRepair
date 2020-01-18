@@ -34,7 +34,7 @@ public class JwtUtil {
     /**
      * jwt 过期时间,30分钟
      */
-    private static final long EXPIRE_TIME = 30 * 60 * 1000;
+    private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
     private static final String REDIS_JWT_KEY_PREFIX = "security:jwt:";
 

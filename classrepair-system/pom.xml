@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-qatype</artifactId>
+            <artifactId>classrepair-qa-type</artifactId>
             <version>${project.version}</version>
         </dependency>
 

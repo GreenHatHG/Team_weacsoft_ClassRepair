@@ -15,9 +15,10 @@
         <module>../classrepair-system</module>
         <module>../classrepair-invitation</module>
         <module>../classrepair-classroom</module>
-        <module>../classrepair-qatype</module>
+        <module>../classrepair-qa-type</module>
         <module>../classrepair-repair-item</module>
         <module>../classrepair-statistics</module>
+        <module>../classrepair-qa-answer</module>
     </modules>
 
     <parent>

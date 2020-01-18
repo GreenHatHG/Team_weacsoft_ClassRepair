@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>classrepair-qatype</artifactId>
+    <artifactId>classrepair-qa-answer</artifactId>
 
     <dependencies>
         <dependency>
@@ -25,5 +25,4 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
 </project>
