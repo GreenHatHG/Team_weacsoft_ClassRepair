@@ -83,3 +83,4 @@ buildNumber.properties
 /src/main/resources/application.yml
 log
 docker-compose.yml
+/classrepair-classroom/src/main/resources/

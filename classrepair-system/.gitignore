@@ -83,3 +83,5 @@ buildNumber.properties
 src/main/resources/application-product.yml
 src/main/resources/application-dev.yml
 repair_item.xlsx
+/src/main/resources/rebel.xml
+/src/main/resources/rebel-remote.xml

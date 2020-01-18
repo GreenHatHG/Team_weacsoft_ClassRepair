@@ -21,6 +21,9 @@ import javax.persistence.Table;
 @Table(name = "qa_type")
 public class QaTypeDo extends BaseDo {
 
+    @Column(nullable = false, unique = true)
+    private int qaTypeId;
+
     /**
      * 顺序，显示的先后顺序
      */

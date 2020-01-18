@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.qatype.service.QaTypeService;
 
@@ -45,4 +42,5 @@ public class QaTypeController {
     public ResponseEntity<ApiResp> findById(@RequestParam @NotBlank @Size(max = 100) String id){
         return ApiResp.ok(qaTypeService.findById(id));
     }
+
 }

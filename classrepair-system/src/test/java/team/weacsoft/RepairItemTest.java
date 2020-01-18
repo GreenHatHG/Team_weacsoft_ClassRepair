@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
-import team.weacsoft.repair.service.RepairItemExcelService;
+import team.weacsoft.statistics.service.RepairItemExcelService;
 
 /**
  * @author GreenHatHG

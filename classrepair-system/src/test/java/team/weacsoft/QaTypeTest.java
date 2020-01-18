@@ -23,21 +23,22 @@ public class QaTypeTest {
 
     @Test
     public void addQaType(){
-        String s = "1\t电脑\n" +
-                "2\t无线麦\n" +
-                "3\t鹅颈麦\n" +
-                "4\t投影\n" +
-                "5\t灯\n" +
-                "6\t风扇\n" +
-                "8\t其他问题\n" +
-                "7\t空调\n";
-        s = s.replaceAll("\n", "\t");
-        String[] ss = s.split("\t");
-        for(int i = 1; i < ss.length; i+=2){
-            QaTypeDo qaType = QaTypeDo.builder()
-                    .sort(Integer.valueOf(ss[i-1]))
-                    .title(ss[i]).build();
-            qaTypeRepository.save(qaType);
+        String s = "10001, 1, '电脑'," +
+                "10002, 2, '无线麦'," +
+                "10003, 3, '鹅颈麦'," +
+                "10004, 4, '投影'," +
+                "10005, 5, '灯'," +
+                "10006, 6, '风扇'," +
+                "10007, 8, '其他问题'," +
+                "10008, 7, '空调'";
+        String replaceS = s.replaceAll("'", "").replaceAll("\n", "").replaceAll(" ", "");
+        String[] splitS = replaceS.split(",");
+        for(int i = 0; i < splitS.length; i+=3){
+            QaTypeDo qaTypeDo = new QaTypeDo();
+            qaTypeDo.setQaTypeId(Integer.parseInt(splitS[i]));
+            qaTypeDo.setSort(Integer.parseInt(splitS[i+1]));
+            qaTypeDo.setTitle(splitS[i+2]);
+            qaTypeRepository.save(qaTypeDo);
         }
     }
 }

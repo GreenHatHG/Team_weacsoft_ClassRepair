@@ -17,18 +17,19 @@ public class UpdateUserInfoDto {
      * 要修改的那个人的id，当修改的人别的信息时候则为空
      */
     @Size(max = 100)
-    String id;
+    private String id;
 
     @Size(max = 100)
-    String name;
+    private String name;
 
     @Size(max = 100)
-    String avatar;
+    private String avatar;
 
     @Size(max = 100)
-    String phone;
+    private String phone;
 
-    @Size(max = 100) String nickname;
+    @Size(max = 100)
+    private String nickname;
 
-    Long identityId;
+    private Long identityId;
 }

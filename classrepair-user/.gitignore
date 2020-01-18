@@ -82,3 +82,4 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 /src/main/resources/application-web.yml
+/src/main/resources/
