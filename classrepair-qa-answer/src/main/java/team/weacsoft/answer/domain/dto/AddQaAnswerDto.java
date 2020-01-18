@@ -19,7 +19,7 @@ public class AddQaAnswerDto {
      */
     @Size(max = 100)
     @NotBlank
-    private String menuId;
+    private Integer qaTypeId;
 
     /**
      * 顺序，在同一目录时显示的先后顺序

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 import team.weacsoft.answer.domain.QaAnswerDo;
 import team.weacsoft.answer.domain.dto.AddQaAnswerDto;
 import team.weacsoft.answer.repository.QaAnswerRepository;
+import team.weacsoft.common.exception.EntityNotFoundException;
+import team.weacsoft.qatype.domain.QaTypeDo;
+import team.weacsoft.qatype.service.QaTypeService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,18 +19,29 @@ import java.util.stream.Collectors;
 @Component
 public class QaAnswerService {
 
-    @Autowired
     private QaAnswerRepository qaAnswerRepository;
+    private QaTypeService qaTypeService;
+
+    @Autowired
+    public QaAnswerService(QaAnswerRepository qaAnswerRepository, QaTypeService qaTypeService) {
+        this.qaAnswerRepository = qaAnswerRepository;
+        this.qaTypeService = qaTypeService;
+    }
 
     public List<QaAnswerDo> addQaAnswer(List<AddQaAnswerDto> addQaAnswerDtos){
         List<QaAnswerDo> list = addQaAnswerDtos.stream()
-                .map(addQaAnswerDto -> QaAnswerDo.builder()
-                        .answer(addQaAnswerDto.getAnswer())
-                        .answerRepair(addQaAnswerDto.getAnswerRepair())
-                        .goodNum(addQaAnswerDto.getGoodNum())
-                        .menuId(addQaAnswerDto.getMenuId())
-                        .question(addQaAnswerDto.getQuestion())
-                        .sort(addQaAnswerDto.getSort()).build())
+                .map(addQaAnswerDto -> {
+                    if(!qaTypeService.existsQaTypeById(addQaAnswerDto.getQaTypeId())){
+                        throw new EntityNotFoundException(QaTypeDo.class, "qaTypeId", String.valueOf(addQaAnswerDto.getQaTypeId()));
+                    }
+                    return QaAnswerDo.builder()
+                            .answer(addQaAnswerDto.getAnswer())
+                            .answerRepair(addQaAnswerDto.getAnswerRepair())
+                            .goodNum(addQaAnswerDto.getGoodNum())
+                            .qaTypeId(addQaAnswerDto.getQaTypeId())
+                            .question(addQaAnswerDto.getQuestion())
+                            .sort(addQaAnswerDto.getSort()).build();
+                        })
                 .collect(Collectors.toList());
         return qaAnswerRepository.saveAll(list);
     }

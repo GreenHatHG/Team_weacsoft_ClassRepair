@@ -18,6 +18,10 @@ public class QaTypeService {
     @Autowired
     private QaTypeRepository qaTypeRepository;
 
+    public boolean existsQaTypeById(int qaTypeId){
+        return qaTypeRepository.existsByQaTypeId(qaTypeId);
+    }
+
     public List<Map<String, String>> getAll(){
         List<QaTypeDo> qaTypes =  qaTypeRepository.findAll();
         qaTypes.sort(Comparator.comparingInt(QaTypeDo::getSort));

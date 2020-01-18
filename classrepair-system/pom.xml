@@ -54,6 +54,12 @@
             <artifactId>classrepair-statistics</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-qa-answer</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

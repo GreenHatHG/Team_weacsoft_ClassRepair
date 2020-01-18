@@ -10,5 +10,5 @@ import team.weacsoft.qatype.domain.QaTypeDo;
 
 @Component
 public interface QaTypeRepository extends JpaRepository<QaTypeDo, String> {
-
+    boolean existsByQaTypeId(int qaTypeId);
 }

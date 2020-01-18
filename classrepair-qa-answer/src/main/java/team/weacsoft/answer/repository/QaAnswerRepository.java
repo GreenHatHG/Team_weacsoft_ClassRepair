@@ -9,5 +9,4 @@ import team.weacsoft.answer.domain.QaAnswerDo;
  */
 @Component
 public interface QaAnswerRepository extends JpaRepository<QaAnswerDo, String> {
-
 }

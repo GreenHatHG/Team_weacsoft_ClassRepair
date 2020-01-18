@@ -1,8 +1,6 @@
 package team.weacsoft.answer.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import team.weacsoft.db.domain.basic.BaseDo;
 
 import javax.persistence.Column;
@@ -19,6 +17,8 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "qa_answer")
 public class QaAnswerDo extends BaseDo {
 
@@ -26,8 +26,8 @@ public class QaAnswerDo extends BaseDo {
      * 目录id，与qa_type表对应
      */
     @Builder.Default
-    @Column(nullable = false, unique = true)
-    private String menuId = "";
+    @Column(nullable = false)
+    private int qaTypeId = 0;
 
     /**
      * 顺序，在同一目录时显示的先后顺序

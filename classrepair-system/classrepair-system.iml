@@ -6,7 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="Entities" />
+          <factory-entry name="Entities" value="9ffb7566-19a5-4921-82e4-5867c88bbbb8" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
@@ -96,6 +96,7 @@
     <orderEntry type="module" module-name="classrepair-invitation" />
     <orderEntry type="module" module-name="classrepair-repair-item" />
     <orderEntry type="module" module-name="classrepair-statistics" />
+    <orderEntry type="module" module-name="classrepair-qa-answer" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.8" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.1.8.RELEASE" level="project" />
