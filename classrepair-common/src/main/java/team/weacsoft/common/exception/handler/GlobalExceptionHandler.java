@@ -22,7 +22,6 @@ import team.weacsoft.common.utils.ThrowableUtil;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Set;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -87,11 +86,11 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(value = { ConstraintViolationException.class })
-    public ResponseEntity<ApiResp> handle(ConstraintViolationException e) {
-        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+    public ResponseEntity<ApiResp> handle(ConstraintViolationException ex) {
         StringBuilder strBuilder = new StringBuilder();
-        for (ConstraintViolation<?> violation : violations) {
-            strBuilder.append(violation.getInvalidValue()).append(" ").append(violation.getMessage()).append("\n");
+        for (ConstraintViolation<?> constraintViolation : ex.getConstraintViolations()) {
+            String[] path = constraintViolation.getPropertyPath().toString().split("\\.");
+            strBuilder.append(path[path.length - 1]).append(constraintViolation.getMessage()).append("\n");
         }
         String result = strBuilder.toString();
         return buildResponseEntity(ApiResp.error(BAD_REQUEST.value(),

@@ -96,7 +96,7 @@ public class LoginService {
         }
         UserInfoDo userInfo = userInfoService.findByIdentityId(dto.getAccount());
         if(userInfo == null){
-            throw new EntityNotFoundException(UserInfoDo.class, "IdentityId", String.valueOf(dto.getAccount()));
+            throw new EntityNotFoundException("UserInfo", "IdentityId", String.valueOf(dto.getAccount()));
         }
         if(StringUtils.equals(webLoginPwd, dto.getPwd())){
             return userInfoDoToResp(userInfo);

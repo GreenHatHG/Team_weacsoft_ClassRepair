@@ -38,7 +38,7 @@ public class RepairItemService {
     public RepairItemDo findByRepairItemId(String repairItemId){
         RepairItemDo repairItem = repairItemRepository.findByRepairItemId(repairItemId);
         if(repairItem == null){
-            throw new EntityNotFoundException(RepairItemDo.class, "repairItemId", repairItemId);
+            throw new EntityNotFoundException("RepairItem", "repairItemId", repairItemId);
         }
         return repairItem;
     }

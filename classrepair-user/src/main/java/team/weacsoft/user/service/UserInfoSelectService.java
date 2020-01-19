@@ -38,7 +38,7 @@ public class UserInfoSelectService {
         UserInfoDo userInfo = userInfoRepository.findByOpenid(openid);
         if(userInfo == null){
             MDC.put("userTableId", "找不到用户");
-            throw new EntityNotFoundException(UserInfoDo.class, "openid", openid);
+            throw new EntityNotFoundException("UserInfo", "openid", openid);
         }
         return userInfo;
     }
@@ -46,7 +46,7 @@ public class UserInfoSelectService {
     public UserInfoDo findByIdentityId(long identityId){
         UserInfoDo userInfo = userInfoRepository.findByIdentityId(identityId);
         if(userInfo == null){
-            throw new EntityNotFoundException(UserInfoDo.class, "identityId", String.valueOf(identityId));
+            throw new EntityNotFoundException("UserInfo", "identityId", String.valueOf(identityId));
         }
         return userInfo;
     }
@@ -54,7 +54,7 @@ public class UserInfoSelectService {
     public UserInfoDo findById(String id){
         Optional<UserInfoDo> optionalUserInfo = userInfoRepository.findById(id);
         if(!optionalUserInfo.isPresent()){
-            throw new EntityNotFoundException(UserInfoDo.class, "id", id);
+            throw new EntityNotFoundException("UserInfo", "id", id);
         }
 
         return optionalUserInfo.get();
@@ -63,7 +63,7 @@ public class UserInfoSelectService {
     public List<UserInfoDo> findByName(String name){
         List<UserInfoDo> userInfos = userInfoRepository.findByName(name);
         if(userInfos.size() == 0){
-            throw new EntityNotFoundException(UserInfoDo.class, "name", name);
+            throw new EntityNotFoundException("UserInfo", "name", name);
         }
         return userInfos;
     }
@@ -76,7 +76,7 @@ public class UserInfoSelectService {
         }
         UserInfoDo userInfo = userInfoRepository.findByNickname(nickname);
         if(userInfo == null){
-            throw new EntityNotFoundException(UserInfoDo.class, "nickname", nickname);
+            throw new EntityNotFoundException("UserInfo", "nickname", nickname);
         }
         return userInfo;
     }

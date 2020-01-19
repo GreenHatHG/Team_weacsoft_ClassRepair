@@ -6,7 +6,6 @@ import team.weacsoft.answer.domain.QaAnswerDo;
 import team.weacsoft.answer.domain.dto.AddQaAnswerDto;
 import team.weacsoft.answer.repository.QaAnswerRepository;
 import team.weacsoft.common.exception.EntityNotFoundException;
-import team.weacsoft.qatype.domain.QaTypeDo;
 import team.weacsoft.qatype.service.QaTypeService;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class QaAnswerService {
         List<QaAnswerDo> list = addQaAnswerDtos.stream()
                 .map(addQaAnswerDto -> {
                     if(!qaTypeService.existsQaTypeById(addQaAnswerDto.getQaTypeId())){
-                        throw new EntityNotFoundException(QaTypeDo.class, "qaTypeId", String.valueOf(addQaAnswerDto.getQaTypeId()));
+                        throw new EntityNotFoundException("QaType", "qaTypeId", String.valueOf(addQaAnswerDto.getQaTypeId()));
                     }
                     return QaAnswerDo.builder()
                             .answer(addQaAnswerDto.getAnswer())

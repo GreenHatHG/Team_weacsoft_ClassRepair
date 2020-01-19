@@ -19,6 +19,7 @@
         <module>../classrepair-repair-item</module>
         <module>../classrepair-statistics</module>
         <module>../classrepair-qa-answer</module>
+        <module>../classrepair-time-table</module>
     </modules>
 
     <parent>
