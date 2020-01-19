@@ -1,21 +1,26 @@
 package team.weacsoft.user.service;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.exception.UnauthorizedException;
+import team.weacsoft.common.utils.Argon2Util;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
-import team.weacsoft.common.wx.WxUtils;
+import team.weacsoft.common.wx.WxMaConfiguration;
 import team.weacsoft.user.domain.Admin;
 import team.weacsoft.user.domain.UserInfoDo;
 import team.weacsoft.user.domain.dto.WebLoginDto;
 import team.weacsoft.user.domain.dto.WxLoginDto;
-import team.weacsoft.common.utils.Argon2Util;
 
 /**
  * @author GreenHatHG
@@ -25,14 +30,12 @@ import team.weacsoft.common.utils.Argon2Util;
 public class LoginService {
 
     private UserInfoSelectService userInfoService;
-    private WxUtils wxUtils;
     private JwtUtil jwtUtil;
     private Admin admin;
 
     @Autowired
-    public LoginService(UserInfoSelectService userInfoService, WxUtils wxUtils, JwtUtil jwtUtil, Admin admin) {
+    public LoginService(UserInfoSelectService userInfoService, JwtUtil jwtUtil, Admin admin) {
         this.userInfoService = userInfoService;
-        this.wxUtils = wxUtils;
         this.jwtUtil = jwtUtil;
         this.admin = admin;
     }
@@ -40,23 +43,31 @@ public class LoginService {
     @Value("${classrepair.web.login}")
     private String webLoginPwd;
 
-    public JSONObject wxLogin(WxLoginDto userInfoDto){
-        //请求auth.code2Session
-        JSONObject code2sessionResp = wxUtils.code2Session(userInfoDto.getCode());
+    public JSONObject wxLogin(WxLoginDto wxLoginDto) {
 
-        UserInfoDo userInfo = userInfoService.findByOpenid(code2sessionResp.getString("openid"));
+        // 获取小程序服务实例
+        final WxMaService wxService = WxMaConfiguration.getWxMaService();
+        WxMaJscode2SessionResult session = null;
+        try{
+            //请求auth.code2Session
+            session = wxService.getUserService().getSessionInfo(wxLoginDto.getCode());
+        }catch (WxErrorException  e){
+            throw new BadRequestException(444, JSON.toJSONString(session));
+        }
+
+        UserInfoDo userInfo = userInfoService.findByOpenid(session.getOpenid());
         //数据库中还没有该人
         if(userInfo == null){
             userInfo = UserInfoDo.builder()
-                    .sessionKey(code2sessionResp.getString("session_key"))
-                    .name(userInfoDto.getName())
-                    .role(userInfoDto.getRole())
-                    .avatar(userInfoDto.getAvatar())
-                    .password(Argon2Util.hash(userInfoDto.getPassword()))
-                    .phone(userInfoDto.getPhone())
-                    .nickname(userInfoDto.getNickname())
-                    .identityId(userInfoDto.getIdentityId()).build();
-            userInfo.setOpenid(code2sessionResp.getString("openid"));
+                    .sessionKey(session.getSessionKey())
+                    .name(wxLoginDto.getName())
+                    .role(wxLoginDto.getRole())
+                    .avatar(wxLoginDto.getAvatar())
+                    .password(Argon2Util.hash(wxLoginDto.getPassword()))
+                    .phone(wxLoginDto.getPhone())
+                    .nickname(wxLoginDto.getNickname())
+                    .identityId(wxLoginDto.getIdentityId()).build();
+            userInfo.setOpenid(session.getOpenid());
             userInfo = userInfoService.save(userInfo);
         }
         return userInfoDoToResp(userInfo);

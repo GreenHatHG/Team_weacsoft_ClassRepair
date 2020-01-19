@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
-import team.weacsoft.common.wx.WxUtils;
 import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
 import team.weacsoft.user.service.UserInfoSelectService;
 import team.weacsoft.user.service.UserInfoUpdateService;
@@ -31,14 +30,14 @@ import javax.validation.constraints.Size;
 @RequestMapping(value="/user")
 public class UserInfoController {
 
-    @Autowired
     private UserInfoSelectService userInfoSelectService;
-
-    @Autowired
     private UserInfoUpdateService userInfoUpdateService;
 
     @Autowired
-    private WxUtils wxUtils;
+    public UserInfoController(UserInfoSelectService userInfoSelectService, UserInfoUpdateService userInfoUpdateService) {
+        this.userInfoSelectService = userInfoSelectService;
+        this.userInfoUpdateService = userInfoUpdateService;
+    }
 
     /**
      * 修改用户身份
