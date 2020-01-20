@@ -1,10 +1,8 @@
 package team.weacsoft.user.service;
 
-import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ImmutableMap;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
@@ -17,7 +15,6 @@ import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.utils.Argon2Util;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
-import team.weacsoft.common.wx.SendDYTemplateMessage;
 import team.weacsoft.common.wx.WxMaConfiguration;
 import team.weacsoft.user.domain.Admin;
 import team.weacsoft.user.domain.UserInfoDo;
@@ -34,16 +31,12 @@ public class LoginService {
     private UserInfoSelectService userInfoService;
     private JwtUtil jwtUtil;
     private Admin admin;
-    private WxMaService wxService;
-    private SendDYTemplateMessage sendDYTemplateMessage;
 
     @Autowired
-    public LoginService(UserInfoSelectService userInfoService, JwtUtil jwtUtil, Admin admin, SendDYTemplateMessage sendDYTemplateMessage) {
+    public LoginService(UserInfoSelectService userInfoService, JwtUtil jwtUtil, Admin admin) {
         this.userInfoService = userInfoService;
         this.jwtUtil = jwtUtil;
         this.admin = admin;
-        this.wxService = WxMaConfiguration.getWxMaService();
-        this.sendDYTemplateMessage = sendDYTemplateMessage;
     }
 
     @Value("${classrepair.web.login}")
@@ -53,7 +46,7 @@ public class LoginService {
         WxMaJscode2SessionResult session = null;
         try{
             //请求auth.code2Session
-            session = wxService.getUserService().getSessionInfo(wxLoginDto.getCode());
+            session = WxMaConfiguration.getWxMaService().getUserService().getSessionInfo(wxLoginDto.getCode());
         }catch (WxErrorException  e){
             throw new BadRequestException(444, JSON.toJSONString(session));
         }
@@ -72,9 +65,6 @@ public class LoginService {
                     .identityId(wxLoginDto.getIdentityId()).build();
             userInfo.setOpenid(session.getOpenid());
             userInfo = userInfoService.save(userInfo);
-
-            sendDYTemplateMessage.sendMessage(session.getOpenid(), ImmutableMap.<String, String> builder()
-            .put("课室", "123").build());
         }
         return userInfoDoToResp(userInfo);
     }

@@ -31,7 +31,7 @@ public class AdminAccounntListener {
     public void checkAdminAccount(){
         long id = 0;
         try{
-            id = Long.valueOf(admin.getRootIdentityId());
+            id = Long.parseLong(admin.getRootIdentityId());
             admin.setRootId(userInfoSelectService.findByIdentityId(id).getId());
         }catch (EntityNotFoundException e){
             UserInfoDo userInfoDo = UserInfoDo.builder()

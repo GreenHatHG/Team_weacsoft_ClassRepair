@@ -90,7 +90,7 @@ public class GlobalExceptionHandler {
         StringBuilder strBuilder = new StringBuilder();
         for (ConstraintViolation<?> constraintViolation : ex.getConstraintViolations()) {
             String[] path = constraintViolation.getPropertyPath().toString().split("\\.");
-            strBuilder.append(path[path.length - 1]).append(constraintViolation.getMessage()).append("\n");
+            strBuilder.append(path[path.length - 1]).append(" ").append(constraintViolation.getMessage()).append("\n");
         }
         String result = strBuilder.toString();
         return buildResponseEntity(ApiResp.error(BAD_REQUEST.value(),
