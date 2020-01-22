@@ -10,5 +10,5 @@ import team.weacsoft.timetable.domain.TimeTableDo;
 
 @Component
 public interface TimeTableRepository extends JpaRepository<TimeTableDo, String> {
-
+    TimeTableDo findByUserId(String userId);
 }
