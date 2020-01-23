@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
+import team.weacsoft.user.domain.dto.FieldDtoEnum;
 import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
 import team.weacsoft.user.service.UserInfoSelectService;
 import team.weacsoft.user.service.UserInfoUpdateService;
@@ -43,7 +44,6 @@ public class UserInfoController {
      * 修改用户身份
      * @param id 用户表id
      * @param role 修改后的权限，1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
-     * @return
      */
     @PreAuthorize("hasAnyRole('3', '4', '5')")
     @Log(module = "用户管理", operation = "修改用户身份")
@@ -53,44 +53,23 @@ public class UserInfoController {
         return ApiResp.ok(userInfoUpdateService.updateRoleById(id, role));
     }
 
-
     /**
-     * 根据真实姓名搜索用户
-     * @param name 真实姓名
-     * @return
+     * 根据特定字段可选分页搜索用户
+     * @param field 字段
+     * @param value 字段值
+     * @param pageable 分页
      */
-    @GetMapping("/name")
+    @GetMapping("/field")
     @PreAuthorize("hasAnyRole('3', '4', '5')")
-    public  ResponseEntity<ApiResp> findByName(@RequestParam @NotBlank @Size(max = 100) String name){
-        return ApiResp.ok(userInfoSelectService.findByName(name));
-    }
-
-    /**
-     * 根据学号/工号搜索用户
-     * @param identity_id 学号/工号
-     * @return
-     */
-    @GetMapping("/identity_id")
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
-    public ResponseEntity<ApiResp> findByIdentityId(@RequestParam Long identity_id){
-        return ApiResp.ok(userInfoSelectService.findByIdentityId(identity_id));
-    }
-
-    /**
-     * 根据微信昵称搜索用户
-     * @param nickname 微信昵称，记得转义后再发送，避免特殊字符
-     * @return
-     */
-    @GetMapping("/nickname")
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
-    public ResponseEntity<ApiResp> findByNickname(@RequestParam @NotBlank @Size(max = 100) String nickname){
-        return ApiResp.ok(userInfoSelectService.findByNickname(nickname));
+    public ResponseEntity<ApiResp> findByCriteria(FieldDtoEnum field,
+                                                  @RequestParam @NotBlank @Size(max = 100) String value,
+                                                  Pageable pageable, HttpServletRequest request){
+        return ApiResp.ok(userInfoSelectService.findByCriteria(field.toString(), value, pageable, request));
     }
 
     /**
      * 修改用户信息
      * @param dto 要修改的信息，不需要修改的字段留空
-     * @return
      */
     @Log(module = "用户管理", operation = "修改用户信息")
     @PutMapping("/actions/update_info")
@@ -102,13 +81,11 @@ public class UserInfoController {
 
     /**
      * 获取用户列表
-     * @return
      */
     @GetMapping("/userlist")
     @PreAuthorize("hasAnyRole('3', '4', '5')")
     public ResponseEntity<ApiResp> getUserList(Pageable pageable){
         return ApiResp.ok(userInfoSelectService.getUserList(pageable));
     }
-
 
 }

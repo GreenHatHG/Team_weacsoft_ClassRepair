@@ -35,8 +35,8 @@ public class UserInfoUpdateService {
     }
 
     public UserInfoDo updateUserInfo(UpdateUserInfoDto dto, HttpServletRequest request){
-        String nowId = jwtUtil.getIdFromHttpServletRequest(request);;
-        UserInfoDo userInfo = null;
+        String nowId = jwtUtil.getIdFromHttpServletRequest(request);
+        UserInfoDo userInfo;
         if(StringUtils.isNotBlank(dto.getId())){
             int nowRole = userInfoService.findById(nowId).getRole();
             //如果 要修改的那个人的权限 大于等于 现在操作的人的权限 或者 现在操作的人不是管理员 则抛出异常
@@ -64,6 +64,5 @@ public class UserInfoUpdateService {
         }
         return userInfoService.save(userInfo);
     }
-
 
 }

@@ -1,22 +1,17 @@
 package team.weacsoft.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 import team.weacsoft.user.domain.UserInfoDo;
-
-import java.util.List;
 
 /**
  * @author GreenHatHG
  **/
 
-@Service
-public interface UserInfoRepository extends JpaRepository<UserInfoDo, String> {
+@Repository
+public interface UserInfoRepository extends JpaRepository<UserInfoDo, String>, JpaSpecificationExecutor<UserInfoDo> {
     UserInfoDo findByOpenid(String openid);
 
     UserInfoDo findByIdentityId(long identityId);
-
-    List<UserInfoDo> findByName(String name);
-
-    UserInfoDo findByNickname(String nickname);
 }
