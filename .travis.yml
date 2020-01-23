@@ -26,7 +26,7 @@ script:
   - docker build -t weacsoft:latest .
   - docker login --username=${registryu} registry.cn-hongkong.aliyuncs.com --password=${registryp}
   - docker tag weacsoft:latest  registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair
-  - docker push registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest
+  - docker push registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair:latest
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker login --username=${registryu} registry.cn-hongkong.aliyuncs.com --password=${registryp}'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'cd /home/room/classrepair-java && docker-compose down'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker rmi  registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair:latest'
