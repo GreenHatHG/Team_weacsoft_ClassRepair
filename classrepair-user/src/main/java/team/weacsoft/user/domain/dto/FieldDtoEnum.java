@@ -6,7 +6,7 @@ package team.weacsoft.user.domain.dto;
 public enum FieldDtoEnum {
     name,
     nickname,
-    identity_id,
+    identityId,
     avatar,
     phone,
     role
