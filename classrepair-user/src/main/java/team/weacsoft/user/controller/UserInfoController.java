@@ -2,23 +2,19 @@ package team.weacsoft.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
-import team.weacsoft.user.domain.dto.FieldDtoEnum;
-import team.weacsoft.user.domain.dto.UpdateUserInfoDto;
-import team.weacsoft.user.service.UserInfoSelectService;
-import team.weacsoft.user.service.UserInfoUpdateService;
+import team.weacsoft.common.persistence.PageRequest;
+import team.weacsoft.user.dto.request.FieldDtoEnum;
+import team.weacsoft.user.dto.request.UpdateUserInfoDto;
+import team.weacsoft.user.service.IUserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 
 /**
@@ -30,14 +26,17 @@ import javax.validation.constraints.Size;
 @Slf4j
 @RequestMapping(value="/user")
 public class UserInfoController {
-
-    private UserInfoSelectService userInfoSelectService;
-    private UserInfoUpdateService userInfoUpdateService;
+    private IUserInfoService userInfoService;
 
     @Autowired
-    public UserInfoController(UserInfoSelectService userInfoSelectService, UserInfoUpdateService userInfoUpdateService) {
-        this.userInfoSelectService = userInfoSelectService;
-        this.userInfoUpdateService = userInfoUpdateService;
+    public UserInfoController(IUserInfoService userInfoService) {
+        this.userInfoService = userInfoService;
+    }
+
+    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @GetMapping("/token/info")
+    public ResponseEntity<ApiResp> getUserInfoByToken(HttpServletRequest request){
+        return ApiResp.ok(userInfoService.getUserInfoByToken(request));
     }
 
     /**
@@ -48,23 +47,23 @@ public class UserInfoController {
     @PreAuthorize("hasAnyRole('3', '4', '5')")
     @Log(module = "用户管理", operation = "修改用户身份")
     @PutMapping("/actions/update_role")
-    public  ResponseEntity<ApiResp> updateRole(@RequestParam @NotBlank @Size(max = 100) String id,
-                            @RequestParam @Min(1) @Max(4) int role){
-        return ApiResp.ok(userInfoUpdateService.updateRoleById(id, role));
+    public  ResponseEntity<ApiResp> updateRoleById(@RequestParam @NotBlank @Size(max = 100) String id,
+                            @RequestParam @NotNull @Min(1) @Max(4) Integer role){
+        return ApiResp.ok(userInfoService.updateRoleById(id, role));
     }
 
     /**
      * 根据特定字段可选分页搜索用户
      * @param field 字段
      * @param value 字段值
-     * @param pageable 分页
+     * @param page 分页
      */
     @GetMapping("/field")
     @PreAuthorize("hasAnyRole('3', '4', '5')")
     public ResponseEntity<ApiResp> findByCriteria(FieldDtoEnum field,
                                                   @RequestParam @NotBlank @Size(max = 100) String value,
-                                                  Pageable pageable, HttpServletRequest request){
-        return ApiResp.ok(userInfoSelectService.findByCriteria(field.toString(), value, pageable, request));
+                                                  PageRequest page, HttpServletRequest request){
+        return ApiResp.ok(userInfoService.getUserInfoByField(field.toString(), value, page, request));
     }
 
     /**
@@ -76,7 +75,7 @@ public class UserInfoController {
     @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
     public ResponseEntity<ApiResp> updateUserInfo(HttpServletRequest request,
             @Validated @RequestBody UpdateUserInfoDto dto){
-        return ApiResp.ok(userInfoUpdateService.updateUserInfo(dto, request));
+        return ApiResp.ok(userInfoService.updateUserInfo(request, dto));
     }
 
     /**
@@ -84,8 +83,8 @@ public class UserInfoController {
      */
     @GetMapping("/userlist")
     @PreAuthorize("hasAnyRole('3', '4', '5')")
-    public ResponseEntity<ApiResp> getUserList(Pageable pageable){
-        return ApiResp.ok(userInfoSelectService.getUserList(pageable));
+    public ResponseEntity<ApiResp> getUserList(PageRequest page){
+        return ApiResp.ok(userInfoService.getUserList(page));
     }
 
 }

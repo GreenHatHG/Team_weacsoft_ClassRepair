@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.invitation.service.FeaturesService;
 
@@ -16,10 +13,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 /**
+ * 邀请码管理
  * @author GreenHatHG
- * @menu 邀请码管理
+ * @since 2020-01-28
  */
-
 @Validated
 @Slf4j
 @RestController
@@ -29,7 +26,6 @@ public class FeaturesController {
     /**
      * 邀请码功能开关
      * @param open 1-开启，0-关闭
-     * @return
      */
     @PreAuthorize("hasAnyRole('3', '4', '5')")
     @PutMapping("/invitation")
@@ -41,5 +37,14 @@ public class FeaturesController {
         }
         return ApiResp.ok(
                 ImmutableMap.<String, String> builder().put("state", FeaturesService.isOpen()).build());
+    }
+
+    /**
+     * 获取邀请码功能状态
+     */
+    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    @GetMapping("/invitation/state")
+    public ResponseEntity<ApiResp> getInvitationState(){
+        return ApiResp.ok(FeaturesService.isOpen());
     }
 }

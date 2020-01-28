@@ -14,21 +14,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-db</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
+        <groupId>team.weacsoft.classrepair</groupId>
+        <artifactId>classrepair-common</artifactId>
+        <version>${project.version}</version>
+    </dependency>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-user</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+
 </project>

@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import team.weacsoft.classroom.domain.ClassroomDo;
-import team.weacsoft.classroom.repository.ClassroomRepository;
+import team.weacsoft.classroom.entity.Classroom;
+import team.weacsoft.classroom.service.IClassroomService;
 
 /**
  * @author GreenHatHG
@@ -18,7 +18,7 @@ import team.weacsoft.classroom.repository.ClassroomRepository;
 @Slf4j
 public class ClassroomTest {
     @Autowired
-    private ClassroomRepository classroomRepository;
+    private IClassroomService classroomService;
 
     @Test
     public void addClassRoom() {
@@ -354,12 +354,12 @@ public class ClassroomTest {
         String[] splitS = replaceS.split("\t");
         int len = splitS.length;
         for(int i = 0; i < len; i+=4){
-            ClassroomDo classroomDo = new ClassroomDo();
-            classroomDo.setClassId(Integer.valueOf(splitS[i]));
-            classroomDo.setBuild(splitS[i+1]);
-            classroomDo.setFloor(splitS[i+2]);
-            classroomDo.setRoom(splitS[i+3]);
-            classroomRepository.save(classroomDo);
+            Classroom classroom = Classroom.builder()
+                .id(Integer.valueOf(splitS[i]))
+                .floor(splitS[i+2])
+                .room(splitS[i+3]).build();
+            classroom.setBuild(splitS[i+1]);
+            classroomService.save(classroom);
         }
     }
 }

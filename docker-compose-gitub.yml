@@ -3,7 +3,7 @@ services:
   classrepair:
     restart: always
     container_name: classrepair
-    image: registry.cn-shenzhen.aliyuncs.com/classrepair/classrepair:latest
+    image: registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair:latest
     ports:
     - 8085:8085
     depends_on:

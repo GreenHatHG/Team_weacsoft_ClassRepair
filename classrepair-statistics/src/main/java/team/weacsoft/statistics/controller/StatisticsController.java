@@ -13,9 +13,8 @@ import team.weacsoft.statistics.service.StatisticsService;
 
 /**
  * @author GreenHatHG
- * @menu 统计
+ * @since 2020-01-28
  */
-
 @RestController
 @RequestMapping(value="/statistics")
 @Validated
@@ -24,6 +23,7 @@ public class StatisticsController {
 
     @Autowired
     private StatisticsService statisticsService;
+
     /**
      * 统计所有设备报修次数
      * @return

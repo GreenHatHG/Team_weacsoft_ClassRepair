@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
-import team.weacsoft.user.domain.dto.WebLoginDto;
-import team.weacsoft.user.domain.dto.WxLoginDto;
-import team.weacsoft.user.service.LoginService;
+import team.weacsoft.user.dto.request.WebLoginDto;
+import team.weacsoft.user.dto.request.WxLoginDto;
+import team.weacsoft.user.service.ILoginService;
 
 /**
  * @author GreenHatHG
@@ -21,8 +21,12 @@ import team.weacsoft.user.service.LoginService;
 @Slf4j
 public class LoginController {
 
+    private ILoginService loginService;
+
     @Autowired
-    private LoginService loginService;
+    public LoginController(ILoginService loginService) {
+        this.loginService = loginService;
+    }
 
     /**
      * 小程序登录接口
@@ -37,14 +41,13 @@ public class LoginController {
 
     /**
      * 网页登录接口
-     * @param userInfoDto
+     * @param webLoginDto
      * @return
      */
     @Log(module = "用户管理", operation = "用户在网页登录")
     @PostMapping("/public/web/login")
-    public ResponseEntity<ApiResp> webLogin(@Validated @RequestBody WebLoginDto userInfoDto){
-        return ApiResp.ok(loginService.webLogin(userInfoDto));
+    public ResponseEntity<ApiResp> webLogin(@Validated @RequestBody WebLoginDto webLoginDto){
+        return ApiResp.ok(loginService.webLogin(webLoginDto));
     }
-
 
 }

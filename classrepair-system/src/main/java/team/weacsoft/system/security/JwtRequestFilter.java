@@ -10,8 +10,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import team.weacsoft.common.utils.JwtUtil;
-import team.weacsoft.user.domain.UserInfoDo;
-import team.weacsoft.user.service.UserInfoSelectService;
+import team.weacsoft.user.entity.UserInfo;
+import team.weacsoft.user.service.impl.UserInfoServiceImpl;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,17 +29,14 @@ import java.util.Set;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private UserInfoSelectService userInfoSelectService;
+    private UserInfoServiceImpl userInfoService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        final String token = jwtUtil.getJwtFromHttpServletRequest(request);
+        final String token = JwtUtil.getJwtFromHttpServletRequest(request);
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            final String id = jwtUtil.getIdFromJwt(token);
-            if(jwtUtil.verify(token, id)){
+            final String id = JwtUtil.getIdFromRequest(request);
+            if(JwtUtil.verify(token, id)){
                 MDC.put("userTableId", id);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         null, null, getAuthorities(id));
@@ -54,11 +51,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private Set<SimpleGrantedAuthority> getAuthorities(String id){
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        UserInfoDo userInfoDo = userInfoSelectService.findById(id);
-        if(userInfoDo == null){
+        UserInfo userInfo = userInfoService.getById(id);
+        if(userInfo == null){
             throw new UsernameNotFoundException("查无此人");
         }
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(userInfoDo.getRole())));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(userInfo.getRole())));
         return authorities;
     }
 }

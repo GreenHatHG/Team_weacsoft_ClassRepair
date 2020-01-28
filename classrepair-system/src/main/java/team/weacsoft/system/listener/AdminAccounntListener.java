@@ -1,15 +1,14 @@
 package team.weacsoft.system.listener;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import team.weacsoft.common.exception.EntityNotFoundException;
-import team.weacsoft.user.domain.Admin;
+import team.weacsoft.common.persistence.Admin;
 import team.weacsoft.common.utils.Argon2Util;
-import team.weacsoft.user.domain.UserInfoDo;
-import team.weacsoft.user.service.UserInfoSelectService;
+import team.weacsoft.user.entity.UserInfo;
+import team.weacsoft.user.service.impl.UserInfoServiceImpl;
 
 /**
  * @author GreenHatHG
@@ -19,12 +18,11 @@ import team.weacsoft.user.service.UserInfoSelectService;
 public class AdminAccounntListener {
 
     private Admin admin;
-    private UserInfoSelectService userInfoSelectService;
+    private UserInfoServiceImpl userInfoService;
 
-    @Autowired
-    public AdminAccounntListener(Admin admin, UserInfoSelectService userInfoSelectService) {
+    public AdminAccounntListener(Admin admin, UserInfoServiceImpl userInfoService) {
         this.admin = admin;
-        this.userInfoSelectService = userInfoSelectService;
+        this.userInfoService = userInfoService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -32,16 +30,15 @@ public class AdminAccounntListener {
         long id = 0;
         try{
             id = Long.parseLong(admin.getRootIdentityId());
-            admin.setRootId(userInfoSelectService.findByIdentityId(id).getId());
-        }catch (EntityNotFoundException e){
-            UserInfoDo userInfoDo = UserInfoDo.builder()
+            admin.setRootId(userInfoService.getOne(new QueryWrapper<UserInfo>().eq("identity_id", id)).getId());
+        }catch (NullPointerException e){
+            UserInfo userInfo = UserInfo.builder()
                     .identityId(id)
                     .role(5)
                     .password(Argon2Util.hash(admin.getRootPwd())).build();
-            userInfoDo.setOpenid("");
-            admin.setRootId(userInfoSelectService.save(userInfoDo).getId());
-        }catch (NumberFormatException e){
-            log.error(e.getMessage());
+            userInfo.setOpenid("");
+            userInfoService.save(userInfo);
+            admin.setRootId(userInfo.getId());
         }
     }
 

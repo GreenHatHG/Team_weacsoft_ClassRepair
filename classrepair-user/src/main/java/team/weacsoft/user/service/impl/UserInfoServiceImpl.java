@@ -1,0 +1,105 @@
+package team.weacsoft.user.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import team.weacsoft.common.exception.BadRequestException;
+import team.weacsoft.common.exception.EntityNotFoundException;
+import team.weacsoft.common.exception.UnauthorizedException;
+import team.weacsoft.common.persistence.PageRequest;
+import team.weacsoft.common.utils.JsonUtil;
+import team.weacsoft.common.utils.JwtUtil;
+import team.weacsoft.common.utils.PageUtil;
+import team.weacsoft.user.dto.common.UpdateRoleDto;
+import team.weacsoft.user.dto.reponse.BaseResp;
+import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
+import team.weacsoft.user.dto.request.UpdateUserInfoDto;
+import team.weacsoft.user.entity.UserInfo;
+import team.weacsoft.user.mapper.UserInfoMapper;
+import team.weacsoft.user.service.IUserInfoService;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * @author GreenHatHG
+ * @since 2020-01-25
+ */
+@Service
+public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService {
+
+    @Override
+    public GetUserInfoByTokenResp getUserInfoByToken(HttpServletRequest request){
+        UserInfo userInfo = getById(JwtUtil.getIdFromRequest(request));
+        String identity = null;
+        //1-普通人员 2-维护人员 3-课室团队负责人 4-老师 5-超级管理员
+        switch (userInfo.getRole()){
+            case 1:
+                identity = "普通人员"; break;
+            case 2:
+                identity = "维护人员"; break;
+            case 3:
+                identity = "课室团队负责人"; break;
+            case 4:
+                identity = "老师"; break;
+            case 5:
+                identity = "超级管理员"; break;
+            default:
+                break;
+        }
+
+        GetUserInfoByTokenResp resp = new GetUserInfoByTokenResp();
+        BeanUtils.copyProperties(userInfo, resp);
+        resp.setIdentity(identity);
+        return resp;
+    }
+
+    @Override
+    public UpdateRoleDto updateRoleById(String id, Integer role) {
+        UserInfo userInfo = getById(id);
+        if(userInfo == null){
+            throw new EntityNotFoundException("user", "id", id);
+        }
+        if(userInfo.getRole() == 5){
+            throw new BadRequestException(40010, "不能修改该用户权限");
+        }
+        userInfo.setRole(role);
+        updateById(userInfo);
+        return (UpdateRoleDto) JsonUtil.getCopyDto(userInfo, new UpdateRoleDto());
+    }
+
+    @Override
+    public Page<UserInfo>  getUserInfoByField(String field, String value, PageRequest pageRequest, HttpServletRequest request) {
+        //避免泄露超级管理员账户密码
+        if(StringUtils.equals(field, "role") && StringUtils.equals(value, "5")
+                && getById(JwtUtil.getIdFromRequest(request)).getRole() != 5){
+            throw new UnauthorizedException("权限不足，不能查询该字段");
+        }
+        Page<UserInfo> page = page(PageUtil.getPage(pageRequest),
+                new QueryWrapper<UserInfo>().eq(field, value));
+        if(page == null){
+            throw new EntityNotFoundException("user", field, value);
+        }
+        return page;
+    }
+
+    @Override
+    public BaseResp updateUserInfo(HttpServletRequest request, UpdateUserInfoDto dto) {
+        UserInfo userInfo = getById(dto.getId());
+        BeanUtils.copyProperties(dto, userInfo);
+        updateById(userInfo);
+        //重新查询检查数据库中数据是否正确
+        userInfo = getById(dto.getId());
+        return (BaseResp) JsonUtil.getCopyDto(userInfo, new BaseResp());
+    }
+
+    @Override
+    public Page<UserInfo> getUserList(PageRequest pageRequest) {
+        return page(PageUtil.getPage(pageRequest),
+                new QueryWrapper<UserInfo>().eq("delete_time", 0L)
+                        .eq("state", 1).ne("role", 5));
+    }
+
+}

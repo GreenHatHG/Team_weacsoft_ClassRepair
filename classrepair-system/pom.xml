@@ -15,55 +15,37 @@
     <dependencies>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-db</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-user</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-classroom</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-qa-type</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-invitation</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-repair-item</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-statistics</artifactId>
+            <artifactId>classrepair-classroom</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-qa-answer</artifactId>
+            <artifactId>classrepair-qa</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-time-table</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-statistics</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

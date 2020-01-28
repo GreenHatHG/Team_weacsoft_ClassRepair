@@ -4,29 +4,26 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.BadRequestException;
-import team.weacsoft.repair.domain.RepairItemDo;
-import team.weacsoft.repair.service.FileStorageService;
-import team.weacsoft.repair.service.RepairItemService;
+import team.weacsoft.repair.entity.RepairItem;
+import team.weacsoft.repair.service.IRepairItemStateService;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * @author GreenHatHG
+ * @since 2020-01-28
  */
 
-@Component
+@Service
 public class RepairItemExcelService {
-
-    private RepairItemService repairItemService;
+    private IRepairItemStateService repairItemService;
     private FileStorageService fileStorageService;
 
     @Autowired
-    public RepairItemExcelService(RepairItemService repairItemService, FileStorageService fileStorageService) {
+    public RepairItemExcelService(IRepairItemStateService repairItemService, FileStorageService fileStorageService) {
         this.repairItemService = repairItemService;
         this.fileStorageService = fileStorageService;
     }
@@ -38,12 +35,12 @@ public class RepairItemExcelService {
     }
 
     private void toExcel(Long startTime, Long endTime){
-        EasyExcel.write("repair_item.xlsx", RepairItemDo.class)
+        EasyExcel.write("repair_item.xlsx", RepairItem.class)
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(filterByPeriod(startTime, endTime));
     }
 
-    private List<RepairItemDo> filterByPeriod(Long startTime, Long endTime){
-        List<RepairItemDo> list = repairItemService.findAll();
+    private List<RepairItem> filterByPeriod(Long startTime, Long endTime){
+        List<RepairItem> list = repairItemService.list();
         if(list == null || list.size() == 0){
             throw new BadRequestException("还没有订单信息，不能生成excel");
         }
@@ -54,5 +51,4 @@ public class RepairItemExcelService {
                 .filter(repairItemDo -> startTime <= repairItemDo.getUpdateTime() && endTime >= repairItemDo.getUpdateTime())
                 .collect(Collectors.toList());
     }
-
 }

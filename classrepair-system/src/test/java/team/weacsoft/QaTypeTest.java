@@ -1,13 +1,14 @@
 package team.weacsoft;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import team.weacsoft.qatype.domain.QaTypeDo;
-import team.weacsoft.qatype.repository.QaTypeRepository;
+import team.weacsoft.qa.entity.QaType;
+import team.weacsoft.qa.service.impl.QaTypeServiceImpl;
 
 /**
  * @author GreenHatHG
@@ -19,7 +20,7 @@ import team.weacsoft.qatype.repository.QaTypeRepository;
 public class QaTypeTest {
 
     @Autowired
-    private QaTypeRepository qaTypeRepository;
+    private QaTypeServiceImpl qaTypeService;
 
     @Test
     public void addQaType(){
@@ -34,11 +35,11 @@ public class QaTypeTest {
         String replaceS = s.replaceAll("'", "").replaceAll("\n", "").replaceAll(" ", "");
         String[] splitS = replaceS.split(",");
         for(int i = 0; i < splitS.length; i+=3){
-            QaTypeDo qaTypeDo = new QaTypeDo();
-            qaTypeDo.setQaTypeId(Integer.parseInt(splitS[i]));
-            qaTypeDo.setSort(Integer.parseInt(splitS[i+1]));
-            qaTypeDo.setTitle(splitS[i+2]);
-            qaTypeRepository.save(qaTypeDo);
+            QaType qaTypeDo = QaType.builder()
+            .id(Integer.parseInt(splitS[i]))
+            .sort(Integer.parseInt(splitS[i+1]))
+            .title(splitS[i+2]).build();
+            qaTypeService.save(qaTypeDo);
         }
     }
 }

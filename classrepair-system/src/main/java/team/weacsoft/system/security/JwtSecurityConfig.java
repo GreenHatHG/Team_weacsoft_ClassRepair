@@ -24,12 +24,12 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    //1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**/public/**").permitAll()
+                .antMatchers("/**/druid/**").permitAll()
                 .anyRequest().authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())

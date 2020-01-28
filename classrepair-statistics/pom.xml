@@ -18,12 +18,10 @@
             <artifactId>classrepair-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-repair-item</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
 </project>

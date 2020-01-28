@@ -16,12 +16,12 @@
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-common</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-user</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -3,6 +3,7 @@ package team.weacsoft.common.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Arrays;
 
@@ -31,6 +32,11 @@ public class JsonUtil {
         SimplePropertyPreFilter filter = new SimplePropertyPreFilter();
         filter.getExcludes().addAll(Arrays.asList(properties));
         return JSONArray.parseArray(JSON.toJSONString(object, filter));
+    }
+
+    public static Object getCopyDto(Object source, Object target){
+        BeanUtils.copyProperties(source, target);
+        return target;
     }
 
 }
