@@ -2,6 +2,8 @@ package team.weacsoft.statistics.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team.weacsoft.qa.entity.QaType;
+import team.weacsoft.qa.service.IQaTypeService;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
@@ -10,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author GreenHatHG
@@ -20,21 +23,32 @@ import java.util.Map;
 public class StatisticsService {
     
     private IRepairItemStateService repairItemService;
+    private IQaTypeService qaTypeService;
 
     @Autowired
-    public StatisticsService(IRepairItemStateService repairItemService) {
+    public StatisticsService(IRepairItemStateService repairItemService, IQaTypeService qaTypeService) {
         this.repairItemService = repairItemService;
+        this.qaTypeService = qaTypeService;
     }
 
     public Map<String, Integer> getStatisticsByEquipmentType(){
         List<RepairItem> repairItemList =  repairItemService.list();
-        Map<String, Integer> data = new HashMap<>(20);
+        Map<Integer, Integer> data = new HashMap<>(20);
         for(RepairItem repairItem : repairItemList){
-            String type = repairItem.getEquipmentType();
+            Integer type = repairItem.getEquipmentType();
             int oldCount = data.getOrDefault(type, 0);
             data.put(type, oldCount+1);
         }
-        return data;
+        return data.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry-> {
+                                QaType qaType = qaTypeService.getById(entry.getKey());
+                                if(qaType == null) {
+                                    return "其他问题";
+                                }else{
+                                    return qaType.getTitle();
+                                }
+                            },  Map.Entry::getValue));
     }
 
     public Map<String, Integer> getStatisticsByClassroom(){

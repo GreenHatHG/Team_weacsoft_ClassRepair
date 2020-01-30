@@ -26,8 +26,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
+        httpSecurity.cors().and().csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/**/notification/**").permitAll()
                 .antMatchers("/**/public/**").permitAll()
                 .antMatchers("/**/druid/**").permitAll()
                 .anyRequest().authenticated().and()

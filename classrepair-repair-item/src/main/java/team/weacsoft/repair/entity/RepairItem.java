@@ -1,10 +1,9 @@
 package team.weacsoft.repair.entity;
 
-import lombok.Builder;
-import team.weacsoft.common.persistence.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import team.weacsoft.common.persistence.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -47,7 +46,7 @@ public class RepairItem extends BaseEntity {
      */
     @NotBlank
     @Size(max = 100)
-    private String equipmentType;
+    private Integer equipmentType;
 
     /**
      * 问题描述

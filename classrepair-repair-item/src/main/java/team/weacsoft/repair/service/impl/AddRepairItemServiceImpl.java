@@ -1,5 +1,8 @@
 package team.weacsoft.repair.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.weacsoft.common.utils.JwtUtil;
@@ -17,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class AddRepairItemServiceImpl extends BaseRepairItemService {
 
+    @Autowired
+    private SimpMessagingTemplate wsTemplate;
+
     @Transactional
     public RepairItem getRepairItem(RepairItem repairItem, HttpServletRequest request) {
         UserInfo userInfo = userInfoService.getById(JwtUtil.getIdFromRequest(request));
@@ -28,6 +34,10 @@ public class AddRepairItemServiceImpl extends BaseRepairItemService {
         this.save(repairItem);
         sendMessage(repairItem, userInfo.getOpenid(), "已下单", "无");
         return repairItem;
+    }
+
+    public void websocket(RepairItem repairItem){
+        wsTemplate.convertAndSend("/topic/repair_item", JSON.toJSON(repairItem));
     }
 
 }

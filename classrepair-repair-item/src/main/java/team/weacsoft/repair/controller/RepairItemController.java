@@ -8,9 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
-import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.BaseUpdateRepairItemService;
-import team.weacsoft.repair.service.impl.AddRepairItemServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -32,9 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Validated
 public class RepairItemController {
 
-    @Autowired
-    private AddRepairItemServiceImpl addRepairItemService;
-
     private ConcurrentHashMap<String , BaseUpdateRepairItemService> map = new ConcurrentHashMap<>();
 
     @Autowired
@@ -44,16 +39,7 @@ public class RepairItemController {
         }
     }
 
-    /**
-     * 用户报修
-     */
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
-    @Log(module = "订单管理", operation = "用户增加报修单")
-    @PostMapping("")
-    public ResponseEntity<ApiResp> addOrderItem(@Validated @RequestBody RepairItem repairItemDto,
-                                                HttpServletRequest request){
-        return ApiResp.ok(addRepairItemService.getRepairItem(repairItemDto, request));
-    }
+
 
     /**
      * 维修人员接单
