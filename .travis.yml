@@ -22,7 +22,6 @@ script:
   - sshpass -p ${pwd} scp ${user}@${ip}:${filepath}/application-product.yml .
   - mv application-product.yml classrepair-system/src/main/resources && ls classrepair-system/src/main/resources
   - mvn clean package -f classrepair-dependencies/pom.xml
-  - sshpass -p ${pwd} scp classrepair-system/target/*.jar ${user}@${ip}:${filepath}
   - docker build -t weacsoft:latest .
   - docker login --username=${registryu} registry.cn-hongkong.aliyuncs.com --password=${registryp}
   - docker tag weacsoft:latest  registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair
