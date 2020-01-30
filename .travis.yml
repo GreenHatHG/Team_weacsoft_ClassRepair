@@ -23,13 +23,12 @@ script:
   - mv application-product.yml classrepair-system/src/main/resources && ls classrepair-system/src/main/resources
   - mvn clean package -f classrepair-dependencies/pom.xml
   - docker build -t weacsoft:latest .
-  - docker login --username=${registryu} registry.cn-hongkong.aliyuncs.com --password=${registryp}
-  - docker tag weacsoft:latest  registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair
-  - docker push registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair:latest
-  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker login --username=${registryu} registry.cn-hongkong.aliyuncs.com --password=${registryp}'
+  - docker login --username=${registryu} registry.ap-northeast-1.aliyuncs.com --password=${registryp}
+  - docker tag weacsoft:latest  registry.ap-northeast-1.aliyuncs.com/greenhathg/classrepair
+  - docker push registry.ap-northeast-1.aliyuncs.com/greenhathg/classrepair:latest
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'cd /home/room/classrepair-java && docker-compose down'
-  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker rmi  registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair:latest'
-  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker pull  registry.cn-hongkong.aliyuncs.com/greenhathg/classrepair:latest'
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker rmi  registry.ap-northeast-1.aliyuncs.com/greenhathg/classrepair:latest'
+  - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'docker pull  registry.ap-northeast-1.aliyuncs.com/greenhathg/classrepair:latest'
   - sshpass -p ${pwd} ssh -o StrictHostKeyChecking=no ${user}@${ip}  'cd /home/room/classrepair-java && docker-compose up -d'
 
 branches:
