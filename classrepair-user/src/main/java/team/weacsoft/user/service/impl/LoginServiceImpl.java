@@ -1,20 +1,22 @@
 package team.weacsoft.user.service.impl;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.persistence.Admin;
 import team.weacsoft.common.utils.Argon2Util;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
+import team.weacsoft.common.wx.WxMaConfiguration;
 import team.weacsoft.user.dto.reponse.WebLoginResp;
 import team.weacsoft.user.dto.reponse.WxLoginResp;
 import team.weacsoft.user.dto.request.WebLoginDto;
@@ -43,15 +45,15 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
     @Override
     public WxLoginResp wxLogin(WxLoginDto wxLoginDto) {
         WxMaJscode2SessionResult session = null;
-//        try{
-//            //请求auth.code2Session
-//            session = WxMaConfiguration.getWxMaService().getUserService().getSessionInfo(wxLoginDto.getCode());
-//        }catch (WxErrorException e){
-//            throw new BadRequestException(40000, e.getMessage());
-//        }
-        session = new WxMaJscode2SessionResult();
-        session.setOpenid(RandomUtil.randomString(20));
-        session.setSessionKey(RandomUtil.randomString(22));
+        try{
+            //请求auth.code2Session
+            session = WxMaConfiguration.getWxMaService().getUserService().getSessionInfo(wxLoginDto.getCode());
+        }catch (WxErrorException e){
+            throw new BadRequestException(40000, e.getMessage());
+        }
+//        session = new WxMaJscode2SessionResult();
+//        session.setOpenid(RandomUtil.randomString(20));
+//        session.setSessionKey(RandomUtil.randomString(22));
 
         UserInfo userInfo = getOne(new QueryWrapper<UserInfo>().eq("openid", session.getOpenid()));
         //数据库中还没有该人
