@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class QaTypeAnswer {
-    private Integer qaAnswerId;
+    private Integer questionid;
     @NotNull
     private Integer qaTypeId;
     @NotNull

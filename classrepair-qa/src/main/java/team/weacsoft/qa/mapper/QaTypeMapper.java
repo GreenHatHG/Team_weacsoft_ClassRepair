@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface QaTypeMapper extends BaseMapper<QaType> {
 
-    @Select("SELECT qa.id as qa_answer_id, qa.qa_type_id, qa.answer_private, qa.answer_public, qa.good_num, qa.question, qa.sort" +
+    @Select("SELECT qa.id as questionid, qa.qa_type_id, qa.answer_private, qa.answer_public, qa.good_num, qa.question, qa.sort" +
             " FROM qa_type qt LEFT JOIN qa_answer qa ON qt.id = qa.qa_type_id" +
             " where qt.id = #{id}")
     List<QaTypeAnswer> getQaTypeAnswerById(@Param("id")Integer qaTypeId);
