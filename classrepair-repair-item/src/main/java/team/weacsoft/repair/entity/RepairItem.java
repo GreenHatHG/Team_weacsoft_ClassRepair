@@ -44,8 +44,7 @@ public class RepairItem extends BaseEntity {
     /**
      * 故障设备
      */
-    @NotBlank
-    @Size(max = 100)
+    @NotNull
     private Integer equipmentType;
 
     /**
