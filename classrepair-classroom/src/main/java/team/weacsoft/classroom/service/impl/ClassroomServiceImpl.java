@@ -1,12 +1,13 @@
 package team.weacsoft.classroom.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import team.weacsoft.classroom.entity.Classroom;
 import team.weacsoft.classroom.mapper.ClassroomMapper;
 import team.weacsoft.classroom.service.IClassroomService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.EntityNotFoundException;
 
 import java.io.Serializable;
@@ -24,6 +25,7 @@ import java.util.*;
 public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom> implements IClassroomService {
 
     @Override
+    @Cacheable(cacheNames = "classrooms")
     public List<Map<String, Object>> getClassRooms() {
         List<Classroom> classRooms = list();
 
