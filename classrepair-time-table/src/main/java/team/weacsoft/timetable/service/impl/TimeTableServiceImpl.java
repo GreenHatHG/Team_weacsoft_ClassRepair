@@ -1,6 +1,7 @@
 package team.weacsoft.timetable.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,8 +60,10 @@ public class TimeTableServiceImpl extends ServiceImpl<TimeTableMapper, TimeTable
 
     @Override
     public String getMyState(HttpServletRequest request) {
-        TimeTable timeTable = getOne(new QueryWrapper<TimeTable>().eq("user_id", JwtUtil.getIdFromRequest(request))
-                                .groupBy("id").having("max(create_time)"));
-        return timeTable == null || timeTable.getState() == 2 ? "未签到" : "已签到";
+        TimeTable timeTable = getOne(Wrappers.<TimeTable>lambdaQuery()
+                                    .eq(TimeTable::getUserId, JwtUtil.getIdFromRequest(request))
+                                    .orderByDesc(TimeTable::getCreateTime)
+                                    .last("limit 1").select(TimeTable::getCreateTime, TimeTable::getState));
+        return timeTable != null && timeTable.getState() == 1 ? "已签到" : "未签到";
     }
 }
