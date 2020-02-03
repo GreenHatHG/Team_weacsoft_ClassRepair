@@ -3,6 +3,7 @@ package team.weacsoft.repair.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import team.weacsoft.common.persistence.PageRequest;
+import team.weacsoft.repair.dto.reponse.GetAllMissedOrderDto;
 import team.weacsoft.repair.entity.RepairItem;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ public interface IRepairItemStateService extends IService<RepairItem> {
     /**
      * 获取所有的未接订单
      */
-    Page<RepairItem> getAllMissedOrder(PageRequest pageRequest);
+    Page<GetAllMissedOrderDto> getAllMissedOrder(PageRequest pageRequest);
 
     /**
      * 获得我的所有未处理订单

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
+import team.weacsoft.repair.dto.reponse.GetAllMissedOrderDto;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.mapper.RepairItemMapper;
 import team.weacsoft.repair.service.IRepairItemStateService;
@@ -19,12 +20,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Service
-public class RepairItemStateService extends ServiceImpl<RepairItemMapper, RepairItem> implements IRepairItemStateService {
+public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, RepairItem> implements IRepairItemStateService {
 
     @Override
-    public Page<RepairItem> getAllMissedOrder(PageRequest pageRequest) {
-        return page(PageUtil.getPage(pageRequest),
-                new QueryWrapper<RepairItem>().eq("state", 1));
+    public Page<GetAllMissedOrderDto> getAllMissedOrder(PageRequest pageRequest) {
+        return (Page<GetAllMissedOrderDto>) baseMapper.getAllMissedOrder(PageUtil.getPage(pageRequest));
     }
 
     @Override
