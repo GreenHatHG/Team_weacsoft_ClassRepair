@@ -6,15 +6,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * @author GreenHatHG
@@ -43,31 +40,30 @@ public class RepairItemStateController {
     }
 
     /**
-     * 获得我的所有未处理订单
+     * 管理员-我的待处理订单
      */
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @GetMapping("/my/missed_orders")
     public ResponseEntity<ApiResp> getMyAllMissedOrders(PageRequest pageRequest, HttpServletRequest request){
         return ApiResp.ok(repairItemStateService.getMyAllMissedOrders(pageRequest, request));
     }
 
     /**
-     * 获得我的所有已处理订单
+     * 管理员-我的所有已处理订单
      */
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @GetMapping("/my/processed_orders")
     public ResponseEntity<ApiResp> getMyAllProcessedOrders(PageRequest pageRequest, HttpServletRequest request){
         return ApiResp.ok(repairItemStateService.getMyAllProcessedOrders(pageRequest, request));
     }
 
     /**
-     * 获得他人所有未处理订单
+     * 管理员-他人待处理订单
      */
     @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @GetMapping("/id/missed_orders")
-    public ResponseEntity<ApiResp> getAllMissedOrdersById(@RequestParam @NotBlank @Size(max = 100)String id,
-                                                          PageRequest pageRequest){
-        return ApiResp.ok(repairItemStateService.getAllMissedOrdersById(pageRequest, id));
+    public ResponseEntity<ApiResp> getAllMissedOrdersById(PageRequest pageRequest, HttpServletRequest request){
+        return ApiResp.ok(repairItemStateService.getOtherAllMissedOrders(pageRequest, request));
     }
 
     /**
@@ -75,8 +71,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @GetMapping("/id/processed_orders")
-    public ResponseEntity<ApiResp> getAllProcessedOrdersById(@RequestParam @NotBlank @Size(max = 100) String id,
-                                                             PageRequest pageRequest){
-        return ApiResp.ok(repairItemStateService.getAllProcessedOrdersById(pageRequest, id));
+    public ResponseEntity<ApiResp> getAllProcessedOrdersById(PageRequest pageRequest, HttpServletRequest request){
+        return ApiResp.ok(repairItemStateService.getOtherAllProcessedOrders(pageRequest, request));
     }
 }

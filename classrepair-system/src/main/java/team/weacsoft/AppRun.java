@@ -9,8 +9,9 @@ import org.springframework.cache.annotation.EnableCaching;
  * @author GreenHatHG
  */
 @SpringBootApplication
-@MapperScan("team.*.mapper")
+@MapperScan("team.weacsoft.*.mapper")
 @EnableCaching
+
 public class AppRun {
     public static void main(String[] args) {
         SpringApplication.run(AppRun.class, args);

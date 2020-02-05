@@ -44,7 +44,7 @@ public class InvitationController {
     /**
      * 根据邀请码提权
      */
-    @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('1', '2')")
     @Log(module = "邀请码管理", operation = "根据邀请码提权")
     @PostMapping("/actions/update_role")
     public ResponseEntity<ApiResp> updateRoleByCode(HttpServletRequest request,

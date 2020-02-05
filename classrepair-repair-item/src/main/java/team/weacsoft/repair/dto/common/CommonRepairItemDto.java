@@ -1,4 +1,4 @@
-package team.weacsoft.repair.dto.reponse;
+package team.weacsoft.repair.dto.common;
 
 import lombok.Data;
 
@@ -10,13 +10,15 @@ import java.io.Serializable;
  */
 
 @Data
-public class GetAllMissedOrderDto implements Serializable {
+public class CommonRepairItemDto implements Serializable {
     private Long createTime;
     private Long updateTime;
     private String classroom;
     private String problem;
     private String repairItemId;
     private Integer orderer;
-    private String name;
+    private String ordererName = "";
+    private Integer receiver;
+    private String receiverName = "";
     private String title;
 }
