@@ -42,7 +42,7 @@ public class FeaturesController {
     /**
      * 获取邀请码功能状态
      */
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
     @GetMapping("/invitation/state")
     public ResponseEntity<ApiResp> getInvitationState(){
         return ApiResp.ok(FeaturesService.isOpen());

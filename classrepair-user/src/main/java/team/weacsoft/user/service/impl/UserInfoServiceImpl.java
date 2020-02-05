@@ -10,6 +10,7 @@ import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.persistence.PageRequest;
+import team.weacsoft.common.utils.Argon2Util;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
@@ -89,6 +90,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public BaseResp updateUserInfo(HttpServletRequest request, UpdateUserInfoDto dto) {
         UserInfo userInfo = getById(dto.getId());
         BeanUtils.copyProperties(dto, userInfo);
+        userInfo.setPassword(Argon2Util.hash(userInfo.getPassword()));
         updateById(userInfo);
         //重新查询检查数据库中数据是否正确
         userInfo = getById(dto.getId());

@@ -32,4 +32,7 @@ public class UpdateUserInfoDto {
     private String nickName;
 
     private Long identityId;
+
+    @Size(max = 100)
+    private String password;
 }
