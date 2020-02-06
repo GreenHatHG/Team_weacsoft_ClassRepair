@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
-import team.weacsoft.repair.dto.request.SearchRepairItemDto;
 import team.weacsoft.repair.entity.RepairItem;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,5 +46,6 @@ public interface IRepairItemStateService extends IService<RepairItem> {
     /**
      * 模糊搜索订单
      */
-    Page<CommonRepairItemDto> searchRepairItem(SearchRepairItemDto dto);
+    Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId,
+                                                String ordererName, Integer receiverIdentityId);
 }

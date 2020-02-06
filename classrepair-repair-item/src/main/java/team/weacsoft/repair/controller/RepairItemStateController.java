@@ -6,12 +6,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Size;
 
 /**
  * @author GreenHatHG
@@ -73,5 +75,17 @@ public class RepairItemStateController {
     @GetMapping("/id/processed_orders")
     public ResponseEntity<ApiResp> getAllProcessedOrdersById(PageRequest pageRequest, HttpServletRequest request){
         return ApiResp.ok(repairItemStateService.getOtherAllProcessedOrders(pageRequest, request));
+    }
+
+    /**
+     * 模糊搜索订单，订单号||下单人名字||接单人学号
+     */
+    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @GetMapping("/actions/search")
+    public ResponseEntity<ApiResp> searchRepairItem(PageRequest pageRequest,
+                                                    @RequestParam(value = "repair_item_id", required = false) @Size(max=100) String repairItemId,
+                                                    @RequestParam(value = "orderer_name", required = false) @Size(max=100)String ordererName,
+                                                    @RequestParam(value = "receiver_identity_id", required = false) Integer receiverIdentityId){
+        return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, repairItemId, ordererName, receiverIdentityId));
     }
 }

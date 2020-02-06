@@ -39,6 +39,15 @@
 
     <select id="searchRepairItem" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
-
+        WHERE 1 != 1
+        <if test="repairItemId != null">
+            or ri.repair_item_id like CONCAT(CONCAT('%',#{repairItemId}),'%')
+        </if>
+        <if test="ordererName != null">
+            or u2.name like CONCAT(CONCAT('%',#{ordererName}),'%')
+        </if>
+        <if test="receiverIdentityId != null">
+            or u1.identity_id like CONCAT(CONCAT('%',#{receiverIdentityId}),'%')
+        </if>
     </select>
 </mapper>

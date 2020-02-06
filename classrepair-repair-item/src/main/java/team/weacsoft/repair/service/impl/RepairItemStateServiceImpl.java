@@ -7,7 +7,6 @@ import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
-import team.weacsoft.repair.dto.request.SearchRepairItemDto;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.mapper.RepairItemMapper;
 import team.weacsoft.repair.service.IRepairItemStateService;
@@ -53,8 +52,8 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
     }
 
     @Override
-    public Page<CommonRepairItemDto> searchRepairItem(SearchRepairItemDto dto) {
-        return null;
+    public Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId, String ordererName, Integer receiverIdentityId) {
+        return (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), repairItemId, ordererName, receiverIdentityId);
     }
 
 
