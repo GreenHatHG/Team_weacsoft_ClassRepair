@@ -41,13 +41,14 @@ public interface IUserInfoService extends IService<UserInfo> {
     Page<UserInfo> getUserInfoByField(String field, String value, PageRequest pageRequest, HttpServletRequest request);
 
     /**
-     * 修改用户信息，注意防止恶意修改密码，openId等字段
-     * @param request
-     * @param dto
-     * @return
+     * 修改用户自己信息，注意防止恶意修改密码，openId等字段
      */
-    BaseResp updateUserInfo(HttpServletRequest request, UpdateUserInfoDto dto);
+    BaseResp updateMyUserInfo(HttpServletRequest request, UpdateUserInfoDto dto);
 
+    /**
+     * 修改别人的用户信息
+     */
+    BaseResp updateOtherUserInfo(Integer id, UpdateUserInfoDto dto);
     /**
      * 分页获取用户列表
      * @return

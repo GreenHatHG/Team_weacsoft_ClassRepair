@@ -1,11 +1,14 @@
 package team.weacsoft.user.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.exception.UnauthorizedException;
@@ -28,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author GreenHatHG
  * @since 2020-01-25
  */
+
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService {
 
@@ -57,6 +61,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         return resp;
     }
 
+    @Transactional
     @Override
     public UpdateRoleDto updateRoleById(String id, Integer role) {
         UserInfo userInfo = getById(id);
@@ -87,13 +92,33 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     }
 
     @Override
-    public BaseResp updateUserInfo(HttpServletRequest request, UpdateUserInfoDto dto) {
-        UserInfo userInfo = getById(dto.getId());
-        BeanUtils.copyProperties(dto, userInfo);
-        userInfo.setPassword(Argon2Util.hash(userInfo.getPassword()));
+    public BaseResp updateMyUserInfo(HttpServletRequest request, UpdateUserInfoDto dto) {
+        return updateUserInfo(null, request, dto);
+    }
+
+    @Override
+    public BaseResp updateOtherUserInfo(Integer id, UpdateUserInfoDto dto) {
+        return updateUserInfo(id, null, dto);
+    }
+
+    @Transactional
+    public BaseResp updateUserInfo(Integer id, HttpServletRequest request, UpdateUserInfoDto dto) {
+        if(dto.getPassword() != null){
+            dto.setPassword(Argon2Util.hash(dto.getPassword()));
+        }
+        UserInfo userInfo;
+        if(id != null){
+            userInfo = getById(id);
+            if(userInfo == null){
+                throw new EntityNotFoundException("user_info", "id", id.toString());
+            }
+        }else{
+            userInfo = getById(JwtUtil.getIdFromRequest(request));
+        }
+        BeanUtil.copyProperties(dto, userInfo, CopyOptions.create().setIgnoreNullValue(true));
         updateById(userInfo);
         //重新查询检查数据库中数据是否正确
-        userInfo = getById(dto.getId());
+        userInfo = getById(userInfo.getId());
         return (BaseResp) JsonUtil.getCopyDto(userInfo, new BaseResp());
     }
 

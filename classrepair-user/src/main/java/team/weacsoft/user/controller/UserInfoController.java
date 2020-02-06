@@ -67,15 +67,25 @@ public class UserInfoController {
     }
 
     /**
-     * 修改用户信息
+     * 修改用户自己的信息
      * @param dto 要修改的信息，不需要修改的字段留空
      */
-    @Log(module = "用户管理", operation = "修改用户信息")
+    @Log(module = "用户管理", operation = "修改自己的用户信息")
     @PutMapping("/actions/update_info")
     @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
-    public ResponseEntity<ApiResp> updateUserInfo(HttpServletRequest request,
+    public ResponseEntity<ApiResp> updateMyUserInfo(HttpServletRequest request,
             @Validated @RequestBody UpdateUserInfoDto dto){
-        return ApiResp.ok(userInfoService.updateUserInfo(request, dto));
+        return ApiResp.ok(userInfoService.updateMyUserInfo(request, dto));
+    }
+
+    /**
+     * 根据id修改用户信息
+     */
+    @Log(module = "用户管理", operation = "根据id修改用户信息")
+    @PutMapping("/actions/update_info_id")
+    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    public ResponseEntity<ApiResp> updateOtherUserInfo(@NotNull Integer id, @Validated @RequestBody UpdateUserInfoDto dto){
+        return ApiResp.ok(userInfoService.updateOtherUserInfo(id, dto));
     }
 
     /**
