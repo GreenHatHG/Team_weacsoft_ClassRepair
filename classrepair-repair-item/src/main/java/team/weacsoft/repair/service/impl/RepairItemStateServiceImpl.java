@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
-import team.weacsoft.repair.dto.common.CommonRepairItemDto;
+import team.weacsoft.repair.dto.request.CommonRepairItemDto;
+import team.weacsoft.repair.dto.request.SearchRepairItemDto;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.mapper.RepairItemMapper;
 import team.weacsoft.repair.service.IRepairItemStateService;
@@ -49,6 +50,11 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
     public Page<CommonRepairItemDto> getOtherAllProcessedOrders(PageRequest pageRequest, HttpServletRequest request) {
         return (Page<CommonRepairItemDto>) baseMapper.getRepairItemByState(PageUtil.getPage(pageRequest),
                 null, 3, JwtUtil.getIdFromRequest(request));
+    }
+
+    @Override
+    public Page<CommonRepairItemDto> searchRepairItem(SearchRepairItemDto dto) {
+        return null;
     }
 
 

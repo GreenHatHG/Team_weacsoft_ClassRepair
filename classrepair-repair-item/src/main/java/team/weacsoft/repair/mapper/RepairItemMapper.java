@@ -3,7 +3,7 @@ package team.weacsoft.repair.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.poi.ss.formula.functions.T;
-import team.weacsoft.repair.dto.common.CommonRepairItemDto;
+import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.entity.RepairItem;
 
 /**
