@@ -78,6 +78,24 @@ public class RepairItemStateController {
     }
 
     /**
+     * 用户侧-获取我的待处理订单
+     */
+    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @GetMapping("/user/missed_orders")
+    public ResponseEntity<ApiResp> getUserAllMissedOrders(PageRequest pageRequest, HttpServletRequest request){
+        return ApiResp.ok(repairItemStateService.getUserAllMissedOrders(pageRequest, request));
+    }
+
+    /**
+     * 用户侧-获取我的所有报修单
+     */
+    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @GetMapping("/user/orders")
+    public ResponseEntity<ApiResp> getUserAllOrders(PageRequest pageRequest, HttpServletRequest request){
+        return ApiResp.ok(repairItemStateService.getUserAllOrders(pageRequest, request));
+    }
+
+    /**
      * 模糊搜索订单，订单号||下单人名字||接单人学号
      */
     @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")

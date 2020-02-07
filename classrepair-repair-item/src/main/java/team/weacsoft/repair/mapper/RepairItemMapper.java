@@ -19,6 +19,8 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
     IPage<CommonRepairItemDto> getRepairItemByState(IPage<T> page, String receiver, Integer state,
                                                         String neReceiver);
 
+    IPage<CommonRepairItemDto> getUserRepairItem(IPage<T> page, String orderer, Integer state);
+
     /**
      * 模糊搜索订单，订单号||下单人名字||接单人学号
      */

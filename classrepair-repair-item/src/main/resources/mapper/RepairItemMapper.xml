@@ -37,6 +37,14 @@
         </if>
     </select>
 
+    <select id="getUserRepairItem" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">
+        <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
+        WHERE ri.orderer = #{orderer}
+        <if test="state != null">
+            and ri.state = #{state}
+        </if>
+    </select>
+
     <select id="searchRepairItem" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
         WHERE 1 != 1
