@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.UnauthorizedException;
@@ -39,12 +38,9 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
         this.admin = admin;
     }
 
-    @Value("${classrepair.web.login}")
-    private String webLoginPwd;
-
     @Override
     public WxLoginResp wxLogin(WxLoginDto wxLoginDto) {
-        WxMaJscode2SessionResult session = null;
+        WxMaJscode2SessionResult session;
         try{
             //请求auth.code2Session
             session = WxMaConfiguration.getWxMaService().getUserService().getSessionInfo(wxLoginDto.getCode());
@@ -77,14 +73,14 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
         //超级管理员
         if(StringUtils.equals(String.valueOf(dto.getAccount()), admin.getRootIdentityId())) {
             userInfo = this.getById(admin.getRootId());
-            if(userInfo == null || !Argon2Util.verify(userInfo.getPassword(), dto.getPwd())){
-                throw new UnauthorizedException("账号或者密码不正确");
-            }
         }else {
             userInfo = getOne(new QueryWrapper<UserInfo>().eq("identity_id", dto.getAccount()));
-            if(userInfo == null || !StringUtils.equals(webLoginPwd, dto.getPwd())){
-                throw new UnauthorizedException("账号或者密码不正确");
-            }
+        }
+        if(userInfo == null || !Argon2Util.verify(userInfo.getPassword(), dto.getPwd())){
+            throw new UnauthorizedException("账号或者密码不正确");
+        }
+        if(userInfo.getRole() < 2){
+            throw new UnauthorizedException("权限不足");
         }
         MDC.put("userTableId", String.valueOf(userInfo.getId()));
         return WebLoginResp.builder().token(JwtUtil.responseJwt(String.valueOf(userInfo.getId()))).build();

@@ -8,11 +8,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
+import team.weacsoft.invitation.dto.request.UpdateRoleByCodeDto;
 import team.weacsoft.invitation.service.InvitationService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * @author GreenHatHG
@@ -44,11 +43,11 @@ public class InvitationController {
     /**
      * 根据邀请码提权
      */
-    @PreAuthorize("hasAnyRole('1', '2')")
+    @PreAuthorize("hasAnyRole('1')")
     @Log(module = "邀请码管理", operation = "根据邀请码提权")
     @PostMapping("/actions/update_role")
     public ResponseEntity<ApiResp> updateRoleByCode(HttpServletRequest request,
-                                                    @RequestParam @NotBlank @Size(max = 100) String code){
-        return ApiResp.ok(invitationService.updtaeRoleByCode(code, request));
+                                                    @Validated @RequestBody UpdateRoleByCodeDto dto){
+        return ApiResp.ok(invitationService.updtaeRoleByCode(dto, request));
     }
 }

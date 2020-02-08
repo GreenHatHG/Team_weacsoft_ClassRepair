@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.BadRequestException;
+import team.weacsoft.common.utils.Argon2Util;
+import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
+import team.weacsoft.invitation.dto.request.UpdateRoleByCodeDto;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
+import team.weacsoft.user.entity.UserInfo;
 import team.weacsoft.user.service.IUserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,13 +59,18 @@ public class InvitationService {
         return ImmutableMap.<String, String> builder().put("code", code).build();
     }
 
-    public UpdateRoleDto updtaeRoleByCode(String code, HttpServletRequest request) {
+    public UpdateRoleDto updtaeRoleByCode(UpdateRoleByCodeDto dto, HttpServletRequest request) {
         String id = JwtUtil.getIdFromRequest(request);
+        UserInfo userInfo = userInfoService.getById(id);
+
         String redisCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY);
-        if (redisCode != null && StringUtils.equals(code, redisCode)) {
-            return userInfoService.updateRoleById(id, 2);
+        if (StringUtils.equals(dto.getCode(), redisCode)) {
+            userInfo.setRole(2);
+            userInfo.setPassword(Argon2Util.hash(dto.getPassword()));
+            userInfoService.updateById(userInfo);
+            return (UpdateRoleDto) JsonUtil.getCopyDto(userInfoService.getById(id), new UpdateRoleDto());
         } else {
-            throw new BadRequestException(478, "邀请码无效或已过期");
+            throw new BadRequestException(40099, "邀请码无效或已过期");
         }
     }
 }
