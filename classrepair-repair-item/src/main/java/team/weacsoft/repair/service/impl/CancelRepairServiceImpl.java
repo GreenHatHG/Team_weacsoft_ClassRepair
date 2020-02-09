@@ -37,6 +37,9 @@ public class CancelRepairServiceImpl extends BaseUpdateRepairItemService {
     @Override
     protected void sendMessage(RepairItem repairItem, UserInfo userInfo) {
         sendMessage(repairItem, userInfo.getOpenid(), "已取消", "取消者："+userInfo.getName());
-        sendMessage(repairItem, userInfoService.getById(repairItem.getReceiver()).getOpenid(), "已取消", "取消者："+userInfo.getName());
+        UserInfo receiver = userInfoService.getById(repairItem.getReceiver());
+        if(receiver != null){
+            sendMessage(repairItem, receiver.getOpenid(), "已取消", "取消者："+userInfo.getName());
+        }
     }
 }

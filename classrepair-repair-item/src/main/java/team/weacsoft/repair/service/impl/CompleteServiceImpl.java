@@ -33,5 +33,4 @@ public class CompleteServiceImpl extends BaseUpdateRepairItemService {
         sendMessage(repairItem, userInfoService.getById(repairItem.getOrderer()).getOpenid(), "已完成", "完成者：" + userInfo.getName());
     }
 
-
 }

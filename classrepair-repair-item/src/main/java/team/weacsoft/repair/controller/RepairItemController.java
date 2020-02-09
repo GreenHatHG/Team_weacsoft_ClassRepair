@@ -39,12 +39,9 @@ public class RepairItemController {
         }
     }
 
-
-
     /**
      * 维修人员接单
      * @param repairItemId 订单号
-     * @return
      */
     @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @Log(module = "订单管理", operation = "维修人员接单")
@@ -57,20 +54,18 @@ public class RepairItemController {
     /**
      * 取消报修
      * @param repairItemId 订单号
-     * @return
      */
     @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
     @Log(module = "订单管理", operation = "取消报修")
     @PutMapping("/actions/cancel_repair")
     public ResponseEntity<ApiResp> cancelRepair(@RequestParam(name = "repair_item_id") @NotBlank @Size(max = 100) String repairItemId,
                                                 HttpServletRequest request){
-        return ApiResp.ok(map.get("CancelRapir").getRepairItem(repairItemId, request));
+        return ApiResp.ok(map.get("CancelRepair").getRepairItem(repairItemId, request));
     }
 
     /**
      * 维护人员取消接单
      * @param repairItemId 订单号
-     * @return
      */
     @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @Log(module = "订单管理", operation = "维护人员取消接单")
@@ -83,7 +78,6 @@ public class RepairItemController {
     /**
      * 完成报修
      * @param repairItemId 订单号
-     * @return
      */
     @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @Log(module = "订单管理", operation = "完成报修")
