@@ -45,7 +45,7 @@ public class RepairItemController {
      */
     @PreAuthorize("hasAnyRole('2', '3', '4', '5')")
     @Log(module = "订单管理", operation = "维修人员接单")
-    @PostMapping("/actions/order")
+    @PutMapping("/actions/order")
     public ResponseEntity<ApiResp> receive(@RequestParam(name = "repair_item_id") @NotBlank @Size(max = 100) String repairItemId,
                                          HttpServletRequest request){
         return ApiResp.ok(map.get("Receive").getRepairItem(repairItemId, request));

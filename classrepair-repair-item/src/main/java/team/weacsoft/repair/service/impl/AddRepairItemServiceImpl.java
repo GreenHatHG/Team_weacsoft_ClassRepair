@@ -29,7 +29,7 @@ public class AddRepairItemServiceImpl extends BaseRepairItemService {
         repairItem.setRepairItemId(getRepairItemId());
         repairItem.setOrderer(userInfo.getId());
         if(repairItem.getOrdererPhone() == null){
-            repairItem.setOrdererPhone(userInfo.getPhone() == null ? "" : userInfo.getPhone());
+            repairItem.setOrdererPhone(userInfo.getPhone());
         }
         this.save(repairItem);
         sendMessage(repairItem, userInfo.getOpenid(), "已下单", "无");
