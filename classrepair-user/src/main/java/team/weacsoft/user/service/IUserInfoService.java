@@ -3,10 +3,10 @@ package team.weacsoft.user.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import team.weacsoft.common.persistence.PageRequest;
-import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
 import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
+import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author GreenHatHG
  * @since 2020-01-25
  */
+
 public interface IUserInfoService extends IService<UserInfo> {
 
     /**

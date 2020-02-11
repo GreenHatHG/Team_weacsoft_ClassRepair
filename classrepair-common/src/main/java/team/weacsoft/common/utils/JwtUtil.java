@@ -1,7 +1,7 @@
 package team.weacsoft.common.utils;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author GreenHatHG
@@ -47,28 +45,20 @@ public class JwtUtil {
      * @param id 用户表id
      * @return jwt字符串
      */
-    public static String responseJwt(String id){
-        //ObjectId是MongoDB数据库的一种唯一ID生成策略
-        String key = Argon2Util.hash(IdUtil.objectId());
-        stringRedisTemplate.opsForValue()
-                .set(REDIS_JWT_KEY_PREFIX + id, key, EXPIRE_TIME, TimeUnit.MILLISECONDS);
+    public static String responseJwt(String id, String userPwd){
         return JWT.create()
                 .withClaim("id", id)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRE_TIME))
-                .sign(Algorithm.HMAC256(key));
+                .sign(Algorithm.HMAC256(SecureUtil.sha256(userPwd)));
     }
 
     /**
      * 校验token是否正确
-     * @param token
-     * @param id
-     * @return
      */
-    public static boolean verify(String token, String id) {
+    public static boolean verify(String token, String id, String userPwd) {
         try {
             //对秘钥进行加密后再与用户名混淆在一起
-            Algorithm algorithm = Algorithm.HMAC256(
-                    Objects.requireNonNull(stringRedisTemplate.opsForValue().get(REDIS_JWT_KEY_PREFIX + id)));
+            Algorithm algorithm = Algorithm.HMAC256(SecureUtil.sha256(userPwd));
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim("id", id)
                     .build();
@@ -105,6 +95,15 @@ public class JwtUtil {
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getClaim("id").asString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String getTypeFromJwt(String token){
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("type").asString();
         } catch (Exception e) {
             return null;
         }

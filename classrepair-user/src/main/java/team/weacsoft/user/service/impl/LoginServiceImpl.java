@@ -47,9 +47,6 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
         }catch (WxErrorException e){
             throw new BadRequestException(40000, e.getMessage());
         }
-//        session = new WxMaJscode2SessionResult();
-//        session.setOpenid(RandomUtil.randomString(20));
-//        session.setSessionKey(RandomUtil.randomString(22));
 
         UserInfo userInfo = getOne(new QueryWrapper<UserInfo>().eq("openid", session.getOpenid()));
         //数据库中还没有该人
@@ -63,7 +60,7 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
         }
         MDC.put("userTableId", String.valueOf(userInfo.getId()));
         WxLoginResp wxLoginResp = (WxLoginResp) JsonUtil.getCopyDto(userInfo, new WxLoginResp());
-        wxLoginResp.setToken(JwtUtil.responseJwt(String.valueOf(userInfo.getId())));
+        wxLoginResp.setToken(JwtUtil.responseJwt(String.valueOf(userInfo.getId()), userInfo.getPassword()));
         return wxLoginResp;
     }
 
@@ -83,7 +80,7 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
             throw new UnauthorizedException("权限不足");
         }
         MDC.put("userTableId", String.valueOf(userInfo.getId()));
-        return WebLoginResp.builder().token(JwtUtil.responseJwt(String.valueOf(userInfo.getId()))).build();
+        return WebLoginResp.builder().token(JwtUtil.responseJwt(String.valueOf(userInfo.getId()), userInfo.getPassword())).build();
     }
 
 }
