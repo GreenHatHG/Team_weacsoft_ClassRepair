@@ -6,6 +6,7 @@ import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
 import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
+import team.weacsoft.user.dto.request.GetPhoneDto;
 import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
 
@@ -52,7 +53,11 @@ public interface IUserInfoService extends IService<UserInfo> {
     BaseResp updateOtherUserInfo(Integer id, UpdateUserInfoDto dto);
     /**
      * 分页获取用户列表
-     * @return
      */
     Page<UserInfo> getUserList(PageRequest pageRequest);
+
+    /**
+     * 获取用户手机号
+     */
+    void getPhone(GetPhoneDto dto);
 }

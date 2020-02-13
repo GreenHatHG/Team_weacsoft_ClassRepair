@@ -10,6 +10,7 @@ import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.user.dto.request.FieldDtoEnum;
+import team.weacsoft.user.dto.request.GetPhoneDto;
 import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.service.IUserInfoService;
 
@@ -97,4 +98,8 @@ public class UserInfoController {
         return ApiResp.ok(userInfoService.getUserList(page));
     }
 
+    @PostMapping("/actions/get_phone")
+    public ResponseEntity<ApiResp> getPhone(@Validated @RequestBody GetPhoneDto dto){
+        return null;
+    }
 }

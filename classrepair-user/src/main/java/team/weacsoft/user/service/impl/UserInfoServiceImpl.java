@@ -20,6 +20,7 @@ import team.weacsoft.common.utils.PageUtil;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
 import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
+import team.weacsoft.user.dto.request.GetPhoneDto;
 import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
 import team.weacsoft.user.mapper.UserInfoMapper;
@@ -127,6 +128,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         return page(PageUtil.getPage(pageRequest),
                 new QueryWrapper<UserInfo>().eq("delete_time", 0L)
                         .eq("state", 1).ne("role", 5));
+    }
+
+    @Override
+    public void getPhone(GetPhoneDto dto) {
+//        WxMaConfiguration.getWxMaService().getUserService().getPhoneNoInfo();
     }
 
 }

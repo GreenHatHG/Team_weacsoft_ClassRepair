@@ -25,7 +25,7 @@ import java.util.*;
 public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom> implements IClassroomService {
 
     @Override
-    @Cacheable(cacheNames = "classrooms")
+    @Cacheable(cacheNames = "classroom", key="getClassRooms", unless = "#result == null || #result.size() <= 0")
     public List<Map<String, Object>> getClassRooms() {
         List<Classroom> classRooms = list();
 
@@ -72,9 +72,9 @@ public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom
     }
 
     private static class Resp implements Serializable {
-        String build = null;
-        Set<String> layer = null;
-        MultiValueMap<String, String> room = null;
+        String build;
+        Set<String> layer;
+        MultiValueMap<String, String> room;
 
         Resp(String build){
             this.build = build;
