@@ -1,4 +1,4 @@
-package team.weacsoft.repair.controller;
+package team.weacsoft.repair.controller1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +21,14 @@ import javax.validation.constraints.Size;
  */
 
 @RestController
-@RequestMapping(value="/repair_item")
+@RequestMapping(value="/api/v1/repair_item")
 @Validated
-public class RepairItemStateController {
+public class RepairItemStateController1 {
 
     private IRepairItemStateService repairItemStateService;
 
     @Autowired
-    public RepairItemStateController(IRepairItemStateService repairItemStateService) {
+    public RepairItemStateController1(IRepairItemStateService repairItemStateService) {
         this.repairItemStateService = repairItemStateService;
     }
 

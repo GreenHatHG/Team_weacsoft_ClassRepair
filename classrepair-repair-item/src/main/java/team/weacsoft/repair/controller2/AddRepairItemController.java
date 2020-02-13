@@ -1,4 +1,4 @@
-package team.weacsoft.repair.controller;
+package team.weacsoft.repair.controller2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @RestController
-@RequestMapping(value="/repair_item")
+@RequestMapping(value="/api/v2/repair_item")
 @Validated
 public class AddRepairItemController {
 
@@ -35,7 +35,7 @@ public class AddRepairItemController {
     /**
      * 用户报修
      */
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "用户增加报修单")
     @PostMapping("")
     public ResponseEntity<ApiResp> addOrderItem(@Validated @RequestBody RepairItem repairItemDto,

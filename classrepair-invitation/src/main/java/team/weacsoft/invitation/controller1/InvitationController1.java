@@ -1,4 +1,4 @@
-package team.weacsoft.invitation.controller;
+package team.weacsoft.invitation.controller1;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/invitation_code")
-public class InvitationController {
+@RequestMapping("/api/v1/invitation_code")
+public class InvitationController1 {
     private InvitationService invitationService;
 
     @Autowired
-    public InvitationController(InvitationService invitationService) {
+    public InvitationController1(InvitationService invitationService) {
         this.invitationService = invitationService;
     }
 

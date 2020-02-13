@@ -1,4 +1,4 @@
-package team.weacsoft.statistics.controller;
+package team.weacsoft.statistics.controller1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ import team.weacsoft.statistics.service.RepairItemExcelService;
  * @since 2020-01-28
  */
 @RestController
-@RequestMapping(value="/repair_item")
+@RequestMapping(value="/api/v1/repair_item")
 @Validated
-public class RepairItemExcelController {
+public class RepairItemExcelController1 {
 
     @Autowired
     private RepairItemExcelService repairItemExcelService;

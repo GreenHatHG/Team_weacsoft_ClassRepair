@@ -1,13 +1,10 @@
-package team.weacsoft.timetable.controller;
+package team.weacsoft.timetable.controller1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.timetable.service.ITimeTableService;
@@ -23,7 +20,8 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 @RestController
-public class TimeTableController {
+@RequestMapping(value="/api/v1")
+public class TimeTableController1 {
 
     @Autowired
     private ITimeTableService timeTableService;

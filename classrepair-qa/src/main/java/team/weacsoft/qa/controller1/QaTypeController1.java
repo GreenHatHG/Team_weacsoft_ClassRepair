@@ -1,4 +1,4 @@
-package team.weacsoft.qa.controller;
+package team.weacsoft.qa.controller1;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +25,13 @@ import java.util.List;
 @Validated
 @Slf4j
 @RestController
-public class QaTypeController {
+@RequestMapping("/api/v1")
+public class QaTypeController1 {
 
     private IQaTypeService qaTypeService;
 
     @Autowired
-    public QaTypeController(IQaTypeService qaTypeService) {
+    public QaTypeController1(IQaTypeService qaTypeService) {
         this.qaTypeService = qaTypeService;
     }
 

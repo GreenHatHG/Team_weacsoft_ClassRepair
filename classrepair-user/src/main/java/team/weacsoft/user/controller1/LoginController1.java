@@ -1,4 +1,4 @@
-package team.weacsoft.user.controller;
+package team.weacsoft.user.controller1;
 
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
@@ -20,12 +21,13 @@ import team.weacsoft.user.service.ILoginService;
  **/
 @RestController
 @Slf4j
-public class LoginController {
+@RequestMapping("/api/v1")
+public class LoginController1 {
 
     private ILoginService loginService;
 
     @Autowired
-    public LoginController(ILoginService loginService) {
+    public LoginController1(ILoginService loginService) {
         this.loginService = loginService;
     }
 

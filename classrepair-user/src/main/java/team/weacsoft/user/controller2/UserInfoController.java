@@ -1,4 +1,4 @@
-package team.weacsoft.user.controller;
+package team.weacsoft.user.controller2;
 
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -26,7 +26,7 @@ import javax.validation.constraints.*;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping(value="/user")
+@RequestMapping(value="/api/v2/user")
 public class UserInfoController {
     private IUserInfoService userInfoService;
 
@@ -35,7 +35,7 @@ public class UserInfoController {
         this.userInfoService = userInfoService;
     }
 
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/token/info")
     public ResponseEntity<ApiResp> getUserInfoByToken(HttpServletRequest request){
         return ApiResp.ok(userInfoService.getUserInfoByToken(request));
@@ -46,7 +46,7 @@ public class UserInfoController {
      * @param id 用户表id
      * @param role 修改后的权限，1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
      */
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "用户管理", operation = "修改用户身份")
     @PutMapping("/actions/update_role")
     public  ResponseEntity<ApiResp> updateRoleById(@RequestParam @NotBlank @Size(max = 100) String id,
@@ -61,7 +61,7 @@ public class UserInfoController {
      * @param page 分页
      */
     @GetMapping("/field")
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     public ResponseEntity<ApiResp> findByCriteria(FieldDtoEnum field,
                                                   @RequestParam @NotBlank @Size(max = 100) String value,
                                                   PageRequest page, HttpServletRequest request){
@@ -74,7 +74,7 @@ public class UserInfoController {
      */
     @Log(module = "用户管理", operation = "修改自己的用户信息")
     @PutMapping("/actions/update_info")
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     public ResponseEntity<ApiResp> updateMyUserInfo(HttpServletRequest request,
             @Validated @RequestBody UpdateUserInfoDto dto){
         return ApiResp.ok(userInfoService.updateMyUserInfo(request, dto));
@@ -85,7 +85,7 @@ public class UserInfoController {
      */
     @Log(module = "用户管理", operation = "根据id修改用户信息")
     @PutMapping("/actions/update_info_id")
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     public ResponseEntity<ApiResp> updateOtherUserInfo(@NotNull Integer id, @Validated @RequestBody UpdateUserInfoDto dto){
         return ApiResp.ok(userInfoService.updateOtherUserInfo(id, dto));
     }
@@ -94,7 +94,7 @@ public class UserInfoController {
      * 获取用户列表
      */
     @GetMapping("/userlist")
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     public ResponseEntity<ApiResp> getUserList(PageRequest page){
         return ApiResp.ok(userInfoService.getUserList(page));
     }
@@ -102,6 +102,7 @@ public class UserInfoController {
     /**
      * 解析用户手机号码
      */
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @PostMapping("/actions/get_phone")
     public ResponseEntity<ApiResp> getPhone(@Validated @RequestBody GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
         userInfoService.getPhone(dto, request);

@@ -1,10 +1,11 @@
-package team.weacsoft.classroom.controller;
+package team.weacsoft.classroom.controller2;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.classroom.service.IClassroomService;
 import team.weacsoft.common.exception.handler.ApiResp;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 @RestController
+@RequestMapping(value="/api/v2")
 public class ClassroomController {
 
     private IClassroomService classroomService;
@@ -27,7 +29,6 @@ public class ClassroomController {
         this.classroomService = classroomService;
     }
 
-    //todo 优化：不必每次都生成，可以查缓存
     /**
      * 获取课室信息
      * @return

@@ -25,7 +25,7 @@ public class FeaturesService {
         FeaturesService.open = open;
     }
 
-    @Before("execution(* team.weacsoft.invitation.controller.InvitationController.*(..))")
+    @Before("execution(* team.weacsoft.invitation.controller1.InvitationController1.*(..))")
     public void control(){
         if(!open){
             throw new BadRequestException(423, "该功能暂时无法访问");

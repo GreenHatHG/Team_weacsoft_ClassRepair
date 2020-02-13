@@ -1,4 +1,4 @@
-package team.weacsoft.repair.controller;
+package team.weacsoft.repair.controller1;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 //todo 实现幂等性
 @RestController
-@RequestMapping(value="/repair_item")
+@RequestMapping(value="/api/v1/repair_item")
 @Validated
-public class RepairItemController {
+public class RepairItemController1 {
 
     private ConcurrentHashMap<String , BaseUpdateRepairItemService> map = new ConcurrentHashMap<>();
 
     @Autowired
-    public RepairItemController(List<BaseUpdateRepairItemService> list) {
+    public RepairItemController1(List<BaseUpdateRepairItemService> list) {
         for (BaseUpdateRepairItemService base : list) {
             map.put(base.getType(), base);
         }

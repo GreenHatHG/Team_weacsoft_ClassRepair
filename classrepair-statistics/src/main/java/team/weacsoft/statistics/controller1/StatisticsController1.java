@@ -1,4 +1,4 @@
-package team.weacsoft.statistics.controller;
+package team.weacsoft.statistics.controller1;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import team.weacsoft.statistics.service.StatisticsService;
  * @since 2020-01-28
  */
 @RestController
-@RequestMapping(value="/statistics")
+@RequestMapping(value="/api/v1/statistics")
 @Validated
 @Slf4j
-public class StatisticsController {
+public class StatisticsController1 {
 
     @Autowired
     private StatisticsService statisticsService;

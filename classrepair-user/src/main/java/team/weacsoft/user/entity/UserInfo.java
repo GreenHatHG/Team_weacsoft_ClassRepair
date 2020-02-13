@@ -60,7 +60,7 @@ public class UserInfo extends BaseWxEntity {
     private String phone = "";
 
     /**
-     * 1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
+     * 1-普通人员, 4-维护人员, 5-课室团队负责人, 6-课室管理员 , 7-老师, 9-超级管理员
      */
     @Builder.Default
     private Integer role = 1;

@@ -1,9 +1,8 @@
-package team.weacsoft.qa.controller;
+package team.weacsoft.qa.controller1;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -23,13 +22,13 @@ import javax.validation.constraints.NotNull;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/qa_answer")
-public class QaAnswerController {
+@RequestMapping("/api/v1/qa_answer")
+public class QaAnswerController1 {
 
     private IQaAnswerService qaAnswerService;
 
     @Autowired
-    public QaAnswerController(IQaAnswerService qaAnswerService) {
+    public QaAnswerController1(IQaAnswerService qaAnswerService) {
         this.qaAnswerService = qaAnswerService;
     }
 

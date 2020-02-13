@@ -1,4 +1,4 @@
-package team.weacsoft.invitation.controller;
+package team.weacsoft.invitation.controller2;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +20,14 @@ import javax.validation.constraints.Min;
 @Validated
 @Slf4j
 @RestController
-@RequestMapping(value="/control")
+@RequestMapping(value="/api/v2/control")
 public class FeaturesController {
 
     /**
      * 邀请码功能开关
      * @param open 1-开启，0-关闭
      */
-    @PreAuthorize("hasAnyRole('3', '4', '5')")
+    @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @PutMapping("/invitation")
     public ResponseEntity<ApiResp> updateInvitation(@RequestParam @Min(0) @Max(1) int open){
         if(open == 0){
@@ -42,7 +42,7 @@ public class FeaturesController {
     /**
      * 获取邀请码功能状态
      */
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/invitation/state")
     public ResponseEntity<ApiResp> getInvitationState(){
         return ApiResp.ok(FeaturesService.isOpen());
