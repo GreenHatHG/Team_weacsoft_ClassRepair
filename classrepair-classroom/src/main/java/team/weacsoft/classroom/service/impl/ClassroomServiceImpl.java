@@ -25,7 +25,7 @@ import java.util.*;
 public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom> implements IClassroomService {
 
     @Override
-    @Cacheable(cacheNames = "classroom", key="getClassRooms", unless = "#result == null || #result.size() <= 0")
+    @Cacheable(cacheNames = "classroom", key="'getClassRooms'", unless = "#result == null || #result.size() <= 0")
     public List<Map<String, Object>> getClassRooms() {
         List<Classroom> classRooms = list();
 

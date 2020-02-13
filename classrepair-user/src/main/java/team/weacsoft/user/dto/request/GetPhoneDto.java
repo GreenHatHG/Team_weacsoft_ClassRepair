@@ -14,6 +14,13 @@ import javax.validation.constraints.Size;
 public class GetPhoneDto {
 
     /**
+     * 获取sessionKey
+     */
+    @NotBlank
+    @Size(max=100)
+    private String code;
+
+    /**
      * 加密算法的初始向量
      */
     @NotBlank
@@ -26,11 +33,4 @@ public class GetPhoneDto {
     @NotBlank
     @Size(max=100)
     private String encryptedData;
-
-    /**
-     * 为了获得sessionKey
-     */
-    @NotBlank
-    @Size(max=100)
-    private String code;
 }

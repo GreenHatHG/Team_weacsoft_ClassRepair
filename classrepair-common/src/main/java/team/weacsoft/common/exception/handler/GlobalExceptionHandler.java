@@ -1,6 +1,7 @@
 package team.weacsoft.common.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,13 @@ public class GlobalExceptionHandler {
         // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
         return new ResponseEntity<>(ApiResp.error(e.getStatus(),e.getMessage()), BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = WxErrorException.class)
+    public ResponseEntity<ApiResp> wxErrorException(WxErrorException e) {
+        // 打印堆栈信息
+        log.error(ThrowableUtil.getStackTrace(e));
+        return new ResponseEntity<>(ApiResp.error(40000, e.getMessage()), BAD_REQUEST);
     }
 
     @ExceptionHandler(value = NullPointerException.class)

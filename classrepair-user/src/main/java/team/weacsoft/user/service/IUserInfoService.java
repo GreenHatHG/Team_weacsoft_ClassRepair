@@ -2,6 +2,7 @@ package team.weacsoft.user.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.chanjar.weixin.common.error.WxErrorException;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
@@ -59,5 +60,5 @@ public interface IUserInfoService extends IService<UserInfo> {
     /**
      * 获取用户手机号
      */
-    void getPhone(GetPhoneDto dto);
+    void getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException;
 }

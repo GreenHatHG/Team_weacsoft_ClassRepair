@@ -1,6 +1,7 @@
 package team.weacsoft.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -98,8 +99,12 @@ public class UserInfoController {
         return ApiResp.ok(userInfoService.getUserList(page));
     }
 
+    /**
+     * 解析用户手机号码
+     */
     @PostMapping("/actions/get_phone")
-    public ResponseEntity<ApiResp> getPhone(@Validated @RequestBody GetPhoneDto dto){
-        return null;
+    public ResponseEntity<ApiResp> getPhone(@Validated @RequestBody GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
+        userInfoService.getPhone(dto, request);
+        return ApiResp.ok("解析成功");
     }
 }

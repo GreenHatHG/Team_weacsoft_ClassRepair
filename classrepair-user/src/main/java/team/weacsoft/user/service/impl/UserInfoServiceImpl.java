@@ -1,10 +1,14 @@
 package team.weacsoft.user.service.impl;
 
+import cn.binarywang.wx.miniapp.api.WxMaUserService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,7 @@ import team.weacsoft.common.utils.Argon2Util;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
+import team.weacsoft.common.wx.WxMaConfiguration;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
 import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
@@ -131,8 +136,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     }
 
     @Override
-    public void getPhone(GetPhoneDto dto) {
-//        WxMaConfiguration.getWxMaService().getUserService().getPhoneNoInfo();
+    public void getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
+        WxMaUserService wxMaUserService = WxMaConfiguration.getWxMaService().getUserService();
+        WxMaJscode2SessionResult session = wxMaUserService.getSessionInfo(dto.getCode());
+        WxMaPhoneNumberInfo phoneNoInfo = wxMaUserService.getPhoneNoInfo(session.getSessionKey(),
+                dto.getEncryptedData(), dto.getIv());
+        UserInfo userInfo = getById(JwtUtil.getIdFromRequest(request));
+        userInfo.setPhone(phoneNoInfo.getPhoneNumber());
+        updateById(userInfo);
     }
 
 }

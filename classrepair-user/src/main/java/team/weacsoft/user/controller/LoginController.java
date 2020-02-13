@@ -1,6 +1,7 @@
 package team.weacsoft.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,14 +36,12 @@ public class LoginController {
      */
     @Log(module = "用户管理", operation = "用户使用微信登录")
     @PostMapping("/public/wx/login")
-    public ResponseEntity<ApiResp> wxLogin(@Validated @RequestBody WxLoginDto userInfoDto){
+    public ResponseEntity<ApiResp> wxLogin(@Validated @RequestBody WxLoginDto userInfoDto) throws WxErrorException {
         return ApiResp.ok(loginService.wxLogin(userInfoDto));
     }
 
     /**
      * 网页登录接口
-     * @param webLoginDto
-     * @return
      */
     @Log(module = "用户管理", operation = "用户在网页登录")
     @PostMapping("/public/web/login")

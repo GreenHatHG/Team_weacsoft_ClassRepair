@@ -9,7 +9,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.persistence.Admin;
 import team.weacsoft.common.utils.Argon2Util;
@@ -39,14 +38,9 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
     }
 
     @Override
-    public WxLoginResp wxLogin(WxLoginDto wxLoginDto) {
+    public WxLoginResp wxLogin(WxLoginDto wxLoginDto) throws WxErrorException {
         WxMaJscode2SessionResult session;
-        try{
-            //请求auth.code2Session
-            session = WxMaConfiguration.getWxMaService().getUserService().getSessionInfo(wxLoginDto.getCode());
-        }catch (WxErrorException e){
-            throw new BadRequestException(40000, e.getMessage());
-        }
+        session = WxMaConfiguration.getWxMaService().getUserService().getSessionInfo(wxLoginDto.getCode());
 
         UserInfo userInfo = getOne(new QueryWrapper<UserInfo>().eq("openid", session.getOpenid()));
         //数据库中还没有该人
