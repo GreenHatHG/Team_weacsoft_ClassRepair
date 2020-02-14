@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.weacsoft.log.mapper.RepairLogMapper">
+    <select id="searchRepairLog" resultType="team.weacsoft.log.dto.reponse.SearchRepairLogDto">
+        SELECT
+            ri.create_time,
+            ri.update_time,
+            ri.classroom,
+            ri.problem,
+            ri.repair_item_id,
+            ri.state,
+            ri.orderer,
+            ri.orderer_phone,
+            u2.`name` AS orderer_name,
+            ri.receiver,
+            u1.phone AS receiver_phone,
+            u1.`name` AS receiver_name,
+            qa.title,
+            log.log_content
+        FROM
+            repair_item ri
+            LEFT JOIN user_info u1 ON ri.receiver = u1.id
+            LEFT JOIN user_info u2 ON ri.orderer = u2.id
+            LEFT JOIN qa_type qa ON ri.equipment_type = qa.id
+            LEFT JOIN repair_log log ON ri.repair_item_id = log.repair_item_id
+            WHERE ri.repair_item_id = #{repairItemId}
+    </select>
+</mapper>

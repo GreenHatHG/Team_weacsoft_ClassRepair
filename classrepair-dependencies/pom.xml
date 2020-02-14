@@ -18,6 +18,7 @@
         <module>../classrepair-repair-item</module>
         <module>../classrepair-invitation</module>
         <module>../classrepair-statistics</module>
+        <module>../classrepair-repair-log</module>
     </modules>
 
     <parent>

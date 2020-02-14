@@ -1,6 +1,8 @@
 package team.weacsoft.repair.dto.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -9,7 +11,9 @@ import java.io.Serializable;
  * @since 2020-02-03
  */
 
-@Data
+@Getter
+@Setter
+@ToString
 public class CommonRepairItemDto implements Serializable {
     private Long createTime;
 

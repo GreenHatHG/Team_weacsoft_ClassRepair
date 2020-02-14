@@ -24,13 +24,13 @@ public class GetPhoneDto {
      * 加密算法的初始向量
      */
     @NotBlank
-    @Size(max=100)
+    @Size(max=1000)
     private String iv;
 
     /**
      * 包括敏感数据在内的完整用户信息的加密数据
      */
     @NotBlank
-    @Size(max=100)
+    @Size(max=1000)
     private String encryptedData;
 }

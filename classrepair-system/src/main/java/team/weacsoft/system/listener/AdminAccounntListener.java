@@ -34,7 +34,7 @@ public class AdminAccounntListener {
         }catch (NullPointerException e){
             UserInfo userInfo = UserInfo.builder()
                     .identityId(id)
-                    .role(5)
+                    .role(9)
                     .password(Argon2Util.hash(admin.getRootPwd())).build();
             userInfo.setOpenid("");
             userInfoService.save(userInfo);

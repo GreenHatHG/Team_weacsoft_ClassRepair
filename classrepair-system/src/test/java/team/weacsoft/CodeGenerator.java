@@ -50,10 +50,10 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://192.168.2.202/classrepair?useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://120.78.185.128/classrepair?useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("11");
+        dsc.setPassword("d@FieF93a28G");
         mpg.setDataSource(dsc);
 
         // 包配置
