@@ -35,7 +35,7 @@ public class UserInfoController {
         this.userInfoService = userInfoService;
     }
 
-    @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/token/info")
     public ResponseEntity<ApiResp> getUserInfoByToken(HttpServletRequest request){
         return ApiResp.ok(userInfoService.getUserInfoByToken(request));

@@ -48,8 +48,17 @@ public class RepairLogController {
      * 搜索维护日志
      */
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
-    @GetMapping("/{repair_item_id}/info")
+    @GetMapping("/{repair_item_id}/actions/search")
     public ResponseEntity<ApiResp> addRepairLog(@NotBlank @Size(max = 100) @PathVariable(name = "repair_item_id") String repairItemId){
         return ApiResp.ok(repairLogService.searchLog(repairItemId));
+    }
+
+    /**
+     * 查询订单维护日志
+     */
+    @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
+    @GetMapping("/{repair_item_id}/info")
+    public ResponseEntity<ApiResp> findRepairLog(@NotBlank @Size(max = 100) @PathVariable(name = "repair_item_id") String repairItemId){
+        return ApiResp.ok(repairLogService.findRepairLog(repairItemId));
     }
 }

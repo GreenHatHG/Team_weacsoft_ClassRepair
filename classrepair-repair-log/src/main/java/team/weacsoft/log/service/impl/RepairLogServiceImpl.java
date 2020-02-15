@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.EntityNotFoundException;
+import team.weacsoft.common.utils.JsonUtil;
+import team.weacsoft.log.dto.reponse.FindRepairLogDto;
 import team.weacsoft.log.dto.reponse.SearchRepairLogDto;
 import team.weacsoft.log.entity.RepairLog;
 import team.weacsoft.log.mapper.RepairLogMapper;
@@ -46,5 +48,14 @@ public class RepairLogServiceImpl extends ServiceImpl<RepairLogMapper, RepairLog
     @Override
     public SearchRepairLogDto searchLog(String repairItemId) {
         return this.baseMapper.searchRepairLog(repairItemId);
+    }
+
+    @Override
+    public FindRepairLogDto findRepairLog(String repairItemId) {
+        RepairLog repairLog = getOne(Wrappers.<RepairLog>lambdaQuery().eq(RepairLog::getRepairItemId, repairItemId));
+        if(repairLog == null){
+            throw new EntityNotFoundException("RepairLog", "RepairItemId", repairItemId);
+        }
+        return (FindRepairLogDto) JsonUtil.getCopyDto(repairLog, new FindRepairLogDto());
     }
 }

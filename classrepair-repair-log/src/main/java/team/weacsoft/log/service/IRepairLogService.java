@@ -1,6 +1,7 @@
 package team.weacsoft.log.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import team.weacsoft.log.dto.reponse.FindRepairLogDto;
 import team.weacsoft.log.dto.reponse.SearchRepairLogDto;
 import team.weacsoft.log.entity.RepairLog;
 
@@ -25,4 +26,9 @@ public interface IRepairLogService extends IService<RepairLog> {
      * 搜索维护日志
      */
     SearchRepairLogDto searchLog(String repairItemId);
+
+    /**
+     * 查询订单维护日志
+     */
+    FindRepairLogDto findRepairLog(String repairItemId);
 }
