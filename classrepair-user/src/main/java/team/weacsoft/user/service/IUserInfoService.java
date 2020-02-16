@@ -12,6 +12,7 @@ import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -60,5 +61,5 @@ public interface IUserInfoService extends IService<UserInfo> {
     /**
      * 获取用户手机号
      */
-    void getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException;
+    Map<String, String> getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException;
 }

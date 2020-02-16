@@ -8,6 +8,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.ImmutableMap;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +33,7 @@ import team.weacsoft.user.mapper.UserInfoMapper;
 import team.weacsoft.user.service.IUserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -136,7 +138,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     }
 
     @Override
-    public void getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
+    public Map<String, String> getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
         WxMaUserService wxMaUserService = WxMaConfiguration.getWxMaService().getUserService();
         WxMaJscode2SessionResult session = wxMaUserService.getSessionInfo(dto.getCode());
         WxMaPhoneNumberInfo phoneNoInfo = wxMaUserService.getPhoneNoInfo(session.getSessionKey(),
@@ -144,6 +146,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         UserInfo userInfo = getById(JwtUtil.getIdFromRequest(request));
         userInfo.setPhone(phoneNoInfo.getPhoneNumber());
         updateById(userInfo);
+        return ImmutableMap.<String, String>builder().put("phone", userInfo.getPhone()).build();
     }
 
 }
