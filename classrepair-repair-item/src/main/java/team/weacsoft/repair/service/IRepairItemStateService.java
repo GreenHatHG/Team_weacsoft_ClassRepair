@@ -57,5 +57,5 @@ public interface IRepairItemStateService extends IService<RepairItem> {
      * 模糊搜索订单
      */
     Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId,
-                                                String ordererName, Integer receiverIdentityId);
+                                               String ordererName, Integer receiverIdentityId,String receiverName);
 }

@@ -96,14 +96,16 @@ public class RepairItemStateController {
     }
 
     /**
-     * 模糊搜索订单，订单号||下单人名字||接单人学号
+     * 模糊搜索订单，订单号||下单人名字||接单人学号//接单人姓名
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/actions/search")
     public ResponseEntity<ApiResp> searchRepairItem(PageRequest pageRequest,
                                                     @RequestParam(value = "repair_item_id", required = false) @Size(max=100) String repairItemId,
                                                     @RequestParam(value = "orderer_name", required = false) @Size(max=100)String ordererName,
-                                                    @RequestParam(value = "receiver_identity_id", required = false) Integer receiverIdentityId){
-        return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, repairItemId, ordererName, receiverIdentityId));
+                                                    @RequestParam(value = "receiver_identity_id", required = false) Integer receiverIdentityId,
+                                                    @RequestParam(value = "receiver_name",required = false) @Size(max=100)String receiverName){
+
+        return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, repairItemId, ordererName, receiverIdentityId,receiverName));
     }
 }

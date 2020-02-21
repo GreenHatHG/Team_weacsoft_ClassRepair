@@ -103,7 +103,8 @@ public class RepairItemStateController1 {
     public ResponseEntity<ApiResp> searchRepairItem(PageRequest pageRequest,
                                                     @RequestParam(value = "repair_item_id", required = false) @Size(max=100) String repairItemId,
                                                     @RequestParam(value = "orderer_name", required = false) @Size(max=100)String ordererName,
-                                                    @RequestParam(value = "receiver_identity_id", required = false) Integer receiverIdentityId){
-        return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, repairItemId, ordererName, receiverIdentityId));
+                                                    @RequestParam(value = "receiver_identity_id", required = false) Integer receiverIdentityId,
+                                                    @RequestParam(value = "receiver_identity_name",required = false) String receiverName){
+        return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, repairItemId, ordererName, receiverIdentityId,receiverName));
     }
 }
