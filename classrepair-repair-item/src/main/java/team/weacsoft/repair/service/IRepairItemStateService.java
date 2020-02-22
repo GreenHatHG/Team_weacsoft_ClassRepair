@@ -54,8 +54,13 @@ public interface IRepairItemStateService extends IService<RepairItem> {
     Page<CommonRepairItemDto> getUserAllOrders(PageRequest pageRequest, HttpServletRequest request);
 
     /**
+     * 用户侧-获取我的处理中报修单
+     */
+    Page<CommonRepairItemDto> getUserAllOrdersInRepair(PageRequest pageRequest, HttpServletRequest request);
+    /**
      * 模糊搜索订单
      */
     Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId,
                                                String ordererName, Integer receiverIdentityId,String receiverName);
+
 }
