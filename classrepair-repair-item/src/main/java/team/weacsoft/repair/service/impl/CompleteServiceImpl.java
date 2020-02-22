@@ -29,8 +29,8 @@ public class CompleteServiceImpl extends BaseUpdateRepairItemService {
 
     @Override
     protected void sendMessage(RepairItem repairItem, UserInfo userInfo) {
-        sendMessage(repairItem, userInfo.getOpenid(), "已完成", "完成者：" + userInfo.getName());
-        sendMessage(repairItem, userInfoService.getById(repairItem.getOrderer()).getOpenid(), "已完成", "完成者：" + userInfo.getName());
+//        sendMessage(repairItem, userInfo.getOpenid(), "已完成", "完成者：" + userInfo.getName());
+//        sendMessage(repairItem, userInfoService.getById(repairItem.getOrderer()).getOpenid(), "已完成", "完成者：" + userInfo.getName());
     }
 
 }

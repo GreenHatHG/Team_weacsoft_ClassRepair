@@ -1,5 +1,6 @@
 package team.weacsoft.repair.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -32,7 +33,9 @@ public class AddRepairItemServiceImpl extends BaseRepairItemService {
             repairItem.setOrdererPhone(userInfo.getPhone());
         }
         this.save(repairItem);
-        sendMessage(repairItem, userInfo.getOpenid(), "已下单", "无");
+        String problem = repairItem.getProblem();
+        sendMessage(repairItem, userInfo.getOpenid(), "已下单",
+                problem.length() > 20 ?  StrUtil.sub(repairItem.getProblem(), 0, 17) + "..." : problem);
         return repairItem;
     }
 

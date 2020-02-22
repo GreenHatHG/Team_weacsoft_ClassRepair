@@ -70,7 +70,7 @@ public class TemplateMessage {
                 .put("character_string6", repairItemId)
                 .put("thing1", repairItemContent.toString())
                 .put("phrase2", state)
-                .put("date3", DateUtil.format(new Date(repairTime), "yyyy-MM-dd HH:mm"))
+                .put("date3", DateUtil.format(new Date(repairTime*1000), "yyyy-MM-dd HH:mm"))
                 .put("thing5", remark).build());
     }
 }

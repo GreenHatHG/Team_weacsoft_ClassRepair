@@ -30,8 +30,8 @@ public class CancelReceiveServiceImpl extends BaseUpdateRepairItemService {
 
     @Override
     protected void sendMessage(RepairItem repairItem, UserInfo userInfo) {
-        sendMessage(repairItem, userInfo.getOpenid(), "已取消", "取消者：" + userInfo.getName());
-        sendMessage(repairItem, userInfoService.getById(repairItem.getOrderer()).getOpenid(), "已取消", "取消者：" + userInfo.getName());
+//        sendMessage(repairItem, userInfo.getOpenid(), "已取消", "取消者：" + userInfo.getName());
+//        sendMessage(repairItem, userInfoService.getById(repairItem.getOrderer()).getOpenid(), "已取消", "取消者：" + userInfo.getName());
     }
 
 }
