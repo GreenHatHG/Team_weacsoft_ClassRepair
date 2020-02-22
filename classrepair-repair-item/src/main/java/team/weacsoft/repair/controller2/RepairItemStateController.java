@@ -74,7 +74,6 @@ public class RepairItemStateController {
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/id/processed_orders")
     public ResponseEntity<ApiResp> getAllProcessedOrdersById(PageRequest pageRequest, HttpServletRequest request){
-        System.out.println("000");
         return ApiResp.ok(repairItemStateService.getOtherAllProcessedOrders(pageRequest, request));
     }
 
