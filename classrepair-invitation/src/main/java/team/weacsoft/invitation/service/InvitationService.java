@@ -65,7 +65,7 @@ public class InvitationService {
 
         String redisCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY);
         if (StringUtils.equals(dto.getCode(), redisCode)) {
-            userInfo.setRole(2);
+            userInfo.setRole(4);
             userInfo.setPassword(Argon2Util.hash(dto.getPassword()));
             userInfoService.updateById(userInfo);
             return (UpdateRoleDto) JsonUtil.getCopyDto(userInfoService.getById(id), new UpdateRoleDto());
