@@ -23,7 +23,7 @@ public class CancelRepairServiceImpl extends BaseUpdateRepairItemService {
 
     @Override
     protected RepairItem process(RepairItem repairItem, UserInfo userInfo) {
-        if(userInfo.getRole() == 1 && userInfo.getId().equals(repairItem.getOrderer())){
+        if(userInfo.getRole() == 1 && !userInfo.getId().equals(repairItem.getOrderer())){
             throw new BadRequestException(40066, "普通人员只能取消自己下的单");
         }
         if(!(repairItem.getState() == 1 || repairItem.getState() == 2)){
@@ -34,12 +34,4 @@ public class CancelRepairServiceImpl extends BaseUpdateRepairItemService {
         return repairItem;
     }
 
-    @Override
-    protected void sendMessage(RepairItem repairItem, UserInfo userInfo) {
-//        sendMessage(repairItem, userInfo.getOpenid(), "已取消", "取消者："+userInfo.getName());
-//        UserInfo receiver = userInfoService.getById(repairItem.getReceiver());
-//        if(receiver != null){
-//            sendMessage(repairItem, receiver.getOpenid(), "已取消", "取消者："+userInfo.getName());
-//        }
-    }
 }

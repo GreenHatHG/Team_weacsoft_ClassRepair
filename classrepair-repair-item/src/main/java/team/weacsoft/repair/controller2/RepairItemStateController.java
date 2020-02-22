@@ -98,7 +98,7 @@ public class RepairItemStateController {
     /**
      * 模糊搜索订单，订单号||下单人名字||接单人学号//接单人姓名
      */
-    @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/actions/search")
     public ResponseEntity<ApiResp> searchRepairItem(PageRequest pageRequest,
                                                     @RequestParam(value = "repair_item_id", required = false) @Size(max=100) String repairItemId,

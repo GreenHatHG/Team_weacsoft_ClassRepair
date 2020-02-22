@@ -28,9 +28,4 @@ public class ReceiveServiceImpl extends BaseUpdateRepairItemService {
         return repairItem;
     }
 
-    @Override
-    protected void sendMessage(RepairItem repairItem, UserInfo userInfo) {
-//        sendMessage(repairItem, userInfo.getOpenid(), "已接单",  "接单人" + userInfo.getName());
-//        sendMessage(repairItem, userInfoService.getById(repairItem.getOrderer()).getOpenid(), "已接单",  "接单人" + userInfo.getName());
-    }
 }

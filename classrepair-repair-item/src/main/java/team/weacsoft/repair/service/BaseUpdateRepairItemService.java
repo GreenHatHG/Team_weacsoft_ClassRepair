@@ -1,5 +1,6 @@
 package team.weacsoft.repair.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,12 +39,28 @@ public abstract class BaseUpdateRepairItemService extends BaseRepairItemService{
         UserInfo userInfo = userInfoService.getById(JwtUtil.getIdFromRequest(request));
         repairItem =  process(repairItem, userInfo);
         this.updateById(repairItem);
-        sendMessage(repairItem, userInfo);
+        sendMessage(repairItem, userInfo.getOpenid());
         return this.findByRepairItemId(repairItem.getRepairItemId());
     }
 
     @Transactional
     protected abstract RepairItem process(RepairItem repairItem, UserInfo userInfo);
 
-    protected abstract void sendMessage(RepairItem repairItem, UserInfo userInfo);
+    protected void sendMessage(RepairItem repairItem, String openId){
+        String state = null;
+        //1-待处理 2-处理中 3-已处理 4-已取消
+        switch (repairItem.getState()){
+            case 2:
+                state = "处理中"; break;
+            case 3:
+                state = "已处理"; break;
+            case 4:
+                state = "已取消"; break;
+            default:
+                break;
+        }
+        sendMessage(repairItem, openId, state,
+                repairItem.getProblem().length() > 20 ?  StrUtil.sub(repairItem.getProblem(), 0, 17) + "..."
+                        : repairItem.getProblem());
+    }
 }
