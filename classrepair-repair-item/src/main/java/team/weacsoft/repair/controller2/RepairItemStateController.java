@@ -99,10 +99,20 @@ public class RepairItemStateController {
      * 用户侧-获取我的处理中的保修订单
      */
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
-    @GetMapping("/user/inrepair")
+    @GetMapping("/user/in_orders")
     public ResponseEntity<ApiResp> getUserAllOrdersInRepair(PageRequest pageRequest, HttpServletRequest request){
         return ApiResp.ok(repairItemStateService.getUserAllOrdersInRepair(pageRequest, request));
     }
+
+    /**
+     * 用户侧-获取我的历史保修订单
+     */
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
+    @GetMapping("/user/history_orders")
+    public ResponseEntity<ApiResp> getUserAllHistoryOrders(PageRequest pageRequest, HttpServletRequest request){
+        return ApiResp.ok(repairItemStateService.getUserAllHistoryOrders(pageRequest, request));
+    }
+
     /**
      * 模糊搜索订单，订单号||下单人名字||接单人学号//接单人姓名
      */
