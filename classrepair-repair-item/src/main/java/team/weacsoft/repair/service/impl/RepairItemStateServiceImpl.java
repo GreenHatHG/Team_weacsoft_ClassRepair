@@ -58,12 +58,19 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
 
     @Override
     public Page<CommonRepairItemDto> getUserAllOrders(PageRequest pageRequest, HttpServletRequest request) {
+        System.out.println(JwtUtil.getIdFromRequest(request));
         return (Page<CommonRepairItemDto>) baseMapper.getUserRepairItem(PageUtil.getPage(pageRequest), JwtUtil.getIdFromRequest(request), null);
     }
 
     @Override
     public Page<CommonRepairItemDto> getUserAllOrdersInRepair(PageRequest pageRequest, HttpServletRequest request) {
         return (Page<CommonRepairItemDto>) baseMapper.getUserRepairItem(PageUtil.getPage(pageRequest), JwtUtil.getIdFromRequest(request), 2);
+    }
+
+    @Override
+    public Page<CommonRepairItemDto> getUserAllHistoryOrders(PageRequest pageRequest, HttpServletRequest request) {
+        System.out.println(JwtUtil.getIdFromRequest(request));
+        return (Page<CommonRepairItemDto>) baseMapper.getUserRepairItem(PageUtil.getPage(pageRequest), JwtUtil.getIdFromRequest(request), null);
     }
 
     @Override
