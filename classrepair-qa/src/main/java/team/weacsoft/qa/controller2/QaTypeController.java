@@ -38,7 +38,7 @@ public class QaTypeController {
      * 获得某分类下的所有常见问题
      * @param qaTypeId 分类id
      */
-    @PreAuthorize("hasAnyRole('1', '2', '3', '4', '5')")
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/qa_types/{id}/qa_answer")
     public ResponseEntity<ApiResp> getQaTypeAnswerById(@PathVariable(value = "id") @NotNull Integer qaTypeId){
         return ApiResp.ok(qaTypeService.getQaTypeAnswerById(qaTypeId));
