@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.BadRequestException;
-import team.weacsoft.repair.entity.RepairItem;
+import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
+import team.weacsoft.repair.entity.RepairItem2;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
 import java.util.List;
@@ -35,12 +36,12 @@ public class RepairItemExcelService {
     }
 
     private void toExcel(Long startTime, Long endTime){
-        EasyExcel.write("repair_item.xlsx", RepairItem.class)
+        EasyExcel.write("repair_item.xlsx", RepairItem2.class)
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(filterByPeriod(startTime, endTime));
     }
 
-    private List<RepairItem> filterByPeriod(Long startTime, Long endTime){
-        List<RepairItem> list = repairItemService.list();
+    private List<ExcelRepariItemDto> filterByPeriod(Long startTime, Long endTime){
+        List<ExcelRepariItemDto> list = repairItemService.getList();
         if(list == null || list.size() == 0){
             throw new BadRequestException("还没有订单信息，不能生成excel");
         }

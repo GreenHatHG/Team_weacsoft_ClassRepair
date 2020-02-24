@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;
 import org.apache.poi.ss.formula.functions.T;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
+import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
 import team.weacsoft.repair.entity.RepairItem;
+
+import java.util.List;
 
 /**
  * <p>
@@ -26,4 +29,6 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
      * 模糊搜索订单，订单号||下单人名字||接单人学号
      */
     IPage<CommonRepairItemDto> searchRepairItem(IPage<T> page, String repairItemId, String ordererName, Integer receiverIdentityId,@Param("receiverName") String receiverName);
+
+    List<ExcelRepariItemDto> getList();
 }

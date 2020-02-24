@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
+import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
 import team.weacsoft.repair.entity.RepairItem;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -69,4 +71,5 @@ public interface IRepairItemStateService extends IService<RepairItem> {
     Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId,
                                                String ordererName, Integer receiverIdentityId,String receiverName);
 
+    List<ExcelRepariItemDto> getList();
 }

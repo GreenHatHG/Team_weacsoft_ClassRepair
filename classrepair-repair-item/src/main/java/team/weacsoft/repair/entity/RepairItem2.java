@@ -1,9 +1,6 @@
 package team.weacsoft.repair.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import team.weacsoft.common.converter.DateConverter;
 import team.weacsoft.common.persistence.BaseEntity;
 
@@ -12,36 +9,36 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 报修表
- * state: 0-异常订单 1-待处理 2-处理中 3-已处理 4-已取消
- * @author GreenHatHG
- * @since 2020-01-27
+ * @Description
+ * @ClassName RepariItem2
+ * @Author CHENRUI
+ * @date 2020.02.24 18:28
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-public class RepairItem extends BaseEntity {
+public class RepairItem2 extends BaseEntity {
 
     /**
      * 报修单id，后端自动生成，规则：当前日期+时间戳前十一位数字，2020012715801331743
      */
 
-    @ExcelProperty(value = "")
+    @ExcelProperty(value = "订单号")
     private String repairItemId;
 
     /**
      *  接单人(表id)
      */
-    private Integer receiver = 0;
+    @ExcelProperty(value = "接单人姓名")
+    private String receiverName = "-";
 
     /**
      *  报修人(表id)
      */
-    private Integer orderer;
+    @ExcelProperty(value = "报修人姓名")
+    private String ordererName;
 
     /**
      * 课室
      */
+    @ExcelProperty(value = "课室id")
     @NotBlank
     @Size(max = 100)
     private String classroom;
@@ -49,12 +46,14 @@ public class RepairItem extends BaseEntity {
     /**
      * 故障设备
      */
+    @ExcelProperty(value = "故障设备")
     @NotNull
-    private Integer equipmentType;
+    private String title;
 
     /**
      * 问题描述
      */
+    @ExcelProperty(value = "问题描述")
     @NotBlank
     @Size(max = 300)
     private String problem;
@@ -62,6 +61,7 @@ public class RepairItem extends BaseEntity {
     /**
      * 报修人手机号
      */
+    @ExcelProperty(value = "报修人手机号")
     private String ordererPhone = "";
 
 }

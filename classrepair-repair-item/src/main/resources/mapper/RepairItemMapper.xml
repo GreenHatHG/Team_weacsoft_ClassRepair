@@ -22,6 +22,28 @@
             LEFT JOIN user_info u2 ON ri.orderer = u2.id
             LEFT JOIN qa_type qa ON ri.equipment_type = qa.id
     </sql>
+    <sql id="query2">
+        SELECT
+            ri.create_time,
+            ri.update_time,
+            ri.delete_time,
+            ri.classroom,
+            ri.problem,
+            ri.repair_item_id,
+            ri.state,
+            ri.orderer,
+            ri.orderer_phone,
+            u2.`name` AS orderer_name,
+            ri.receiver,
+            u1.phone AS receiver_phone,
+            u1.`name` AS receiver_name,
+            qa.title
+        FROM
+            repair_item ri
+            LEFT JOIN user_info u1 ON ri.receiver = u1.id
+            LEFT JOIN user_info u2 ON ri.orderer = u2.id
+            LEFT JOIN qa_type qa ON ri.equipment_type = qa.id
+    </sql>
 
     <select id="getRepairItemByState" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
@@ -60,5 +82,8 @@
         <if test="receiverName != null">
             or u1.name like CONCAT(CONCAT('%',#{receiverName}),'%')
         </if>
+    </select>
+    <select id="getList" resultType="team.weacsoft.repair.dto.request.ExcelRepariItemDto">
+        <include refid="query2"/>
     </select>
 </mapper>

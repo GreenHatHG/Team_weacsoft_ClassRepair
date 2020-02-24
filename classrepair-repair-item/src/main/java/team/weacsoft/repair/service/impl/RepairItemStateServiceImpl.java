@@ -7,11 +7,13 @@ import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
+import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.mapper.RepairItemMapper;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 优化余地：查表需要LEFT JOIN两次user_info，可以把用户信息放缓存，然后查缓存去得到name
@@ -76,6 +78,11 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
     @Override
     public Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId, String ordererName, Integer receiverIdentityId,String receiverName) {
         return (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), repairItemId, ordererName, receiverIdentityId,receiverName);
+    }
+
+    @Override
+    public List<ExcelRepariItemDto> getList() {
+        return baseMapper.getList();
     }
 
 }

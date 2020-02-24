@@ -28,15 +28,17 @@ public class DateConverter implements Converter<Long> {
 
     @Override
     public Long convertToJavaData(CellData cellData, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws Exception {
+        //读的时候调用
         return Long.valueOf(cellData.getDataFormatString());
     }
 
     @Override
     public CellData convertToExcelData(Long value, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws Exception {
+        //写的时候调用
         if(value == 0){
             return new CellData("0");
         }
         return new CellData(sdf.format(
-                new Date(Long.parseLong(String.valueOf(value)))));
+                new Date(Long.parseLong(String.valueOf(value*1000)))));
     }
 }
