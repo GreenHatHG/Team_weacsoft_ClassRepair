@@ -1,12 +1,11 @@
 package team.weacsoft.excel;
 
-import com.alibaba.excel.EasyExcel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import team.weacsoft.qa.service.IQaAnswerService;
+import team.weacsoft.statistics.service.RepairItemExcelService;
 
 /**
  * @author GreenHatHG
@@ -17,11 +16,10 @@ import team.weacsoft.qa.service.IQaAnswerService;
 public class ExcelTest {
 
     @Autowired
-    private IQaAnswerService qaAnswerService;
+    private RepairItemExcelService repairItemExcelService;
 
     @Test
-    public void test(){
-        String fileName = "C:\\Users\\cc\\Desktop\\qa_answer.xls";
-        EasyExcel.read(fileName, QaAnswerExcel.class, new Listener(qaAnswerService)).sheet().doRead();
+    public void testNull(){
+        repairItemExcelService.getExcel(0L, -1L);
     }
 }
