@@ -4,10 +4,10 @@ import cn.binarywang.wx.miniapp.bean.WxMaSubscribeData;
 import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
-import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.log.Log;
 
 import javax.validation.constraints.NotBlank;
@@ -22,6 +22,7 @@ import java.util.List;
 
 @Validated
 @Component
+@Slf4j
 public class TemplateMessage {
     private WxMaSubscribeMessage subscribeMessage;
 
@@ -49,7 +50,7 @@ public class TemplateMessage {
         try{
             WxMaConfiguration.getWxMaService().getMsgService().sendSubscribeMsg(subscribeMessage);
         }catch (Exception e){
-            throw new BadRequestException(475, "模板消息推送失败：" + e.getMessage());
+            log.error("模板消息推送失败",e);
         }
     }
 

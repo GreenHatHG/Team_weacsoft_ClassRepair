@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.wx.TemplateMessage;
@@ -68,6 +69,7 @@ public abstract class BaseRepairItemService extends ServiceImpl<RepairItemMapper
      * @param state 订单状态
      * @param remark 备注
      */
+    @Async
     protected void sendMessage(RepairItem repairItem, String openId, String state, String remark) {
         if (StringUtils.isNotBlank(openId)) {
             templateMessage.buildMapAndSend(openId, repairItem.getRepairItemId(),
