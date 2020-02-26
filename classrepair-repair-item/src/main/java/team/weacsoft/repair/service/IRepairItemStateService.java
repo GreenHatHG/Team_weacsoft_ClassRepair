@@ -15,7 +15,7 @@ import java.util.List;
  * 报修表 服务类
  * </p>
  *
- * @author GreenHatHG
+ * @author GreenHatHG、魔法はまだ解けない
  * @since 2020-01-27
  */
 public interface IRepairItemStateService extends IService<RepairItem> {
@@ -71,5 +71,9 @@ public interface IRepairItemStateService extends IService<RepairItem> {
     Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId,
                                                String ordererName, Integer receiverIdentityId,String receiverName);
 
+    /**
+     * 获取excel报表信息
+     */
     List<ExcelRepariItemDto> getList();
+
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * 优化余地：查表需要LEFT JOIN两次user_info，可以把用户信息放缓存，然后查缓存去得到name
- * @author GreenHatHG
+ * @author GreenHatHG、魔法はまだ解けない
  * @since 2020-01-28
  */
 
@@ -84,5 +84,6 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
     public List<ExcelRepariItemDto> getList() {
         return baseMapper.getList();
     }
+
 
 }

@@ -1,6 +1,9 @@
 package team.weacsoft.repair.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import team.weacsoft.common.converter.DateConverter;
 import team.weacsoft.common.persistence.BaseEntity;
 
@@ -11,9 +14,12 @@ import javax.validation.constraints.Size;
 /**
  * @Description
  * @ClassName RepariItem2
- * @Author CHENRUI
+ * @Author 魔法はまだ解けない
  * @date 2020.02.24 18:28
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class RepairItem2 extends BaseEntity {
 
     /**

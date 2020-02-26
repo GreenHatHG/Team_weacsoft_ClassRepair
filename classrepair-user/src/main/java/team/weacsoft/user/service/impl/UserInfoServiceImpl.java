@@ -141,12 +141,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public Map<String, String> getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
         WxMaUserService wxMaUserService = WxMaConfiguration.getWxMaService().getUserService();
         WxMaJscode2SessionResult session = wxMaUserService.getSessionInfo(dto.getCode());
+
         WxMaPhoneNumberInfo phoneNoInfo = wxMaUserService.getPhoneNoInfo(session.getSessionKey(),
                 dto.getEncryptedData(), dto.getIv());
+
+        System.out.println(phoneNoInfo.toString());
         UserInfo userInfo = getById(JwtUtil.getIdFromRequest(request));
         userInfo.setPhone(phoneNoInfo.getPhoneNumber());
         updateById(userInfo);
         return ImmutableMap.<String, String>builder().put("phone", userInfo.getPhone()).build();
     }
-
 }
