@@ -67,7 +67,7 @@
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
     </select>
 
-    <select id="typeStatisticsDao" resultType="team.weacsoft.repair.entity.TypeStatisticsDto">
+    <select id="typeStatisticsDao" resultType="team.weacsoft.repair.entity.PeriodStatistics">
         SELECT
             ri.create_time,
             ri.classroom,

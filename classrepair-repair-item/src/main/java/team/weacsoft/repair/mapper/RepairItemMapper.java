@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.poi.ss.formula.functions.T;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
+import team.weacsoft.repair.entity.PeriodStatistics;
 import team.weacsoft.repair.entity.RepairItem;
-import team.weacsoft.repair.entity.TypeStatisticsDto;
 
 import java.util.List;
 
@@ -33,5 +33,5 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
 
     List<ExcelRepariItemDto> getList();
 
-    List<TypeStatisticsDto> typeStatisticsDao(Long startTime, Long endTime);
+    List<PeriodStatistics> typeStatisticsDao(Long startTime, Long endTime);
 }

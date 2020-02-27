@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.weacsoft.qa.entity.QaType;
 import team.weacsoft.qa.service.IQaTypeService;
+import team.weacsoft.repair.entity.PeriodStatistics;
 import team.weacsoft.repair.entity.RepairItem;
-import team.weacsoft.repair.entity.TypeStatisticsDto;
 import team.weacsoft.repair.service.impl.RepairItemStateServiceImpl;
 
 import java.util.*;
@@ -74,12 +74,12 @@ public class StatisticsService {
             startTime = calendar.getTimeInMillis() / 1000;
         }
 
-        List<TypeStatisticsDto> list = repairItemService.getBaseMapper().typeStatisticsDao(startTime, endTime);
+        List<PeriodStatistics> list = repairItemService.getBaseMapper().typeStatisticsDao(startTime, endTime);
         Map<String, Integer> deviceNum = new HashMap<>(10);
         Map<String, Integer> buildNum = new HashMap<>(13);
         Map<String, Integer> timeNum = new HashMap<>(5);
 
-        for (TypeStatisticsDto dto : list) {
+        for (PeriodStatistics dto : list) {
 
             deviceNum.put(dto.getTitle(), deviceNum.getOrDefault(dto.getTitle(), 0) + 1);
             String build = dto.getClassroom().substring(0,2);
