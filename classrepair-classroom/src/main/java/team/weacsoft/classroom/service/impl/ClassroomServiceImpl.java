@@ -71,9 +71,17 @@ public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom
         return classroom;
     }
 
-//    public Map<String, String> classroomStatistics{
-//
-//    }
+    @Override
+    public Map<String, Integer> buildStatistics(){
+        List<Classroom> classRooms = list();
+        Map<String, Integer> buildNum = new HashMap<>(10);
+        for (Classroom classroom : list()) {
+            int oldCount = buildNum.getOrDefault(classroom.getBuild(), 0);
+            buildNum.put(classroom.getBuild(), oldCount + 1);
+        }
+        return buildNum;
+    }
+
     private static class Resp implements Serializable {
         String build;
         Set<String> layer;

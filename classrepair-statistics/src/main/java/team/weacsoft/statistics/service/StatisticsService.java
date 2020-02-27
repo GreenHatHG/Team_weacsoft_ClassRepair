@@ -1,17 +1,16 @@
 package team.weacsoft.statistics.service;
 
+import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.weacsoft.qa.entity.QaType;
 import team.weacsoft.qa.service.IQaTypeService;
 import team.weacsoft.repair.entity.RepairItem;
-import team.weacsoft.repair.service.IRepairItemStateService;
+import team.weacsoft.repair.entity.TypeStatisticsDto;
+import team.weacsoft.repair.service.impl.RepairItemStateServiceImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -22,11 +21,11 @@ import java.util.stream.Collectors;
 @Service
 public class StatisticsService {
     
-    private IRepairItemStateService repairItemService;
+    private RepairItemStateServiceImpl repairItemService;
     private IQaTypeService qaTypeService;
 
     @Autowired
-    public StatisticsService(IRepairItemStateService repairItemService, IQaTypeService qaTypeService) {
+    public StatisticsService(RepairItemStateServiceImpl repairItemService, IQaTypeService qaTypeService) {
         this.repairItemService = repairItemService;
         this.qaTypeService = qaTypeService;
     }
@@ -62,31 +61,52 @@ public class StatisticsService {
         return data;
     }
 
-    public Map<String, Integer> getStatisticsByperiod(){
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        List<RepairItem> repairItemList =  repairItemService.list();
-        Map<String, Integer> data = new HashMap<>(3);
-        //初始化
-        data.put("早上", 0);
-        data.put("下午", 0);
-        data.put("晚上", 0);
+    //todo 考虑将数据库时间戳换为毫秒级
+    public JSONObject getStatisticsByperiod(Long startTime, Long endTime){
+        if(startTime == null || endTime == null){
+            endTime = DateUtil.current(Boolean.FALSE) / 1000;
+            Calendar calendar = DateUtil.offsetDay(new Date(), -6).toCalendar();
+            //设置零点时间
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            startTime = calendar.getTimeInMillis() / 1000;
+        }
 
-        for(RepairItem repairItem : repairItemList) {
-            String period = sdf.format(new Date((repairItem.getCreateTime())));
-            if("05:00".compareTo(period) <= 0 && "12:00".compareTo(period) >= 0){
-                int oldCount = data.getOrDefault("早上", 0);
-                data.put("早上", oldCount+1);
+        List<TypeStatisticsDto> list = repairItemService.getBaseMapper().typeStatisticsDao(startTime, endTime);
+        Map<String, Integer> deviceNum = new HashMap<>(10);
+        Map<String, Integer> buildNum = new HashMap<>(13);
+        Map<String, Integer> timeNum = new HashMap<>(5);
+
+        for (TypeStatisticsDto dto : list) {
+
+            deviceNum.put(dto.getTitle(), deviceNum.getOrDefault(dto.getTitle(), 0) + 1);
+            String build = dto.getClassroom().substring(0,2);
+            buildNum.put(build, deviceNum.getOrDefault(build, 0) + 1);
+
+            String period = DateUtil.format(new Date(dto.getCreateTime()*1000), "HH:mm");
+            if("08:00".compareTo(period) <= 0 && "10:15".compareTo(period) >= 0){
+                timeNum.put("8:00-10︰15", timeNum.getOrDefault("8:00-10︰15", 0)+1);
             }
-            else if("12:00".compareTo(period) < 0 && "19:00".compareTo(period) > 0){
-                int oldCount = data.getOrDefault("下午", 0);
-                data.put("下午", oldCount+1);
+            else if("10︰15".compareTo(period) <= 0 && "12︰00".compareTo(period) >= 0){
+                timeNum.put("10︰15-12︰00", timeNum.getOrDefault("10︰15-12︰00", 0)+1);
             }
-            else if("19:00".compareTo(period) <= 0 && "23:00".compareTo(period) >= 0){
-                int oldCount = data.getOrDefault("下午", 0);
-                data.put("晚上", oldCount+1);
+            else if("14:00".compareTo(period) <= 0 && "15︰50".compareTo(period) >= 0){
+                timeNum.put("14:00-15︰50", timeNum.getOrDefault("14:00-15︰50", 0)+1);
+            }
+            else if("15︰50".compareTo(period) <= 0 && "17︰20".compareTo(period) >= 0){
+                timeNum.put("15︰50-17︰20", timeNum.getOrDefault("15︰50-17︰20", 0)+1);
+            }
+            else if("18:00".compareTo(period) <= 0 && "21:00".compareTo(period) >= 0){
+                timeNum.put("18:00-21:00", timeNum.getOrDefault("18:00-21:00", 0)+1);
             }
         }
-        return data;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("build", buildNum);
+        jsonObject.put("device", deviceNum);
+        jsonObject.put("time", timeNum);
+        return jsonObject;
     }
 
     // todo 优化 返回名字

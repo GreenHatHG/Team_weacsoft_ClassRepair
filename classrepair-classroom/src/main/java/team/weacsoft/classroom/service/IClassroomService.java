@@ -27,4 +27,9 @@ public interface IClassroomService extends IService<Classroom> {
      * @return
      */
      Classroom getClassroomById(Integer id);
+
+    /**
+     * 统计每个build的数量
+     */
+    Map<String, Integer> buildStatistics();
 }

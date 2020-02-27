@@ -7,6 +7,7 @@ import org.apache.poi.ss.formula.functions.T;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
 import team.weacsoft.repair.entity.RepairItem;
+import team.weacsoft.repair.entity.TypeStatisticsDto;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
     IPage<CommonRepairItemDto> searchRepairItem(IPage<T> page, String repairItemId, String ordererName, Integer receiverIdentityId,@Param("receiverName") String receiverName);
 
     List<ExcelRepariItemDto> getList();
+
+    List<TypeStatisticsDto> typeStatisticsDao(Long startTime, Long endTime);
 }
