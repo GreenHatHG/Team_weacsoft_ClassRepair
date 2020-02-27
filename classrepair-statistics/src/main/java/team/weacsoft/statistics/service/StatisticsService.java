@@ -82,8 +82,9 @@ public class StatisticsService {
         for (PeriodStatistics dto : list) {
 
             deviceNum.put(dto.getTitle(), deviceNum.getOrDefault(dto.getTitle(), 0) + 1);
+
             String build = dto.getClassroom().substring(0,2);
-            buildNum.put(build, deviceNum.getOrDefault(build, 0) + 1);
+            buildNum.put(build, buildNum.getOrDefault(build, 0) + 1);
 
             String period = DateUtil.format(new Date(dto.getCreateTime()*1000), "HH:mm");
             if("08:00".compareTo(period) <= 0 && "10:15".compareTo(period) >= 0){
