@@ -17,6 +17,7 @@ import team.weacsoft.user.service.IUserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
+import java.util.Map;
 
 
 /**
@@ -105,7 +106,7 @@ public class UserInfoController {
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @PostMapping("/actions/get_phone")
     public ResponseEntity<ApiResp> getPhone(@Validated @RequestBody GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
-        userInfoService.getPhone(dto, request);
+        Map<String, String> phone = userInfoService.getPhone(dto, request);
         return ApiResp.ok("解析成功");
     }
 }
