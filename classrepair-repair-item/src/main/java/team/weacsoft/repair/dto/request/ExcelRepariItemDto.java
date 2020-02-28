@@ -13,6 +13,32 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ExcelRepariItemDto extends CommonRepairItemDto{
+public class ExcelRepariItemDto  {
+    private Long createTime;
+
+    private Long updateTime;
+
+    private String classroom;
+
+    private String problem;
+
+    private String repairItemId;
+
+    private Integer state;
+
+    //private Integer orderer;
+
+    private String ordererName = "";
+
+    private String ordererPhone = "";
+
+    //private Integer receiver;
+
+    private String receiverName = "";
+
+    private String receiverPhone = "";
+
+    private String title;
+
     private Long deleteTime;
 }

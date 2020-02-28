@@ -7,7 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
-import team.weacsoft.repair.entity.RepairItem2;
+import team.weacsoft.repair.entity.RepairItemForExcel;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class RepairItemExcelService {
     }
 
     private void toExcel(Long startTime, Long endTime){
-        EasyExcel.write("repair_item.xlsx", RepairItem2.class)
+        EasyExcel.write("repair_item.xlsx", RepairItemForExcel.class)
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()).sheet("订单表").doWrite(filterByPeriod(startTime, endTime));
     }
 
