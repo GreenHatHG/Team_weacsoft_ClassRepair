@@ -12,38 +12,29 @@ import java.io.*;
  */
 public class WeChatUtil {
 
-    public static String getTweetsURL()   {
-        FileReader fileReader= null;
-        String s="";
-        try {
-            fileReader = new FileReader("Tweets.txt");
-            int i,j=0;
-            char a[]=new char[100];
-            i=fileReader.read();
-            while(i!=-1){
-                a[j]=(char)i;
-                j++;
-                i=fileReader.read();
-            }
-            s=new String(a,0,j);
-            fileReader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            return s;
+    public static String getTweetsURL() throws IOException {
+        FileReader fileReader = null;
+        String s = "";
+        fileReader = new FileReader("Tweets.txt");
+        int i, j = 0;
+        char a[] = new char[100];
+        i = fileReader.read();
+        while (i != -1) {
+            a[j] = (char) i;
+            j++;
+            i = fileReader.read();
         }
+        s = new String(a, 0, j);
+        fileReader.close();
+        return s;
     }
-    public static String setTweetsURL(String s) {
-        FileWriter fileWriter= null;
-        String s1="true";
-        try {
-            fileWriter = new FileWriter("Tweets.txt");
-            fileWriter.write(s);
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            return s1;
-        }
+
+    public static String setTweetsURL(String s) throws IOException {
+        FileWriter fileWriter = null;
+        String s1 = "true";
+        fileWriter = new FileWriter("Tweets.txt");
+        fileWriter.write(s);
+        fileWriter.close();
+        return s1;
     }
 }
