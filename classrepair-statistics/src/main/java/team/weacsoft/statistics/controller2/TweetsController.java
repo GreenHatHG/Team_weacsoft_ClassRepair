@@ -10,6 +10,7 @@ import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.utils.WeChatUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -25,13 +26,13 @@ public class TweetsController {
 
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @GetMapping("/get_guide")
-    public ResponseEntity<ApiResp> getGuide(){
+    public ResponseEntity<ApiResp> getGuide() throws IOException {
         return ApiResp.ok(WeChatUtil.getTweetsURL());
     }
 
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @PutMapping("/modify_guide")
-    public ResponseEntity<ApiResp> modifyGuide(@RequestBody Map<String,String> dto, HttpServletRequest request){
+    public ResponseEntity<ApiResp> modifyGuide(@RequestBody Map<String,String> dto, HttpServletRequest request) throws IOException {
         String guide_article = dto.get("guide_article");
         WeChatUtil.setTweetsURL(guide_article);
         return ApiResp.ok(guide_article);

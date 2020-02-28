@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class RepairItem2 extends BaseEntity {
+public class RepairItemForExcel extends BaseEntity {
 
     /**
      * 报修单id，后端自动生成，规则：当前日期+时间戳前十一位数字，2020012715801331743
@@ -69,5 +69,12 @@ public class RepairItem2 extends BaseEntity {
      */
     @ExcelProperty(value = "报修人手机号")
     private String ordererPhone = "";
+
+
+    /**
+     * 报修人手机号
+     */
+    @ExcelProperty(value = "接单人手机号")
+    private String receiverPhone = "";
 
 }
