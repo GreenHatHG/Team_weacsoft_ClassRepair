@@ -35,11 +35,10 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
 
     List<ExcelRepariItemDto> getList();
 
-    @Select("SELECT ri.create_time, ri.classroom, qa.title" +
-            "FROM repair_item ri " +
+    @Select("SELECT ri.create_time, ri.classroom, qa.title FROM repair_item ri " +
             " LEFT JOIN qa_type qa ON ri.equipment_type = qa.id " +
             " WHERE ri.create_time >= #{startTime} and ri.create_time <= #{endTime}")
-    List<PeriodStatistics> typeStatisticsDao(Long startTime, Long endTime);
+    List<PeriodStatistics> typeStatisticsDao(@Param("startTime") Long startTime, @Param("endTime") Long endTime);
 
     /**
      * 获取状态为1的订单

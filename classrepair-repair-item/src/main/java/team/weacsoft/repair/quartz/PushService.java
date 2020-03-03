@@ -80,7 +80,7 @@ public class PushService{
         json.put("data", dataJson);
 
         Map<String, Object> data = new HashMap<>(2);
-        data.put("test", 1);
+//        data.put("test", 1);
         data.put("data", aes.encryptBase64(JSONObject.toJSONString(json)));
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, data, String.class);
