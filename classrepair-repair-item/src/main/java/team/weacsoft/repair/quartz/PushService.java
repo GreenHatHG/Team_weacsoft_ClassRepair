@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import team.weacsoft.common.consts.RepairItemStateEnum;
 import team.weacsoft.repair.entity.PushInfo;
 import team.weacsoft.repair.service.impl.RepairItemStateServiceImpl;
 import team.weacsoft.timetable.entity.DutyUserInfo;
@@ -72,11 +73,13 @@ public class PushService{
         json.put("template_id", templateId);
 
         HashMap<String, String> dataJson = new HashMap<>(5);
-        dataJson.put("first", "收到新订单");
-        dataJson.put("keyword1", pushInfo.getOrdererName());
-        dataJson.put("keyword2", pushInfo.getOrdererPhone());
-        dataJson.put("keyword3", DateUtil.format(new Date(pushInfo.getCreateTime()*1000), "yyyy-MM-dd HH:mm:ss"));
-        dataJson.put("remark", pushInfo.getProblem());
+        dataJson.put("first", "你好，有新的故障");
+        dataJson.put("keyword1", pushInfo.getTitle());
+        dataJson.put("keyword2", pushInfo.getClassroom());
+        dataJson.put("keyword3", RepairItemStateEnum.getDescription(pushInfo.getState()));
+        dataJson.put("keyword4", pushInfo.getProblem());
+        dataJson.put("keyword5", DateUtil.format(new Date(pushInfo.getCreateTime()*1000), "yyyy-MM-dd HH:mm:ss"));
+        dataJson.put("remark", "请尽快处理");
         json.put("data", dataJson);
 
         Map<String, Object> data = new HashMap<>(2);
@@ -84,6 +87,5 @@ public class PushService{
         data.put("data", aes.encryptBase64(JSONObject.toJSONString(json)));
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, data, String.class);
-        System.out.println(DateUtil.format(new Date(), "HH:mm:ss") + "\t" + responseEntity);
     }
 }

@@ -7,38 +7,35 @@ package team.weacsoft.common.consts;
 
 public enum  RepairItemStateEnum {
 
-    /**
-     * 待处理
-     */
-    PENDING(1),
-    /**已查看
-     *
-     */
-    CHECKED(2),
-    /**
-     * 处理中
-     */
-    PROCESSING(3),
-    /**
-     * 已处理
-     */
-    PROCESSED(4),
-    /**
-     * 已取消
-     */
-    CANCELLED(5);
+    PENDING(1, "待处理"),
+    CHECKED(2, "已查看"),
+    PROCESSING(3, "处理中"),
+    PROCESSED(4, "已处理"),
+    CANCELLED(5, "已取消");
 
     private int state;
+    private String description;
 
-    RepairItemStateEnum(int state) {
+    RepairItemStateEnum(int state, String description) {
         this.state = state;
+        this.description = description;
     }
 
     public int getState() {
         return state;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public String getDescription() {
+        return description;
+    }
+
+    public static String getDescription(int state){
+        RepairItemStateEnum[] enums = RepairItemStateEnum.values();
+        for(RepairItemStateEnum repairItemStateEnum : enums){
+            if(state == repairItemStateEnum.getState()){
+                return repairItemStateEnum.getDescription();
+            }
+        }
+        return "";
     }
 }
