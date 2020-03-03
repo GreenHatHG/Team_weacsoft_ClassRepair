@@ -55,9 +55,7 @@ public class InvitationService {
         String leaderCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_LEADERCODE);
         String teacherCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_TEACHERCODE);
         String staffCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_STAFFCODE);
-        System.out.println(222);
         if(staffCode == null){
-            System.out.println(1111);
             //1位随机数+权限+时间戳后6位
             String substring = String.valueOf(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli())
                     .substring(7);
