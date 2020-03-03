@@ -42,29 +42,68 @@ public class InvitationService {
      */
     private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
-    private static final String REDIS_INVITATION_KEY = "invi";
+    private static final String REDIS_INVITATION_KEY_ROOMMANAGERCODE = "invi_roomManagerCode";
+    private static final String REDIS_INVITATION_KEY_LEADERCODE = "invi_leaderCode";
+    private static final String REDIS_INVITATION_KEY_TEACHERCODE = "invi_teacherCode";
+    private static final String REDIS_INVITATION_KEY_STAFFCODE = "invi_staffCode";
 
     /**
      * 获得邀请码
      */
     public Map<String, String> getInvitionCode(){
-        String code = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY);
-        if(code == null){
-            //2位随机数+时间戳后6位
-            code = String.valueOf(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli())
-                    .substring(7) + RandomUtil.randomInt(9) + RandomUtil.randomInt(9);
+        String roomManagerCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_ROOMMANAGERCODE);
+        String leaderCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_LEADERCODE);
+        String teacherCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_TEACHERCODE);
+        String staffCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_STAFFCODE);
+        if(staffCode == null){
+            //1位随机数+权限+时间戳后6位
+            String substring = String.valueOf(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli())
+                    .substring(7);
+            roomManagerCode = substring + RandomUtil.randomInt(9) + 6;
+            leaderCode = substring + RandomUtil.randomInt(9) + 5;
+            teacherCode = substring + RandomUtil.randomInt(9) + 7;
+            staffCode = substring + RandomUtil.randomInt(9) + 4;
             stringRedisTemplate.opsForValue()
-                    .set(REDIS_INVITATION_KEY, code, EXPIRE_TIME, TimeUnit.MILLISECONDS);
+                    .set(REDIS_INVITATION_KEY_ROOMMANAGERCODE, roomManagerCode, EXPIRE_TIME, TimeUnit.MILLISECONDS);
+            stringRedisTemplate.opsForValue()
+                    .set(REDIS_INVITATION_KEY_LEADERCODE, leaderCode, EXPIRE_TIME, TimeUnit.MILLISECONDS);
+            stringRedisTemplate.opsForValue()
+                    .set(REDIS_INVITATION_KEY_TEACHERCODE, teacherCode, EXPIRE_TIME, TimeUnit.MILLISECONDS);
+            stringRedisTemplate.opsForValue()
+                    .set(REDIS_INVITATION_KEY_STAFFCODE, staffCode, EXPIRE_TIME, TimeUnit.MILLISECONDS);
         }
-        return ImmutableMap.<String, String> builder().put("code", code).build();
+        return ImmutableMap.<String, String> builder().put("roomManagerCode", roomManagerCode)
+                .put("leaderCode", leaderCode).put("teacherCode", teacherCode).put("staffCode", staffCode).build();
     }
 
     public UpdateRoleDto updtaeRoleByCode(UpdateRoleByCodeDto dto, HttpServletRequest request) {
         String id = JwtUtil.getIdFromRequest(request);
         UserInfo userInfo = userInfoService.getById(id);
+        String code = dto.getCode();
 
-        String redisCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY);
-        if (StringUtils.equals(dto.getCode(), redisCode)) {
+        String roomManagerCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_ROOMMANAGERCODE);
+        String leaderCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_LEADERCODE);
+        String teacherCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_TEACHERCODE);
+        String staffCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_STAFFCODE);
+
+        if(StringUtils.equals(code, roomManagerCode)){
+            userInfo.setRole(6);
+            userInfo.setPassword(Argon2Util.hash(dto.getPassword()));
+            userInfoService.updateById(userInfo);
+            return (UpdateRoleDto) JsonUtil.getCopyDto(userInfoService.getById(id), new UpdateRoleDto());
+        }
+        else if(StringUtils.equals(code, leaderCode)){
+            userInfo.setRole(5);
+            userInfo.setPassword(Argon2Util.hash(dto.getPassword()));
+            userInfoService.updateById(userInfo);
+            return (UpdateRoleDto) JsonUtil.getCopyDto(userInfoService.getById(id), new UpdateRoleDto());
+        }else if(StringUtils.equals(code, teacherCode)){
+            userInfo.setRole(7);
+            userInfo.setPassword(Argon2Util.hash(dto.getPassword()));
+            userInfoService.updateById(userInfo);
+            return (UpdateRoleDto) JsonUtil.getCopyDto(userInfoService.getById(id), new UpdateRoleDto());
+        }
+        else if (StringUtils.equals(code, staffCode)) {
             userInfo.setRole(4);
             userInfo.setPassword(Argon2Util.hash(dto.getPassword()));
             userInfoService.updateById(userInfo);
