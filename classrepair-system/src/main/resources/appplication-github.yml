@@ -53,3 +53,7 @@ classrepair:
   #网页维护人员登录的密码
   web:
     login:
+  push:
+    key:
+    iv:
+    template_id:

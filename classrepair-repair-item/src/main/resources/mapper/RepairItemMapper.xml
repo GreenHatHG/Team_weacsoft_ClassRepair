@@ -62,7 +62,9 @@
             or u1.name like CONCAT(CONCAT('%',#{receiverName}),'%')
         </if>
     </select>
+
     <select id="getList" resultType="team.weacsoft.repair.dto.request.ExcelRepariItemDto">
-        <include refid="query"/>
+        <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
     </select>
+
 </mapper>
