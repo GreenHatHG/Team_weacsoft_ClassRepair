@@ -3,6 +3,7 @@ package team.weacsoft.timetable.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import team.weacsoft.timetable.dto.reponse.OnlineDto;
+import team.weacsoft.timetable.entity.DutyUserInfo;
 import team.weacsoft.timetable.entity.TimeTable;
 
 import java.util.List;
@@ -20,4 +21,11 @@ public interface TimeTableMapper extends BaseMapper<TimeTable> {
     @Select("SELECT t.user_id , t.create_time, name, phone, identity_id, nick_name from time_table t" +
             " LEFT JOIN user_info u ON t.user_id = u.id where t.state=1")
     List<OnlineDto> getAllOnline();
+
+    /**
+     * 获得所有在值班的人员
+     */
+    @Select("SELECT ui.identity_id FROM time_table tt" +
+            " LEFT JOIN user_info ui ON tt.user_id = ui.id WHERE tt.state = 1")
+    List<DutyUserInfo> getDutyUserInfos();
 }

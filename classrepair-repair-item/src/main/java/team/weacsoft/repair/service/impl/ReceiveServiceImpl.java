@@ -1,6 +1,7 @@
 package team.weacsoft.repair.service.impl;
 
 import org.springframework.stereotype.Service;
+import team.weacsoft.common.consts.RepairItemStateEnum;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.BaseUpdateRepairItemService;
@@ -20,10 +21,10 @@ public class ReceiveServiceImpl extends BaseUpdateRepairItemService {
 
     @Override
     protected RepairItem process(RepairItem repairItem, UserInfo userInfo) {
-        if(repairItem.getState() != 1){
+        if(repairItem.getState() != RepairItemStateEnum.PENDING.getState()){
             throw new BadRequestException(40050, "接单失败，该订单未处于未接状态，订单状态：" + repairItem.getState());
         }
-        repairItem.setState(2);
+        repairItem.setState(RepairItemStateEnum.PROCESSING.getState());
         repairItem.setReceiver(userInfo.getId());
         return repairItem;
     }
