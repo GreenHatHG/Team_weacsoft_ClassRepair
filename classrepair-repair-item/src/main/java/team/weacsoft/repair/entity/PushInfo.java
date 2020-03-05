@@ -17,4 +17,5 @@ public class PushInfo extends PeriodStatistics{
     private String problem;
     private String ordererName;
     private String ordererPhone;
+    private String repairItemId;
 }

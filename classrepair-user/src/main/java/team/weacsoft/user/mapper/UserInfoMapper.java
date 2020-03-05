@@ -1,7 +1,7 @@
 package team.weacsoft.user.mapper;
 
-import team.weacsoft.user.entity.UserInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import team.weacsoft.user.entity.UserInfo;
 
 /**
  * <p>
@@ -12,5 +12,4 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-01-25
  */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
-
 }

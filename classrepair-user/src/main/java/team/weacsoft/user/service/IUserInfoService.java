@@ -12,6 +12,7 @@ import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,6 +58,11 @@ public interface IUserInfoService extends IService<UserInfo> {
      * 分页获取用户列表
      */
     Page<UserInfo> getUserList(PageRequest pageRequest);
+
+    /**
+     * 获得负责人列表
+     */
+    List<UserInfo> getPrincipals();
 
     /**
      * 获取用户手机号

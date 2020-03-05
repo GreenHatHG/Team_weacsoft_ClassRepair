@@ -43,7 +43,7 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
     /**
      * 获取状态为1的订单
      */
-    @Select("SELECT ri.create_time,ri.classroom,qa.title,ri.state,ri.problem,ui.`name` AS orderer_name,ui.phone AS orderer_phone " +
+    @Select("SELECT ri.create_time,ri.classroom,qa.title,ri.repair_item_id, ri.state,ri.problem,ui.`name` AS orderer_name,ui.phone AS orderer_phone " +
             " FROM repair_item ri" +
             " LEFT JOIN qa_type qa ON ri.equipment_type = qa.id" +
             " LEFT JOIN user_info ui ON ri.orderer = ui.id WHERE ri.state = 1")
