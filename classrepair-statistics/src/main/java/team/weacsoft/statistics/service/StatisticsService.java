@@ -78,7 +78,7 @@ public class StatisticsService {
         Map<String, Integer> deviceNum = new HashMap<>(10);
         Map<String, Integer> buildNum = new HashMap<>(13);
         Map<String, Integer> timeNum = new HashMap<>(5);
-
+        Map<String, Integer> dateNum = new HashMap<>(50);
         for (PeriodStatistics dto : list) {
 
             deviceNum.put(dto.getTitle(), deviceNum.getOrDefault(dto.getTitle(), 0) + 1);
@@ -102,11 +102,15 @@ public class StatisticsService {
             else if("18:00".compareTo(period) <= 0 && "21:00".compareTo(period) >= 0){
                 timeNum.put("18:00-21:00", timeNum.getOrDefault("18:00-21:00", 0)+1);
             }
+
+            String now = DateUtil.format(new Date(dto.getCreateTime()*1000), "MM-dd");
+            dateNum.put(now, dateNum.getOrDefault(now, 0) + 1);
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("build", buildNum);
         jsonObject.put("device", deviceNum);
         jsonObject.put("time", timeNum);
+        jsonObject.put("date", dateNum);
         return jsonObject;
     }
 
