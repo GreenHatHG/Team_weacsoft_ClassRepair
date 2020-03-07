@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 import team.weacsoft.repair.entity.PeriodStatistics;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -22,16 +20,17 @@ public class NewStatisticsService extends BaseStatisticsService {
 
     @Override
     public JSONObject process(List<PeriodStatistics> list, String type) {
-        Map<String, Integer> deviceNum = new HashMap<>(10);
-        Map<String, Integer> buildNum = new HashMap<>(13);
-        Map<String, Integer> timeNum = new HashMap<>(5);
-        Map<String, Integer> dateNum = new HashMap<>(50);
+        initDeviceNum();
+        initBuildNum();
+        initTimeNum();
+        initDateNum();
         for (PeriodStatistics dto : list) {
-            buildProcess(buildNum, dto);
-            deviceProcess(deviceNum, dto);
+            buildProcess(dto);
+            deviceProcess(dto);
             timeProcess(timeNum, dto);
-            dateProcess(dateNum, dto);
+            dateProcess(dto);
         }
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("build", buildNum);
         jsonObject.put("device", deviceNum);

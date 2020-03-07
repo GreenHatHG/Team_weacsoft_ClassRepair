@@ -5,9 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import team.weacsoft.repair.entity.PeriodStatistics;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -23,12 +21,12 @@ public class BuildStatisticsService extends BaseStatisticsService {
 
     @Override
     public JSONObject process(List<PeriodStatistics> list, String type) {
-        Map<String, Integer> deviceNum = new HashMap<>(10);
-        Map<String, Integer> dateNum = new HashMap<>(50);
+        initDeviceNum();
+        initDateNum();
         for (PeriodStatistics dto : list) {
             if(StringUtils.equals(dto.getClassroom().substring(0,2), type)){
-                deviceProcess(deviceNum, dto);
-                dateProcess(dateNum, dto);
+                deviceProcess(dto);
+                dateProcess(dto);
             }
         }
         JSONObject jsonObject = new JSONObject();
