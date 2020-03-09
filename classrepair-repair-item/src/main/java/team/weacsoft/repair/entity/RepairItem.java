@@ -25,7 +25,6 @@ public class RepairItem extends BaseEntity {
     /**
      * 报修单id，后端自动生成，规则：当前日期+时间戳前十一位数字，2020012715801331743
      */
-
     @ExcelProperty(value = "")
     private String repairItemId;
 
