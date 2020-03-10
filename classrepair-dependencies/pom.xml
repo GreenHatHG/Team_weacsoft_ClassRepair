@@ -19,6 +19,7 @@
         <module>../classrepair-invitation</module>
         <module>../classrepair-statistics</module>
         <module>../classrepair-repair-log</module>
+        <module>../classrepair-user-feedback</module>
     </modules>
 
     <parent>

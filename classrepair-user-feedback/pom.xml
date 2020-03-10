@@ -10,20 +10,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>team.weacsoft.classrepair</groupId>
-    <artifactId>classrepair-user-feeaback</artifactId>
-    <version>1.0.0</version>
+    <artifactId>classrepair-user-feedback</artifactId>
     <dependencies>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
             <artifactId>classrepair-common</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-system</artifactId>
-            <version>1.0.0</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

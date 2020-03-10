@@ -1,5 +1,7 @@
 package team.weacsoft.feedback.dto.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,7 +11,7 @@ import lombok.Data;
  * @date 2020.03.08 18:11
  */
 @Data
-public class FeedBackResp {
-    Integer feedbackId;
-    String question;
+@AllArgsConstructor
+public class FeedbackResp {
+    int feedbackId;
 }

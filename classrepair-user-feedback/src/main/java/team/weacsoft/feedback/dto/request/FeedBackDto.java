@@ -17,7 +17,7 @@ public class FeedBackDto {
     /**
      * 电话号码（非必填）
      */
-    Integer OrderPhone;
+    Integer orderPhone;
 
     /**
      * 描述（必填）

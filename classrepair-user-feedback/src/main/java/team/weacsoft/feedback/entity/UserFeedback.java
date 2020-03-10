@@ -18,15 +18,15 @@ import team.weacsoft.common.persistence.BaseEntity;
 @Data//代替了getter、setter、equals、hashcode、tostring...
 @SuperBuilder//建造者模式的构造方法
 @Accessors(chain = true)//set方法将返回本对象
-public class UserFeedBack extends BaseEntity{
-    public UserFeedBack(){
+public class UserFeedback extends BaseEntity{
+    public UserFeedback(){
         super();
     }
     /**
      * 反馈人id
      */
     @Builder.Default//构造是允许使用默认值
-    int order=0;
+    int orderer=0;
 
     /**
      * 处理人id
@@ -38,12 +38,11 @@ public class UserFeedBack extends BaseEntity{
      * 反馈人电话
      */
     @Builder.Default
-    String orderPhone="";
+    String orderPhone="0";
 
     /**
      * 反馈问题
      */
 
-    @Builder.Default
-    String Question="";
+    String question;
 }
