@@ -6,6 +6,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.ImmutableMap;
@@ -33,6 +34,7 @@ import team.weacsoft.user.mapper.UserInfoMapper;
 import team.weacsoft.user.service.IUserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -135,6 +137,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         return page(PageUtil.getPage(pageRequest),
                 new QueryWrapper<UserInfo>().eq("delete_time", 0L)
                         .eq("state", 1).ne("role", 5));
+    }
+
+    @Override
+    public List<UserInfo> getPrincipals(){
+        return (List<UserInfo>) list(Wrappers.<UserInfo>lambdaQuery()
+                .eq(UserInfo::getRole, 5).or()
+                .eq(UserInfo::getRole, 6).or()
+                .eq(UserInfo::getRole, 7));
     }
 
     @Override

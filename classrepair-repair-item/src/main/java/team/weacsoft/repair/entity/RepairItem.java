@@ -4,7 +4,6 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import team.weacsoft.common.converter.DateConverter;
 import team.weacsoft.common.persistence.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
@@ -63,4 +62,8 @@ public class RepairItem extends BaseEntity {
      */
     private String ordererPhone = "";
 
+    /**
+     * 是否是紧急订单
+     */
+    private Boolean urgent = false;
 }

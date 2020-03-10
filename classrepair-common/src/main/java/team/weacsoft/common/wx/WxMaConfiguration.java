@@ -12,10 +12,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class WxMaConfiguration {
-    @Value("${classrepair.wx.appid}")
-    private String appid;
+
+    private static String appid;
     @Value("${classrepair.wx.appsecret}")
     private String appsecret;
+
+    @Value("${classrepair.wx.appid}")
+    public void setAppid(String appid) {
+        WxMaConfiguration.appid = appid;
+    }
 
     private static WxMaService wxMaService = null;
 
@@ -33,5 +38,9 @@ public class WxMaConfiguration {
 
     public static WxMaService getWxMaService(){
         return wxMaService;
+    }
+
+    public static String getAppid() {
+        return appid;
     }
 }

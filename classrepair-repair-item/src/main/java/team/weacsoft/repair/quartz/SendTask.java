@@ -23,6 +23,6 @@ public class SendTask extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        pushService.sendMessage();
+        pushService.sendCronMessage();
     }
 }

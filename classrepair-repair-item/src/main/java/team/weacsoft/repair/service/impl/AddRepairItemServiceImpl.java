@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.repair.entity.RepairItem;
+import team.weacsoft.repair.quartz.PushService;
 import team.weacsoft.repair.service.BaseRepairItemService;
 import team.weacsoft.user.entity.UserInfo;
 
@@ -24,6 +25,9 @@ public class AddRepairItemServiceImpl extends BaseRepairItemService {
     @Autowired
     private SimpMessagingTemplate wsTemplate;
 
+    @Autowired
+    private PushService pushService;
+
     @Transactional
     public RepairItem getRepairItem(RepairItem repairItem, HttpServletRequest request) {
         UserInfo userInfo = userInfoService.getById(JwtUtil.getIdFromRequest(request));
@@ -36,6 +40,9 @@ public class AddRepairItemServiceImpl extends BaseRepairItemService {
         String problem = repairItem.getProblem();
         sendMessage(repairItem, userInfo.getOpenid(), "已下单",
                 problem.length() > 20 ?  StrUtil.sub(repairItem.getProblem(), 0, 17) + "..." : problem);
+        if(repairItem.getUrgent()){
+            pushService.sendUrgentMessage(repairItem);
+        }
         return repairItem;
     }
 
