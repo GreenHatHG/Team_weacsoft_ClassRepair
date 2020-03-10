@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface UserFeedbackMapper extends BaseMapper<UserFeedback> {
     List<ManagerFeedbackResp> getUserFeedback(@Param("state")Integer state);
+    void update(Integer id,Integer state);
 }

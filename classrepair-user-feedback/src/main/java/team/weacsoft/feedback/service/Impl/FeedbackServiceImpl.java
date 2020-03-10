@@ -42,8 +42,8 @@ public class FeedbackServiceImpl extends ServiceImpl<UserFeedbackMapper, UserFee
     }
 
     @Override//用户侧-修改反馈状态
-    public IPage<UserFeedback> updateFeedBack(HttpServletRequest httpServletRequest, int id, String status) {
-
+    public IPage<UserFeedback> updateFeedBack(HttpServletRequest httpServletRequest, Integer id, Integer status) {
+        baseMapper.update(id,status);
         return null;
     }
 }

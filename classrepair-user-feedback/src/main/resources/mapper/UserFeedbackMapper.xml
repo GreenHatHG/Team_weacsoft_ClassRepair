@@ -24,4 +24,7 @@
             u1.state=#{state}
         </if>
     </select>
+    <update id="update">
+        UPDATE classrepair.user_feedback SET state=#{state} WHERE id=#{id}
+    </update>
 </mapper>

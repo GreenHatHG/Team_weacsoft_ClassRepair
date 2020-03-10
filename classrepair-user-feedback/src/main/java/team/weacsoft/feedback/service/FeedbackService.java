@@ -28,5 +28,5 @@ public interface FeedbackService {
     /**
      * 用户侧-修改反馈状态
      */
-    IPage<UserFeedback> updateFeedBack(HttpServletRequest httpServletRequest, int id, String status);
+    IPage<UserFeedback> updateFeedBack(HttpServletRequest httpServletRequest, Integer id, Integer status);
 }

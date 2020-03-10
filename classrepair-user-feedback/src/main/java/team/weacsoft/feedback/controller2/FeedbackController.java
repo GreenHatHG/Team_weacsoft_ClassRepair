@@ -56,8 +56,8 @@ public class FeedbackController {
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @PutMapping("/updateFeedBack")
     public ResponseEntity<ApiResp> updateFeedBack(HttpServletRequest httpServletRequest,
-                                                  @NotBlank @RequestParam Integer id,
-                                                  @NotBlank @RequestParam String status){
+                                                  @RequestParam(value = "id") Integer id,
+                                                  @RequestParam(value = "status") Integer status){
         return ApiResp.ok(feedBackService.updateFeedBack(httpServletRequest,id,status));
     }
 }
