@@ -34,11 +34,10 @@ public class FeedbackController {
      * 管理员-查看意见反馈
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")//权限
-    @Log(module = "订单管理", operation = "维修人员接单")
     @GetMapping("/getFeedBack")
-    public ResponseEntity<ApiResp> getFeedBack(HttpServletRequest httpServletRequest){
-        System.out.println(111);
-        return ApiResp.ok(feedBackService.getFeedBack(httpServletRequest));
+    public ResponseEntity<ApiResp> getFeedBack(HttpServletRequest httpServletRequest,
+                                               @RequestParam(value = "status", required = false) Integer state){
+        return ApiResp.ok(feedBackService.getFeedBack(httpServletRequest,state));
     }
 
     /**
@@ -57,7 +56,7 @@ public class FeedbackController {
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @PutMapping("/updateFeedBack")
     public ResponseEntity<ApiResp> updateFeedBack(HttpServletRequest httpServletRequest,
-                                                  @NotBlank @RequestParam int id,
+                                                  @NotBlank @RequestParam Integer id,
                                                   @NotBlank @RequestParam String status){
         return ApiResp.ok(feedBackService.updateFeedBack(httpServletRequest,id,status));
     }

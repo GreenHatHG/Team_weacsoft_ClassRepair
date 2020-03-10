@@ -1,15 +1,18 @@
 package team.weacsoft.feedback.service.Impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import team.weacsoft.feedback.dto.request.FeedBackDto;
 import team.weacsoft.feedback.dto.response.FeedbackResp;
+import team.weacsoft.feedback.dto.response.ManagerFeedbackResp;
 import team.weacsoft.feedback.entity.UserFeedback;
 import team.weacsoft.feedback.mapper.UserFeedbackMapper;
 import team.weacsoft.feedback.service.FeedbackService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Description
@@ -19,10 +22,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Service
 public class FeedbackServiceImpl extends ServiceImpl<UserFeedbackMapper, UserFeedback> implements FeedbackService {
-    @Override//用户侧-获取意见反馈
-    public Page<UserFeedback> getFeedBack(HttpServletRequest httpServletRequest) {
-
-        return null;
+    @Override//用户侧-查看用户反馈
+    public List<ManagerFeedbackResp> getFeedBack(HttpServletRequest httpServletRequest, Integer state) {
+        return baseMapper.getUserFeedback(state);
     }
 
     @Override//用户侧-提交意见反馈
@@ -40,7 +42,7 @@ public class FeedbackServiceImpl extends ServiceImpl<UserFeedbackMapper, UserFee
     }
 
     @Override//用户侧-修改反馈状态
-    public Page<UserFeedback> updateFeedBack(HttpServletRequest httpServletRequest, int id, String status) {
+    public IPage<UserFeedback> updateFeedBack(HttpServletRequest httpServletRequest, int id, String status) {
 
         return null;
     }
