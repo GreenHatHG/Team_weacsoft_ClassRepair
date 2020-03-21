@@ -13,9 +13,9 @@
             u1.question,
             u1.order_phone
         FROM
-            classrepair.user_feedback u1
-            LEFT JOIN classrepair.user_info r1 ON u1.orderer=r1.id
-            LEFT JOIN classrepair.user_info r2 ON u1.receiver=r2.id
+            user_feedback u1
+            LEFT JOIN user_info r1 ON u1.orderer=r1.id
+            LEFT JOIN user_info r2 ON u1.receiver=r2.id
     </sql>
     <select id="getUserFeedback" resultType="team.weacsoft.feedback.dto.response.ManagerFeedbackResp">
         <include refid="team.weacsoft.feedback.mapper.UserFeedbackMapper.query"/>
@@ -25,6 +25,6 @@
         </if>
     </select>
     <update id="update">
-        UPDATE classrepair.user_feedback SET state=#{state} WHERE id=#{id}
+        UPDATE user_feedback SET state=#{state} WHERE id=#{id}
     </update>
 </mapper>
