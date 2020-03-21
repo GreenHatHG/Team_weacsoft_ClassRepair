@@ -15,6 +15,9 @@ import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.statistics.service.RepairItemExcelService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -34,9 +37,9 @@ public class RepairItemExcelController {
      */
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @GetMapping("/excel")
-    public ResponseEntity<ApiResp>  getExcel(@RequestParam(name = "start_time", required = false)Long startTime,
+    public ResponseEntity<Resource> getExcel(@RequestParam(name = "start_time", required = false)Long startTime,
                                             @RequestParam(name = "end_time", required = false) Long endTime,
-                                              HttpServletRequest request){
+                                              HttpServletRequest request) throws IOException {
         Resource resource = repairItemExcelService.getExcel(startTime, endTime);
         String contentType = null;
         //尝试确定文件的内容类型
@@ -50,7 +53,6 @@ public class RepairItemExcelController {
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
-        System.out.println("02");
-        return ApiResp.ok(ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource));
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
     }
 }

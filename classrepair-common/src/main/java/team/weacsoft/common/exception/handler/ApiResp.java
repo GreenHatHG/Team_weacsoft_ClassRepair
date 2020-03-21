@@ -14,10 +14,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class ApiResp {
-    private Integer errorcode = 0;
+    private Integer errorCode = 0;
     private LocalDateTime timestamp;
     private String errormsg;
     private Object data;
+
 
     private ApiResp() {
         timestamp = LocalDateTime.now();
@@ -25,27 +26,27 @@ public class ApiResp {
 
     public static ApiResp error(String message){
         ApiResp apiError = new ApiResp();
-        apiError.setErrorcode(400);
+        apiError.setErrorCode(400);
         apiError.setErrormsg(message);
         return apiError;
     }
 
     public static ApiResp error(Integer status, String message){
         ApiResp apiError = new ApiResp();
-        apiError.setErrorcode(status);
+        apiError.setErrorCode(status);
         apiError.setErrormsg(message);
         return apiError;
     }
 
     public static ApiResp ok(){
         ApiResp apiOk = new ApiResp();
-        apiOk.setErrorcode(0);
+        apiOk.setErrorCode(0);
         return apiOk;
     }
 
     public static ResponseEntity<ApiResp> ok(Object data){
         ApiResp apiOk = new ApiResp();
-        apiOk.setErrorcode(0);
+        apiOk.setErrorCode(0);
         apiOk.setData(data);
         return new ResponseEntity<>(apiOk, HttpStatus.OK);
     }
