@@ -21,7 +21,7 @@ public class CancelReceiveServiceImpl extends BaseUpdateRepairItemService {
 
     @Override
     protected RepairItem process(RepairItem repairItem, UserInfo userInfo) {
-        if(repairItem.getState() != RepairItemStateEnum.PROCESSING.getState()){
+        if(!repairItem.getState().equals(RepairItemStateEnum.PROCESSING.getState())){
             throw new BadRequestException(40088, "该订单未处于处理中状态，目前状态:"+repairItem.getState());
         }
         repairItem.setState(RepairItemStateEnum.PENDING.getState());
