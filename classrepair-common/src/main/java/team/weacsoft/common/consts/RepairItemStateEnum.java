@@ -25,6 +25,30 @@ public enum  RepairItemStateEnum {
         return state;
     }
 
+    public static String getStateById(int state){//通过int state获取指定的描述
+        String a;
+        switch(state){
+            case 1:
+                a=RepairItemStateEnum.PENDING.getDescription();
+                break;
+            case 2:
+                a=RepairItemStateEnum.CHECKED.getDescription();
+                break;
+            case 3:
+                a=RepairItemStateEnum.PROCESSING.getDescription();
+                break;
+            case 4:
+                a=RepairItemStateEnum.PROCESSED.getDescription();
+                break;
+            case 5:
+                a=RepairItemStateEnum.CANCELLED.getDescription();
+                break;
+            default:
+                a="错误状态";
+        }
+        return a;
+    }
+
     public String getDescription() {
         return description;
     }
