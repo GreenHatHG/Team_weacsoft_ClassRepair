@@ -28,7 +28,7 @@ public class CancelReceiveServiceImpl extends BaseUpdateRepairItemService {
         }
         if(!repairItem.getState().equals(RepairItemStateEnum.PROCESSING.getState())){
             throw new BadRequestException(40088, "该订单未处于处理中状态，目前状态:"+
-                    RepairItemStateEnum.getStateById(repairItem.getState()));
+                    RepairItemStateEnum.getDescription(repairItem.getState()));
         }
         repairItem.setState(RepairItemStateEnum.PENDING.getState());
         repairItem.setReceiver(0);

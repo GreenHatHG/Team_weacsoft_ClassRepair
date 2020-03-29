@@ -27,7 +27,7 @@ public class CompleteServiceImpl extends BaseUpdateRepairItemService {
         }
         if(!repairItem.getState().equals(RepairItemStateEnum.PROCESSING.getState())
                 && !repairItem.getState().equals( RepairItemStateEnum.CHECKED.getState())){
-            throw new BadRequestException(40088, "该订单未处于处理中状态或查看完状态，目前状态:"+RepairItemStateEnum.getStateById(repairItem.getState()));
+            throw new BadRequestException(40088, "该订单未处于处理中状态或查看完状态，目前状态:"+RepairItemStateEnum.getDescription(repairItem.getState()));
         }
         repairItem.setState(RepairItemStateEnum.PROCESSED.getState());
         return repairItem;

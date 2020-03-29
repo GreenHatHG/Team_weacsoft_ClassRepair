@@ -25,8 +25,8 @@ public class ReceiveServiceImpl extends BaseUpdateRepairItemService {
         if(repairItem.getState()==null){
             throw new EntityNotFoundException("RepairIteam的","state","为空");
         }
-        if(repairItem.getState() != RepairItemStateEnum.PENDING.getState()){
-            throw new BadRequestException(40050, "接单失败，该订单未处于接单状态，订单状态：" + RepairItemStateEnum.getStateById(repairItem.getState()));
+        if(!repairItem.getState().equals(RepairItemStateEnum.PENDING.getState())){
+            throw new BadRequestException(40050, "接单失败，该订单未处于接单状态，订单状态：" + RepairItemStateEnum.getDescription(repairItem.getState()));
         }
         repairItem.setState(RepairItemStateEnum.PROCESSING.getState());
         repairItem.setReceiver(userInfo.getId());

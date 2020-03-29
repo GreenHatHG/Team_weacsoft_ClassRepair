@@ -33,7 +33,7 @@ public class CancelRepairServiceImpl extends BaseUpdateRepairItemService {
         }
         if(!(repairItem.getState().equals( RepairItemStateEnum.PENDING.getState()) || repairItem.getState().equals( RepairItemStateEnum.PROCESSING.getState())
             || repairItem.getState().equals( RepairItemStateEnum.CHECKED.getState()))){
-            throw new BadRequestException(40077, "取消报修失败，该订单未处于未处理或者处理中状态，订单状态：" + RepairItemStateEnum.getStateById(repairItem.getState()));
+            throw new BadRequestException(40077, "取消报修失败，该订单未处于未处理或者处理中状态，订单状态：" + RepairItemStateEnum.getDescription(repairItem.getState()));
         }
         repairItem.setState(RepairItemStateEnum.CANCELLED.getState());
         repairItem.setDeleteTime(LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8")));
