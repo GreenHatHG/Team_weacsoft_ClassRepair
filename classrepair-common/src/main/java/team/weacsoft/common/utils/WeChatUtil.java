@@ -14,19 +14,28 @@ public class WeChatUtil {
 
     public static String getTweetsURL() throws IOException {
         FileReader fileReader = null;
-        String s = "";
-        fileReader = new FileReader("Tweets.txt");
-        int i, j = 0;
-        char a[] = new char[100];
-        i = fileReader.read();
-        while (i != -1) {
-            a[j] = (char) i;
-            j++;
+        File file = new File("Tweets.txt");
+        if(!file.exists()){
+            file.createNewFile();
+            String s1="https://mp.weixin.qq.com/s/ZGShHw6HI99IggrKgWyLaA";
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(s1);
+            fileWriter.close();
+            return s1;
+        }else {
+            fileReader = new FileReader("Tweets.txt");
+            int i, j = 0;
+            char a[] = new char[1000];
             i = fileReader.read();
+            while (i != -1) {
+                a[j] = (char) i;
+                j++;
+                i = fileReader.read();
+            }
+            String s = new String(a, 0, j);
+            fileReader.close();
+            return s;
         }
-        s = new String(a, 0, j);
-        fileReader.close();
-        return s;
     }
 
     public static String setTweetsURL(String s) throws IOException {
