@@ -16,5 +16,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 public class FeedbackResp {
+
     int feedbackId;
+
+    String message;
 }

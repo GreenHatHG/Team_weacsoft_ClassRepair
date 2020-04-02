@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
+import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.feedback.dto.request.FeedBackDto;
 import team.weacsoft.feedback.service.FeedbackService;
 
@@ -35,9 +36,9 @@ public class FeedbackController {
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")//权限
     @GetMapping("/getFeedBack")
-    public ResponseEntity<ApiResp> getFeedBack(HttpServletRequest httpServletRequest,
+    public ResponseEntity<ApiResp> getFeedBack(PageRequest pageRequest,
                                                @RequestParam(value = "status", required = false) Integer state){
-        return ApiResp.ok(feedBackService.getFeedBack(httpServletRequest,state));
+        return ApiResp.ok(feedBackService.getFeedBack(pageRequest,state));
     }
 
     /**
@@ -45,9 +46,9 @@ public class FeedbackController {
      */
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")//权限
     @PostMapping("/commitFeedBack")//??
-    public ResponseEntity<ApiResp> commitFeedBack(HttpServletRequest httpServletRequest,
+    public ResponseEntity<ApiResp> commitFeedBack(PageRequest pageRequest, HttpServletRequest request,
                                                   @Validated @RequestBody FeedBackDto feedBackDto){
-        return ApiResp.ok(feedBackService.commitFeedBack(httpServletRequest,feedBackDto));
+        return ApiResp.ok(feedBackService.commitFeedBack(pageRequest,request,feedBackDto));
     }
 
     /**
@@ -55,9 +56,9 @@ public class FeedbackController {
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @PutMapping("/updateFeedBack")
-    public ResponseEntity<ApiResp> updateFeedBack(HttpServletRequest httpServletRequest,
+    public ResponseEntity<ApiResp> updateFeedBack(PageRequest pageRequest, HttpServletRequest request,
                                                   @RequestParam(value = "id") Integer id,
                                                   @RequestParam(value = "status") Integer status){
-        return ApiResp.ok(feedBackService.updateFeedBack(httpServletRequest,id,status));
+        return ApiResp.ok(feedBackService.updateFeedBack(pageRequest,request,id,status));
     }
 }
