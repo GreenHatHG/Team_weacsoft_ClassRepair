@@ -6,8 +6,11 @@ create table user_feedback(
     delete_time bigint(20) UNSIGNED NOT NULL COMMENT '删除日期',
     state tinyint(4) UNSIGNED NOT NULL COMMENT '状态',
     orderer mediumint(5) UNSIGNED NOT NULL COMMENT '反馈人',
-    reveicer mediumint(5) UNSIGNED NOT NULL COMMENT '处理人',
+    receiver mediumint(5) UNSIGNED NOT NULL COMMENT '处理人',
     question varchar(255) NOT NULL COMMENT '问题描述',
     orderer_phone varchar(255) NOT NULL COMMENT '反馈人电话',
+    feedback_id varchar(255) NOT NULL COMMENT '反馈id，自动生成，规则同报修表的repair_item_id相同',
     primary key(id)
 )ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户反馈表' ROW_FORMAT = Dynamic;
+
+ALTER table user_feedback ADD feedback_id varchar(255);

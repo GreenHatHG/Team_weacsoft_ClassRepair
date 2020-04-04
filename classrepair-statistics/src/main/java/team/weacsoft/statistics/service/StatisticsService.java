@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.weacsoft.qa.entity.QaType;
 import team.weacsoft.qa.service.IQaTypeService;
+import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.impl.RepairItemStateServiceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,14 +63,25 @@ public class StatisticsService {
     }
 
     // todo 优化 返回名字
-    public Map<Integer, Integer> getStatisticsByReceiver(){
-        List<RepairItem> repairItemList =  repairItemService.list();
-        Map<Integer, Integer> data = new HashMap<>(3);
+    public Map<Integer, StatisticsFromEquipment> getStatisticsByReceiver(){
+        List<StatisticsFromEquipment> repairItemList =repairItemService.getStatisList();
+        Map<Integer, StatisticsFromEquipment> data = new HashMap<>();//容量
 
-        for(RepairItem repairItem : repairItemList) {
-            if(!"".equals(repairItem.getReceiver())){
-                int oldCount = data.getOrDefault(repairItem.getReceiver(), 0);
-                data.put(repairItem.getReceiver(), oldCount+1);
+        for(StatisticsFromEquipment sdata : repairItemList) {
+            if(!"".equals(sdata.getReceiver())){
+                if(data.containsKey(sdata.getReceiver())){//如果该receiver已经存在,获取
+                    StatisticsFromEquipment model = data.get(sdata.getReceiver());
+                    model.add();
+                }else{
+                    StatisticsFromEquipment model=new StatisticsFromEquipment();
+                    model.setIdentityId(sdata.getIdentityId());
+                    model.setReceiver(sdata.getReceiver());
+                    model.setReceiverName(sdata.getReceiverName());
+                    model.add();
+                    data.put(model.getReceiver(),sdata);
+                }
+                /*int oldCount = data.getOrDefault(repairItem.getReceiver(), 0);
+                data.put(repairItem.getReceiver(), oldCount+1);*/
             }
         }
         return data;

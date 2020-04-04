@@ -6,13 +6,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
-import team.weacsoft.common.log.Log;
 import team.weacsoft.common.persistence.PageRequest;
-import team.weacsoft.feedback.dto.request.FeedBackDto;
+import team.weacsoft.feedback.entity.dto.request.FeedBackDto;
 import team.weacsoft.feedback.service.FeedbackService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @Description

@@ -57,14 +57,6 @@ public abstract class BaseRepairItemService extends ServiceImpl<RepairItemMapper
     }
 
     /**
-     * 生成订单id
-     */
-    protected String getRepairItemId(){
-        //规则：当前日期（8位）20200127 + 时间戳后四位数字 + 三位随机数
-        return DateUtil.format(new Date(), "yyyyMMdd") + DateUtil.current(Boolean.FALSE) % 10000 + RandomUtil.randomInt(100, 999);
-    }
-
-    /**
      * 发送模板消息
      * @param state 订单状态
      * @param remark 备注

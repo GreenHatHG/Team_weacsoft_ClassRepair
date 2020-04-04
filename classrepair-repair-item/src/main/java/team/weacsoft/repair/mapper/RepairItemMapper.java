@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.poi.ss.formula.functions.T;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
+import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
 import team.weacsoft.repair.entity.PeriodStatistics;
 import team.weacsoft.repair.entity.PushInfo;
 import team.weacsoft.repair.entity.RepairItem;
@@ -48,4 +49,6 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
             " LEFT JOIN qa_type qa ON ri.equipment_type = qa.id" +
             " LEFT JOIN user_info ui ON ri.orderer = ui.id WHERE ri.state = 1")
     List<PushInfo> pushDao();
+
+    List<StatisticsFromEquipment> getStatisList();
 }

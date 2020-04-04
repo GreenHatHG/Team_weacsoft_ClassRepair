@@ -2,10 +2,9 @@ package team.weacsoft.feedback.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import team.weacsoft.common.persistence.PageRequest;
-import team.weacsoft.feedback.dto.request.FeedBackDto;
-import team.weacsoft.feedback.dto.response.FeedbackResp;
-import team.weacsoft.feedback.dto.response.ManagerFeedbackResp;
-import team.weacsoft.feedback.entity.UserFeedback;
+import team.weacsoft.feedback.entity.dto.request.FeedBackDto;
+import team.weacsoft.feedback.entity.dto.response.FeedbackResp;
+import team.weacsoft.feedback.entity.dto.response.ManagerFeedbackResp;
 
 import javax.servlet.http.HttpServletRequest;
 

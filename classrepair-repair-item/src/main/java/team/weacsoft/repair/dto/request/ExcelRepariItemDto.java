@@ -26,13 +26,13 @@ public class ExcelRepariItemDto  {
 
     private Integer state;
 
-    //private Integer orderer;
+    private Integer orderer;
 
     private String ordererName = "";
 
     private String ordererPhone = "";
 
-    //private Integer receiver;
+    private Integer receiver;
 
     private String receiverName = "";
 
