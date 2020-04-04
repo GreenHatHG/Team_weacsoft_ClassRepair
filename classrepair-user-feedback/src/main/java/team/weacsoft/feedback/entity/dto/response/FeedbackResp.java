@@ -1,11 +1,7 @@
-package team.weacsoft.feedback.dto.response;
+package team.weacsoft.feedback.entity.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @Description
@@ -16,5 +12,9 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 public class FeedbackResp {
-    int feedbackId;
+
+    private int Id;
+
+    private String message;
+
 }

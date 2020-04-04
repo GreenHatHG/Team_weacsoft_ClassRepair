@@ -1,4 +1,4 @@
-package team.weacsoft.feedback.entity;
+package team.weacsoft.feedback.entity.po;
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -45,4 +45,9 @@ public class UserFeedback extends BaseEntity{
      */
 
     String question;
+
+    /**
+     * 用户反馈表id，自动生成
+     */
+    String feedbackId;
 }

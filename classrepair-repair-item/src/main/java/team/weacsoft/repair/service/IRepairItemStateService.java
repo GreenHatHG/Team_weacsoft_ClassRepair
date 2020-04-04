@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
+import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
 import team.weacsoft.repair.entity.RepairItem;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,4 +77,8 @@ public interface IRepairItemStateService extends IService<RepairItem> {
      */
     List<ExcelRepariItemDto> getList();
 
+    /**
+     * 直接获取所有订单
+     */
+    List<StatisticsFromEquipment> getStatisList();
 }

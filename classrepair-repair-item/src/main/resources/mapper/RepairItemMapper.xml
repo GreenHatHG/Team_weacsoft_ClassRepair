@@ -67,4 +67,7 @@
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
     </select>
 
+    <select id="getStatisList" resultType="team.weacsoft.repair.dto.response.StatisticsFromEquipment">
+        <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
+    </select>
 </mapper>

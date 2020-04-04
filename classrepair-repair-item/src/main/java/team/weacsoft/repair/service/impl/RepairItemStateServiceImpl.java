@@ -9,6 +9,7 @@ import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
+import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.mapper.RepairItemMapper;
 import team.weacsoft.repair.service.IRepairItemStateService;
@@ -83,6 +84,11 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
     @Override
     public List<ExcelRepariItemDto> getList() {
         return baseMapper.getList();
+    }
+
+    @Override
+    public List<StatisticsFromEquipment> getStatisList() {
+        return baseMapper.getStatisList();
     }
 
 
