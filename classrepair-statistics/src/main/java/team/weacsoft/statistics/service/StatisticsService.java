@@ -62,9 +62,10 @@ public class StatisticsService {
         return data;
     }
 
-    // todo 优化 返回名字
-    public Map<Integer, StatisticsFromEquipment> getStatisticsByReceiver(){
+    // todo 优化 返回名字  *优化成功
+    public List<StatisticsFromEquipment> getStatisticsByReceiver(){
         List<StatisticsFromEquipment> repairItemList =repairItemService.getStatisList();
+        List<StatisticsFromEquipment> statisticsFromEquipments = new ArrayList<>();
         Map<Integer, StatisticsFromEquipment> data = new HashMap<>();//容量
 
         for(StatisticsFromEquipment sdata : repairItemList) {
@@ -73,17 +74,19 @@ public class StatisticsService {
                     StatisticsFromEquipment model = data.get(sdata.getReceiver());
                     model.add();
                 }else{
-                    StatisticsFromEquipment model=new StatisticsFromEquipment();
-                    model.setIdentityId(sdata.getIdentityId());
+                    /*StatisticsFromEquipment model=new StatisticsFromEquipment();
+                    model.setReceiverIdentityId(sdata.getReceiverIdentityId());
                     model.setReceiver(sdata.getReceiver());
-                    model.setReceiverName(sdata.getReceiverName());
-                    model.add();
-                    data.put(model.getReceiver(),sdata);
+                    model.setReceiverName(sdata.getReceiverName());*/
+                    data.put(sdata.getReceiver(),sdata);
                 }
                 /*int oldCount = data.getOrDefault(repairItem.getReceiver(), 0);
                 data.put(repairItem.getReceiver(), oldCount+1);*/
             }
         }
-        return data;
+        for(Integer i:data.keySet()){
+            statisticsFromEquipments.add(data.get(i));
+        }
+        return statisticsFromEquipments;
     }
 }
