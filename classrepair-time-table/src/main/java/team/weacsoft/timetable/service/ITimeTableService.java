@@ -1,11 +1,14 @@
 package team.weacsoft.timetable.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.timetable.dto.reponse.OnlineDto;
 import team.weacsoft.timetable.dto.reponse.SignInOrOutResp;
 import team.weacsoft.timetable.entity.TimeTable;
+import team.weacsoft.timetable.entity.response.ReceiverMailList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sound.midi.Receiver;
 import java.util.List;
 
 /**
@@ -31,4 +34,6 @@ public interface ITimeTableService extends IService<TimeTable> {
      * 获取我的当前值班状态
      */
     String getMyState(HttpServletRequest request);
+
+    List<ReceiverMailList> getMaillist(HttpServletRequest request);
 }

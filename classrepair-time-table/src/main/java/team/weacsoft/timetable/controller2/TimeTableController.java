@@ -52,4 +52,13 @@ public class TimeTableController {
     public ResponseEntity<ApiResp> getMyState(HttpServletRequest request){
         return ApiResp.ok(timeTableService.getMyState(request));
     }
+
+    /**
+     * 获取通讯录
+     */
+    @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
+    @GetMapping("/addressbook")
+    public ResponseEntity<ApiResp> getMaillist(HttpServletRequest request){
+        return ApiResp.ok(timeTableService.getMaillist(request));
+    }
 }

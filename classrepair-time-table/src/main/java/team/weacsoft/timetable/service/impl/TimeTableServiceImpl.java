@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.weacsoft.common.exception.BadRequestException;
+import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.timetable.dto.reponse.OnlineDto;
 import team.weacsoft.timetable.dto.reponse.SignInOrOutResp;
 import team.weacsoft.timetable.entity.TimeTable;
+import team.weacsoft.timetable.entity.response.ReceiverMailList;
 import team.weacsoft.timetable.mapper.TimeTableMapper;
 import team.weacsoft.timetable.service.ITimeTableService;
 
@@ -65,5 +67,10 @@ public class TimeTableServiceImpl extends ServiceImpl<TimeTableMapper, TimeTable
                                     .orderByDesc(TimeTable::getCreateTime)
                                     .last("limit 1").select(TimeTable::getCreateTime, TimeTable::getState));
         return timeTable != null && timeTable.getState() == 1 ? "已签到" : "未签到";
+    }
+
+    @Override
+    public List<ReceiverMailList> getMaillist(HttpServletRequest request) {
+        return this.getBaseMapper().getMaillist();
     }
 }
