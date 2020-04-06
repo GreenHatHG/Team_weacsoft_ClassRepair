@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Select;
 import team.weacsoft.timetable.dto.reponse.OnlineDto;
 import team.weacsoft.timetable.entity.DutyUserInfo;
 import team.weacsoft.timetable.entity.TimeTable;
+import team.weacsoft.timetable.entity.response.ReceiverMailList;
 
 import java.util.List;
 
@@ -28,4 +29,11 @@ public interface TimeTableMapper extends BaseMapper<TimeTable> {
     @Select("SELECT ui.identity_id FROM time_table tt" +
             " LEFT JOIN user_info ui ON tt.user_id = ui.id WHERE tt.state = 1")
     List<DutyUserInfo> getDutyUserInfos();
+
+    /**
+     * 获得所有维护人员通讯录
+     * @return
+     */
+    @Select("SELECT name,identity_id AS receiver_identity_id,phone from user_info WHERE role>1")
+    List<ReceiverMailList> getMaillist();
 }
