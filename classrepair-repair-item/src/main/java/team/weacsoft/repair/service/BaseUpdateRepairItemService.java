@@ -50,11 +50,11 @@ public abstract class BaseUpdateRepairItemService extends BaseRepairItemService{
         String state = null;
         //1-待处理 2-处理中 3-已处理 4-已取消
         switch (repairItem.getState()){
-            case 2:
-                state = "处理中"; break;
             case 3:
-                state = "已处理"; break;
+                state = "处理中"; break;
             case 4:
+                state = "已处理"; break;
+            case 5:
                 state = "已取消"; break;
             default:
                 break;
