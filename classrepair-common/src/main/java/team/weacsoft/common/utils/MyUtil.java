@@ -20,4 +20,8 @@ public class MyUtil {
     public static String getId(){
         return DateUtil.format(new Date(), "yyyyMMdd") + DateUtil.current(Boolean.FALSE) % 10000 + RandomUtil.randomInt(100, 999);
     }
+
+    public static Long getTime(){
+        return new Date().getTime()/1000;
+    }
 }
