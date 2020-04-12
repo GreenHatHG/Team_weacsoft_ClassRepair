@@ -24,7 +24,7 @@ public class ReceiverMailList {
     /**
      * 工作人员学号/工号
      */
-    private int receiverIdentityId=0;
+    private long receiverIdentityId=0;
 
     /**
      * 工作人员电话

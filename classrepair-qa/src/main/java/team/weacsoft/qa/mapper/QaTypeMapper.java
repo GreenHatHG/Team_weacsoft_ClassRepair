@@ -1,6 +1,7 @@
 package team.weacsoft.qa.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import team.weacsoft.qa.dto.common.QaTypeAnswer;
@@ -22,4 +23,9 @@ public interface QaTypeMapper extends BaseMapper<QaType> {
             " FROM qa_type qt LEFT JOIN qa_answer qa ON qt.id = qa.qa_type_id" +
             " where qt.id = #{id}")
     List<QaTypeAnswer> getQaTypeAnswerById(@Param("id")Integer qaTypeId);
+
+    @Delete("DELETE FROM classrepair.qa_type WHERE id=#{id}")
+    int drop(int id);
+
+    int update(QaType qaType);
 }

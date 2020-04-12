@@ -35,7 +35,18 @@ public interface IQaTypeService extends IService<QaType> {
     QaType addQaType(AddQaType qaType);
 
     /**
-     * 添加某分类下的常见问题
+     * 删除故障分类
      */
     List<QaAnswer> addQaAnswer(List<QaTypeAnswer> list);
+
+    /**
+     * 修改故障分类
+     */
+    QaType drop(Integer id);
+
+    /**
+     * 修改故障分类
+     */
+    QaType update(QaType qaType);
+
 }

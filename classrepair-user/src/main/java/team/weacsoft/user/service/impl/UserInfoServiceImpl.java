@@ -49,17 +49,20 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public GetUserInfoByTokenResp getUserInfoByToken(HttpServletRequest request){
         UserInfo userInfo = getById(JwtUtil.getIdFromRequest(request));
         String identity = null;
-        //1-普通人员 2-维护人员 3-课室团队负责人 4-老师 5-超级管理员
+        //TODO 這個role并沒有全部修改
+        //1-普通人员，4-维护人员,5-课室团队负责人6-课室管理员（A2的阿姨） 7-老师，9-超级管理员(int)
         switch (userInfo.getRole()){
             case 1:
                 identity = "普通人员"; break;
-            case 2:
-                identity = "维护人员"; break;
-            case 3:
-                identity = "课室团队负责人"; break;
             case 4:
-                identity = "老师"; break;
+                identity = "维护人员"; break;
             case 5:
+                identity = "课室团队负责人"; break;
+            case 6:
+                identity = "课室管理员"; break;
+            case 7:
+                identity = "老师"; break;
+            case 9:
                 identity = "超级管理员"; break;
             default:
                 break;

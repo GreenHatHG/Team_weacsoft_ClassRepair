@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.utils.JsonUtil;
+import team.weacsoft.common.utils.MyUtil;
 import team.weacsoft.qa.dto.common.QaTypeAnswer;
 import team.weacsoft.qa.dto.reponse.GetAllQaTypeResp;
 import team.weacsoft.qa.dto.request.AddQaType;
@@ -86,5 +87,26 @@ public class QaTypeServiceImpl extends ServiceImpl<QaTypeMapper, QaType> impleme
                 .collect(Collectors.toList());
         qaAnswerService.saveBatch(qaAnswers);
         return qaAnswers;
+    }
+
+    @Override
+    public QaType drop(Integer id) {
+        QaType qaType;
+        qaType = getBaseMapper().selectById(id);
+        if(qaType==null){
+            throw new EntityNotFoundException("qaType","id找不到","异常");
+        }
+        getBaseMapper().drop(id);
+        return qaType;
+    }
+
+    @Override
+    public QaType update(QaType qaType) {
+        qaType.setUpdateTime(MyUtil.getTime());
+        int i = getBaseMapper().update(qaType);
+        if(i==0){
+            throw new EntityNotFoundException("qaType","id找不到","异常");
+        }
+        return getBaseMapper().selectById(qaType.getId());
     }
 }

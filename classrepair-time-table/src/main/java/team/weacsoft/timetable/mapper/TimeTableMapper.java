@@ -34,6 +34,6 @@ public interface TimeTableMapper extends BaseMapper<TimeTable> {
      * 获得所有维护人员通讯录
      * @return
      */
-    @Select("SELECT name,identity_id AS receiver_identity_id,phone from user_info WHERE role>1")
+    @Select("SELECT name,identity_id AS receiver_identity_id,phone from user_info WHERE role>1 and role<9")
     List<ReceiverMailList> getMaillist();
 }

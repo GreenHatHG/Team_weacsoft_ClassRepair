@@ -74,7 +74,7 @@ public class PushService{
     public void sendUrgentMessage(RepairItem repairItem){
         PushInfo pushInfo = new PushInfo();
         BeanUtil.copyProperties(repairItem, pushInfo);
-
+        // TODO 爲什麽是getOrderer()，不是給工作人員發消息嗎
         UserInfo userInfo = userInfoService.getById(repairItem.getOrderer());
         QaType qaType = qaTypeService.getById(repairItem.getEquipmentType());
 
@@ -103,6 +103,7 @@ public class PushService{
                }
            }
        }
+       // TODO 还有一种情况是系统刚刚初始化，只有一个超级管理员
     }
 
     public void request(PushInfo pushInfo, Long identityId, String remark){
