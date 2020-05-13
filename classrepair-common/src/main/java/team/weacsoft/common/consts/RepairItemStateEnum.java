@@ -1,5 +1,7 @@
 package team.weacsoft.common.consts;
 
+import team.weacsoft.common.exception.BadRequestException;
+
 /**
  * @author GreenHatHG
  * @since 2020-02-28
@@ -37,5 +39,15 @@ public enum  RepairItemStateEnum {
             }
         }
         return "";
+    }
+
+    public static RepairItemStateEnum getEnumByState(int state){
+        RepairItemStateEnum[] enums = RepairItemStateEnum.values();
+        for(RepairItemStateEnum repairItemStateEnum : enums){
+            if(state == repairItemStateEnum.getState()){
+                return repairItemStateEnum;
+            }
+        }
+        throw new BadRequestException(41212, "订单状态错误");
     }
 }

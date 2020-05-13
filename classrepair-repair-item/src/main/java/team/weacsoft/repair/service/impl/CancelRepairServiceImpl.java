@@ -3,7 +3,6 @@ package team.weacsoft.repair.service.impl;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.consts.RepairItemStateEnum;
 import team.weacsoft.common.exception.BadRequestException;
-import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.BaseUpdateRepairItemService;
 import team.weacsoft.user.entity.UserInfo;
@@ -25,9 +24,6 @@ public class CancelRepairServiceImpl extends BaseUpdateRepairItemService {
 
     @Override
     protected RepairItem process(RepairItem repairItem, UserInfo userInfo) {
-        if(repairItem.getState()==null){
-            throw new EntityNotFoundException("RepairIteam的","state","为空");
-        }
         if(userInfo.getRole().equals(1) && !userInfo.getId().equals(repairItem.getOrderer())){
             throw new BadRequestException(40066, "普通人员只能取消自己下的单");
         }

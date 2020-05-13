@@ -90,4 +90,16 @@ public class RepairItemController {
         return ApiResp.ok(map.get("Complete").getRepairItem(repairItemId, request));
     }
 
+    /**
+     * 已查看
+     * @param repairItemId 订单号
+     */
+    @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
+    @Log(module = "订单管理", operation = "查看订单")
+    @PutMapping("/actions/check")
+    public ResponseEntity<ApiResp> checkOrder(@RequestParam(name = "repair_item_id") @NotBlank @Size(max = 100) String repairItemId,
+                                                 HttpServletRequest request) {
+        return ApiResp.ok(map.get("Check").getRepairItem(repairItemId, request));
+    }
+
 }

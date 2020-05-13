@@ -2,8 +2,10 @@ package team.weacsoft.repair.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.weacsoft.common.consts.RepairItemStateEnum;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.repair.entity.RepairItem;
@@ -37,9 +39,14 @@ public abstract class BaseUpdateRepairItemService extends BaseRepairItemService{
             throw new EntityNotFoundException("RepairItem", "RepairItemId", repairItemId);
         }
         UserInfo userInfo = userInfoService.getById(JwtUtil.getIdFromRequest(request));
+        if(repairItem.getState()==null){
+            throw new EntityNotFoundException("RepairIteam的","state","为空");
+        }
         repairItem =  process(repairItem, userInfo);
         this.updateById(repairItem);
-        sendMessage(repairItem, userInfo.getOpenid());
+        if(!StringUtils.equals(type, "Check")){
+            sendMessage(repairItem, userInfo.getOpenid());
+        }
         return this.findByRepairItemId(repairItem.getRepairItemId());
     }
 
@@ -48,13 +55,13 @@ public abstract class BaseUpdateRepairItemService extends BaseRepairItemService{
 
     protected void sendMessage(RepairItem repairItem, String openId){
         String state = null;
-        //1-待处理 2-处理中 3-已处理 4-已取消
-        switch (repairItem.getState()){
-            case 3:
+
+        switch (RepairItemStateEnum.getEnumByState(repairItem.getState())){
+            case PROCESSING:
                 state = "处理中"; break;
-            case 4:
+            case PROCESSED:
                 state = "已处理"; break;
-            case 5:
+            case CANCELLED:
                 state = "已取消"; break;
             default:
                 break;

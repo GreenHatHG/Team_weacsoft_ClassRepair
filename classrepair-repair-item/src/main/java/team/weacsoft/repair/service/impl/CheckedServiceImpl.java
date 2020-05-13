@@ -8,26 +8,24 @@ import team.weacsoft.repair.service.BaseUpdateRepairItemService;
 import team.weacsoft.user.entity.UserInfo;
 
 /**
- * 维修人员接单
+ * 订单已查看
  * @author GreenHatHG
- * @since 2020-01-28
+ * @since 2020-05-13
  */
 @Service
-public class ReceiveServiceImpl extends BaseUpdateRepairItemService {
+public class CheckedServiceImpl extends BaseUpdateRepairItemService {
 
-    protected ReceiveServiceImpl() {
-        this.type = "Receive";
+    protected CheckedServiceImpl() {
+        this.type = "Check";
     }
 
     @Override
     protected RepairItem process(RepairItem repairItem, UserInfo userInfo) {
         if(!repairItem.getState().equals(RepairItemStateEnum.PENDING.getState())){
-            throw new BadRequestException(40050, "接单失败，该订单未处于接单状态，订单状态：" + RepairItemStateEnum.getDescription(repairItem.getState()));
+            throw new BadRequestException(40088, "该订单未处于待处理状态，目前状态:"+RepairItemStateEnum.getDescription(repairItem.getState()));
         }
-        repairItem.setState(RepairItemStateEnum.PROCESSING.getState());
-        repairItem.setReceiver(userInfo.getId());
+        repairItem.setState(RepairItemStateEnum.CHECKED.getState());
         return repairItem;
     }
-
 
 }
