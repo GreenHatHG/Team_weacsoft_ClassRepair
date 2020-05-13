@@ -45,7 +45,7 @@ public class UserInfoController {
     /**
      * 修改用户身份
      * @param id 用户表id
-     * @param role 修改后的权限，1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
+     * @param role 修改后的权限
      */
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "用户管理", operation = "修改用户身份")

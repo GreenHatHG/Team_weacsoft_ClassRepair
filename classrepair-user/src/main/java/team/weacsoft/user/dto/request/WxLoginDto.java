@@ -52,9 +52,6 @@ public class WxLoginDto {
      */
     Long identityId = 0L;
 
-    /**
-     * 权限，1-普通人员，2-维护人员,3-课室团队负责人 4-老师，5-超级管理员
-     */
     @Min(1) @Max(4)
     Integer role = 1;
 }

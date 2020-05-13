@@ -25,7 +25,6 @@ public enum  RepairItemStateEnum {
         return state;
     }
 
-
     public String getDescription() {
         return description;
     }

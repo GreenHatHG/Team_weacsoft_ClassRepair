@@ -13,11 +13,12 @@ import com.google.common.collect.ImmutableMap;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.weacsoft.common.consts.RoleEnum;
 import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
-import team.weacsoft.common.exception.UnauthorizedException;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.Argon2Util;
 import team.weacsoft.common.utils.JsonUtil;
@@ -27,6 +28,7 @@ import team.weacsoft.common.wx.WxMaConfiguration;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
 import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
+import team.weacsoft.user.dto.request.FieldDtoEnum;
 import team.weacsoft.user.dto.request.GetPhoneDto;
 import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
@@ -50,7 +52,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         UserInfo userInfo = getById(JwtUtil.getIdFromRequest(request));
         String identity = null;
         //TODO 這個role并沒有全部修改
-        //1-普通人员，4-维护人员,5-课室团队负责人6-课室管理员（A2的阿姨） 7-老师，9-超级管理员(int)
         switch (userInfo.getRole()){
             case 1:
                 identity = "普通人员"; break;
@@ -92,9 +93,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public Page<UserInfo>  getUserInfoByField(String field, String value, PageRequest pageRequest, HttpServletRequest request) {
         //避免泄露超级管理员账户密码
-        if(StringUtils.equals(field, "role") && StringUtils.equals(value, "5")
-                && getById(JwtUtil.getIdFromRequest(request)).getRole() != 5){
-            throw new UnauthorizedException("权限不足，不能查询该字段");
+        if(StringUtils.equals(field, FieldDtoEnum.role.toString())
+                && StringUtils.equals(value, String.valueOf(RoleEnum.ADMIN.getRole()))
+                && getById(JwtUtil.getIdFromRequest(request)).getRole() != RoleEnum.ADMIN.getRole()){
+            throw new AccessDeniedException("权限不足，不能查询该字段");
         }
         Page<UserInfo> page = page(PageUtil.getPage(pageRequest),
                 new QueryWrapper<UserInfo>().eq(field, value));
