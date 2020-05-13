@@ -1,7 +1,6 @@
 package team.weacsoft.user.controller2;
 
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,13 +10,11 @@ import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.user.dto.request.FieldDtoEnum;
-import team.weacsoft.user.dto.request.GetPhoneDto;
 import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.service.IUserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
-import java.util.Map;
 
 
 /**
@@ -100,13 +97,4 @@ public class UserInfoController {
         return ApiResp.ok(userInfoService.getUserList(page));
     }
 
-    /**
-     * 解析用户手机号码
-     */
-    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
-    @PostMapping("/actions/get_phone")
-    public ResponseEntity<ApiResp> getPhone(@Validated @RequestBody GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
-        Map<String, String> phone = userInfoService.getPhone(dto, request);
-        return ApiResp.ok("解析成功");
-    }
 }

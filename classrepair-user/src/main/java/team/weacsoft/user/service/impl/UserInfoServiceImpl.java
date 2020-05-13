@@ -1,16 +1,11 @@
 package team.weacsoft.user.service.impl;
 
-import cn.binarywang.wx.miniapp.api.WxMaUserService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.ImmutableMap;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,12 +19,10 @@ import team.weacsoft.common.utils.Argon2Util;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
-import team.weacsoft.common.wx.WxMaConfiguration;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
 import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
 import team.weacsoft.user.dto.request.FieldDtoEnum;
-import team.weacsoft.user.dto.request.GetPhoneDto;
 import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
 import team.weacsoft.user.mapper.UserInfoMapper;
@@ -37,7 +30,6 @@ import team.weacsoft.user.service.IUserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -150,20 +142,5 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
                 .eq(UserInfo::getRole, 5).or()
                 .eq(UserInfo::getRole, 6).or()
                 .eq(UserInfo::getRole, 7));
-    }
-
-    @Override
-    public Map<String, String> getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException {
-        WxMaUserService wxMaUserService = WxMaConfiguration.getWxMaService().getUserService();
-        WxMaJscode2SessionResult session = wxMaUserService.getSessionInfo(dto.getCode());
-
-        WxMaPhoneNumberInfo phoneNoInfo = wxMaUserService.getPhoneNoInfo(session.getSessionKey(),
-                dto.getEncryptedData(), dto.getIv());
-
-        System.out.println(phoneNoInfo.toString());
-        UserInfo userInfo = getById(JwtUtil.getIdFromRequest(request));
-        userInfo.setPhone(phoneNoInfo.getPhoneNumber());
-        updateById(userInfo);
-        return ImmutableMap.<String, String>builder().put("phone", userInfo.getPhone()).build();
     }
 }

@@ -2,18 +2,15 @@ package team.weacsoft.user.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.chanjar.weixin.common.error.WxErrorException;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.user.dto.common.UpdateRoleDto;
 import team.weacsoft.user.dto.reponse.BaseResp;
 import team.weacsoft.user.dto.reponse.GetUserInfoByTokenResp;
-import team.weacsoft.user.dto.request.GetPhoneDto;
 import team.weacsoft.user.dto.request.UpdateUserInfoDto;
 import team.weacsoft.user.entity.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author GreenHatHG
@@ -64,8 +61,4 @@ public interface IUserInfoService extends IService<UserInfo> {
      */
     List<UserInfo> getPrincipals();
 
-    /**
-     * 获取用户手机号
-     */
-    Map<String, String> getPhone(GetPhoneDto dto, HttpServletRequest request) throws WxErrorException;
 }
