@@ -5,4 +5,4 @@ VOLUME /tmp
 ARG JAR_FILE=classrepair-system/target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN echo "Asia/Shanghai" > /etc/timezone;
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app.jar ${0} ${@}"]
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8888 -jar /app.jar ${0} ${@}"]
