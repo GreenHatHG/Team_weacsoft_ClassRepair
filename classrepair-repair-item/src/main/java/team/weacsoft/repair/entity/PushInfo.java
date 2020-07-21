@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 推送消息实体类
  * @author GreenHatHG
  * @since 2020-03-01
  */

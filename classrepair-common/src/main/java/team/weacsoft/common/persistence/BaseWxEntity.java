@@ -17,6 +17,9 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 public class BaseWxEntity extends BaseEntity implements Serializable {
+    /**
+     * openid是？
+     */
     @JSONField(serialize=false)
     private String openid;
 }

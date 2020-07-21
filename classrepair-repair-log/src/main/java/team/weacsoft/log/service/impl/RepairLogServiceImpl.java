@@ -52,7 +52,7 @@ public class RepairLogServiceImpl extends ServiceImpl<RepairLogMapper, RepairLog
 
     @Override
     public FindRepairLogDto findRepairLog(String repairItemId) {
-        RepairLog repairLog = getOne(Wrappers.<RepairLog>lambdaQuery().eq(RepairLog::getRepairItemId, repairItemId));
+        RepairLog repairLog = this.getOne(Wrappers.<RepairLog>lambdaQuery().eq(RepairLog::getRepairItemId, repairItemId));
         if(repairLog == null){
             throw new EntityNotFoundException("RepairLog", "RepairItemId", repairItemId);
         }

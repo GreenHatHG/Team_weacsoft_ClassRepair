@@ -31,22 +31,6 @@ public class FeedbackServiceImpl extends ServiceImpl<UserFeedbackMapper, UserFee
         return baseMapper.getUserFeedback(PageUtil.getPage(pageRequest),state);
     }
 
-    @Override//用户侧-提交意见反馈
-    public FeedbackResp commitFeedBack(PageRequest pageRequest, HttpServletRequest request, FeedBackDto feedBackDto) {
-        UserFeedback userFeedBack = new UserFeedback();
-        if(feedBackDto.getOrderPhone()!=null){
-            userFeedBack.setOrderPhone(feedBackDto.getOrderPhone().toString());
-        }else{
-            userFeedBack.setOrderPhone("0");
-        }
-
-        userFeedBack.setFeedbackId(MyUtil.getId());//自动生成id
-        userFeedBack.setOrderer(Integer.parseInt(JwtUtil.getIdFromRequest(request)));//获取接单人
-        userFeedBack.setQuestion(feedBackDto.getContent());//设置问题
-
-        baseMapper.insert(userFeedBack);
-        return new FeedbackResp(userFeedBack.getId(),"提交成功");
-    }
 
     @Override//用户侧-修改反馈状态
     public FeedbackResp updateFeedBack(PageRequest pageRequest, HttpServletRequest request, Integer id, Integer status) {

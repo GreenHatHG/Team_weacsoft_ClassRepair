@@ -74,20 +74,21 @@ public class PushService{
     public void sendUrgentMessage(RepairItem repairItem){
         PushInfo pushInfo = new PushInfo();
         BeanUtil.copyProperties(repairItem, pushInfo);
-        // TODO 爲什麽是getOrderer()，不是給工作人員發消息嗎
         UserInfo userInfo = userInfoService.getById(repairItem.getOrderer());
-        QaType qaType = qaTypeService.getById(repairItem.getEquipmentType());
 
+        QaType qaType = qaTypeService.getById(repairItem.getEquipmentType());
         pushInfo.setOrdererName(userInfo.getName());
         pushInfo.setTitle(qaType.getTitle());
-
         List<PushInfo> data = new ArrayList<>();
         data.add(pushInfo);
         sendMessage(data, "!!紧急订单，请马上处理!!");
     }
 
     public void sendMessage(List<PushInfo> pushInfos, String remark){
+        //TODO 这里出现读取了多个值班人员，但是第一个人信息为null的bug
        List<DutyUserInfo> dutyUserInfos = timeTableService.getBaseMapper().getDutyUserInfos();
+        System.out.println(dutyUserInfos.size());
+
        if(dutyUserInfos != null && !dutyUserInfos.isEmpty()){
            for(PushInfo pushInfo : pushInfos){
                for(DutyUserInfo dutyUserInfo : dutyUserInfos){

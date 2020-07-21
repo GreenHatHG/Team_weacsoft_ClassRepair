@@ -2,21 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.weacsoft.feedback.mapper.UserFeedbackMapper">
     <sql id="query">
-        SELECT
-            u1.id,
-            u1.create_time,
-            u1.update_time,
-            u1.delete_time,
-            u1.state,
-            r1.name AS orderer_name,
-            r2.name AS receiver_name,
-            u1.question,
-            u1.order_phone,
-            u1.feedback_id
-        FROM
-            user_feedback u1
-            LEFT JOIN user_info r1 ON u1.orderer=r1.id
-            LEFT JOIN user_info r2 ON u1.receiver=r2.id
+        SELECT u1.id,
+               u1.create_time,
+               u1.update_time,
+               u1.delete_time,
+               u1.state,
+               r1.name AS orderer_name,
+               r2.name AS receiver_name,
+               u1.question,
+               u1.order_phone,
+               u1.feedback_id
+        FROM user_feedback u1
+                 LEFT JOIN user_info r1 ON u1.orderer = r1.id
+                 LEFT JOIN user_info r2 ON u1.receiver = r2.id
     </sql>
     <select id="getUserFeedback" resultType="team.weacsoft.feedback.entity.dto.response.ManagerFeedbackResp">
         <include refid="team.weacsoft.feedback.mapper.UserFeedbackMapper.query"/>
@@ -25,7 +23,29 @@
             u1.state=#{state}
         </if>
     </select>
+    <select id="getUserFeedbackByNumber" resultType="team.weacsoft.feedback.entity.po.UserFeedback">
+        SELECT id,
+               create_time,
+               update_time,
+               delete_time,
+               state,
+               orderer,
+               receiver,
+               question,
+               order_phone,
+               feedback_id,
+               answer
+        FROM classrepair.user_feedback
+        WHERE feedback_id = #{feedbackId}
+    </select>
     <update id="update">
-        UPDATE user_feedback SET state=#{state} WHERE id=#{id}
+        UPDATE user_feedback
+        SET state=#{state}
+        WHERE id = #{id}
+    </update>
+    <update id="updateUserFeedback">
+        UPDATE classrepair.user_feedback
+        SET answer=#{answer}, receiver = #{receiver}, state = #{state}
+        WHERE feedback_id = #{feedbackId}
     </update>
 </mapper>
