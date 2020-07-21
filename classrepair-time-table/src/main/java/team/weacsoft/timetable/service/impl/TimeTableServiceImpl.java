@@ -56,21 +56,23 @@ public class TimeTableServiceImpl extends ServiceImpl<TimeTableMapper, TimeTable
     }
 
     @Override
-    public List<OnlineDto> getAllOnline(){
+    public List<OnlineDto> getAllOnline() {
         return this.getBaseMapper().getAllOnline();
     }
 
     @Override
     public String getMyState(HttpServletRequest request) {
         TimeTable timeTable = getOne(Wrappers.<TimeTable>lambdaQuery()
-                                    .eq(TimeTable::getUserId, JwtUtil.getIdFromRequest(request))
-                                    .orderByDesc(TimeTable::getCreateTime)
-                                    .last("limit 1").select(TimeTable::getCreateTime, TimeTable::getState));
+                .eq(TimeTable::getUserId, JwtUtil.getIdFromRequest(request))
+                .orderByDesc(TimeTable::getCreateTime)
+                .last("limit 1").select(TimeTable::getCreateTime, TimeTable::getState));
         return timeTable != null && timeTable.getState() == 1 ? "已签到" : "未签到";
     }
 
     @Override
     public List<ReceiverMailList> getMaillist(HttpServletRequest request) {
-        return this.getBaseMapper().getMaillist();
+        List<ReceiverMailList> maillist = this.getBaseMapper().getMaillist();
+        maillist.removeIf(receiverMailList -> "".equals(receiverMailList.getName()));
+        return maillist;
     }
 }

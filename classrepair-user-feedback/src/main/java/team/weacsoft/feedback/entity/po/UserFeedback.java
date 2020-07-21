@@ -17,7 +17,7 @@ import team.weacsoft.common.persistence.BaseEntity;
 
 @Data//代替了getter、setter、equals、hashcode、tostring...
 @SuperBuilder//建造者模式的构造方法
-@Accessors(chain = true)//set方法将返回本对象
+@Accessors(chain = true)//set方法将返回本对象，为什么要这样呢?
 public class UserFeedback extends BaseEntity{
     public UserFeedback(){
         super();
@@ -50,4 +50,9 @@ public class UserFeedback extends BaseEntity{
      * 用户反馈表id，自动生成
      */
     String feedbackId;
+
+    /**
+     * 管理员答复
+     */
+    String answer;
 }

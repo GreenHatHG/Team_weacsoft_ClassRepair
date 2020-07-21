@@ -30,7 +30,7 @@ public class FeedbackController {
     }
 
     /**
-     * 管理员-查看意见反馈
+     * 管理员-查看所有意见反馈
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")//权限
     @GetMapping("/getFeedBack")
@@ -40,17 +40,8 @@ public class FeedbackController {
     }
 
     /**
-     * 用户侧-提交意见反馈
-     */
-    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")//权限
-    @PostMapping("/commitFeedBack")//??
-    public ResponseEntity<ApiResp> commitFeedBack(PageRequest pageRequest, HttpServletRequest request,
-                                                  @Validated @RequestBody FeedBackDto feedBackDto){
-        return ApiResp.ok(feedBackService.commitFeedBack(pageRequest,request,feedBackDto));
-    }
-
-    /**
      * 管理员-修改反馈状态
+     * 反馈状态：
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @PutMapping("/updateFeedBack")

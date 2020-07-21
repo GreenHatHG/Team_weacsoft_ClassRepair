@@ -52,7 +52,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private Set<SimpleGrantedAuthority> getAuthorities(UserInfo userInfo){
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-
         authorities.add(new SimpleGrantedAuthority("ROLE_" + String.valueOf(userInfo.getRole())));
         return authorities;
     }

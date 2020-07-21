@@ -26,8 +26,8 @@ public interface TimeTableMapper extends BaseMapper<TimeTable> {
     /**
      * 获得所有在值班的人员
      */
-    @Select("SELECT ui.identity_id FROM time_table tt" +
-            " LEFT JOIN user_info ui ON tt.user_id = ui.id WHERE tt.state = 1")
+    @Select("SELECT identity_id FROM user_info WHERE id IN" +
+            "(SELECT user_id FROM time_table WHERE time_table.state=1);")
     List<DutyUserInfo> getDutyUserInfos();
 
     /**

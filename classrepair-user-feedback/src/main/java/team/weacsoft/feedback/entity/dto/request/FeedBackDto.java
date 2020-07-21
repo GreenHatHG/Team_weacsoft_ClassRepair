@@ -1,6 +1,7 @@
 package team.weacsoft.feedback.entity.dto.request;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,10 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 public class FeedBackDto {
+
+    /**
+     * 反馈单号（必填）
+     */
     @ExcelProperty(value = "")
     private String repairItemId;
     /**

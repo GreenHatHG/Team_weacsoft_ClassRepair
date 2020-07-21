@@ -17,5 +17,27 @@
             <artifactId>classrepair-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-user</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-repair-item</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-repair-item</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

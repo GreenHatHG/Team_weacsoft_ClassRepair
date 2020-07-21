@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- * 报修表 服务类
+ * 报修表 服务类  只带有搜索方法
  * </p>
  *
  * @author GreenHatHG、魔法はまだ解けない

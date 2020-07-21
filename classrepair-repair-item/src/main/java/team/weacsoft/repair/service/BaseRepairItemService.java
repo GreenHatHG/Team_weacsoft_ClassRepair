@@ -48,9 +48,9 @@ public abstract class BaseRepairItemService extends ServiceImpl<RepairItemMapper
         this.qaTypeService = qaTypeService;
     }
 
-    public RepairItem findByRepairItemId(String repairItemId){
-        RepairItem repairItem = this.getOne(new QueryWrapper<RepairItem>().eq("repair_item_id",repairItemId));
-        if(repairItem == null){
+    public RepairItem findByRepairItemId(String repairItemId) {
+        RepairItem repairItem = this.getOne(new QueryWrapper<RepairItem>().eq("repair_item_id", repairItemId));
+        if (repairItem == null) {
             throw new EntityNotFoundException("RepairItem", "RepairItemId", repairItemId);
         }
         return repairItem;
@@ -58,16 +58,20 @@ public abstract class BaseRepairItemService extends ServiceImpl<RepairItemMapper
 
     /**
      * 发送模板消息
-     * @param state 订单状态
+     *
+     * @param state  订单状态
      * @param remark 备注
      */
     @Async
     protected void sendMessage(RepairItem repairItem, String openId, String state, String remark) {
         if (StringUtils.isNotBlank(openId)) {
-            templateMessage.buildMapAndSend(openId, repairItem.getRepairItemId(),
-                    new StringBuilder().append("地点：").append(repairItem.getClassroom()).append("\n")
-                            .append("问题设备：").append(qaTypeService.getById(repairItem.getEquipmentType()).getTitle()),
-                    state, repairItem.getCreateTime(), remark);
+            StringBuilder append = new StringBuilder()
+                    .append("地点：")
+                    .append(repairItem.getClassroom())
+                    .append("\n")
+                    .append("问题设备：")
+                    .append(qaTypeService.getById(repairItem.getEquipmentType()).getTitle());
+            templateMessage.buildMapAndSend(openId, repairItem.getRepairItemId(), append, state, repairItem.getCreateTime(), remark);
         }
     }
 
