@@ -1,5 +1,6 @@
 package team.weacsoft.qa.service.impl;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,8 @@ import java.util.stream.Collectors;
 @Service
 public class QaTypeServiceImpl extends ServiceImpl<QaTypeMapper, QaType> implements IQaTypeService {
 
+    @Autowired
+    private QaTypeMapper qaTypeMapper;
     private IQaAnswerService qaAnswerService;
 
     @Autowired
@@ -52,6 +55,7 @@ public class QaTypeServiceImpl extends ServiceImpl<QaTypeMapper, QaType> impleme
     public List<GetAllQaTypeResp> getAllQaType() {
         List<QaType> qaTypes = this.list();
         List<GetAllQaTypeResp> list = new ArrayList<>();
+        qaTypes.removeIf((QaType qaType)->qaType.getDeleteTime()!=0);//删选未被删除的
         for (QaType qaType : qaTypes) {
             GetAllQaTypeResp getAllQaTypeResp = new GetAllQaTypeResp();
             BeanUtils.copyProperties(qaType, getAllQaTypeResp);
@@ -96,7 +100,9 @@ public class QaTypeServiceImpl extends ServiceImpl<QaTypeMapper, QaType> impleme
         if(qaType==null){
             throw new EntityNotFoundException("qaType","id找不到","异常");
         }
-        getBaseMapper().drop(id);
+        qaType.setDeleteTime(MyUtil.getTime());
+        //实则修改删除时间日期
+        qaTypeMapper.updateById(qaType);
         return qaType;
     }
 

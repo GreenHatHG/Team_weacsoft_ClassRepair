@@ -21,6 +21,7 @@ public class MyUtil {
         return DateUtil.format(new Date(), "yyyyMMdd") + DateUtil.current(Boolean.FALSE) % 10000 + RandomUtil.randomInt(100, 999);
     }
 
+    //获取当前时间
     public static Long getTime(){
         return new Date().getTime()/1000;
     }

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 import team.weacsoft.qa.dto.common.QaTypeAnswer;
 import team.weacsoft.qa.entity.QaType;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * @author GreenHatHG
  * @since 2020-01-27
  */
+@Repository
 public interface QaTypeMapper extends BaseMapper<QaType> {
 
     @Select("SELECT qa.id as questionid, qa.qa_type_id, qa.answer_private, qa.answer_public, qa.good_num, qa.question, qa.sort" +
@@ -24,8 +27,8 @@ public interface QaTypeMapper extends BaseMapper<QaType> {
             " where qt.id = #{id}")
     List<QaTypeAnswer> getQaTypeAnswerById(@Param("id")Integer qaTypeId);
 
-    @Delete("DELETE FROM classrepair.qa_type WHERE id=#{id}")
-    int drop(int id);
+    @Update("UPDATE classrepair.qa_type SET delete_time={#deleteTime} WHERE id=#{id}")
+    int drop(int id,Long deleteTime);
 
     int update(QaType qaType);
 }
