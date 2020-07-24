@@ -76,14 +76,14 @@ public class QaTypeController {
      */
     @Log(module = "故障表管理", operation = "删除故障分类")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
-    @DeleteMapping("/qa_types")
+    @PutMapping("/qa_types/drop")
     public ResponseEntity<ApiResp> dropQaTypes(@RequestParam(name = "id") @NotBlank String id){
         QaType drop = qaTypeService.drop(Integer.parseInt(id));
         return ApiResp.ok(drop);
     }
 
     /**
-     * 删除故障分类
+     * 修改故障分类
      */
     @Log(module = "故障表管理", operation = "修改故障分类")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
