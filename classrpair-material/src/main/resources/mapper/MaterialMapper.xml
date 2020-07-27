@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.weacsoft.material.mapper.MaterialMapper">
+    <sql id="getAll">
+        SELECT id,
+               name,
+               amount,
+               type,
+               price,
+               sort,
+               create_time,
+               delete_time,
+               state,
+               update_time
+        FROM classrepair.material
+    </sql>
+    <insert id="addMaterial" parameterType="team.weacsoft.material.entity.Material" keyProperty="id">
+        INSERT INTO classrepair.material(name, amount, type, price, sort, create_time, delete_time, state, update_time)
+        VALUES (#{name}, #{amount}, #{type}, #{price}, #{sort}, #{createTime}, #{deleteTime}, #{state},
+                #{updateTime});
+    </insert>
+    <select id="getAllMaterials" resultType="team.weacsoft.material.entity.Material">
+        <include refid="getAll"></include>
+        WHERE state=1;
+    </select>
+    <update id="deleteMaterial" >
+        UPDATE classrepair.material SET delete_time=${time},state=2 WHERE id=#{id}
+    </update>
+</mapper>

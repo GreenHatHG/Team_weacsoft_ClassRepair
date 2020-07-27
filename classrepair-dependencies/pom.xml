@@ -20,6 +20,7 @@
         <module>../classrepair-statistics</module>
         <module>../classrepair-repair-log</module>
         <module>../classrepair-user-feedback</module>
+        <module>../classrpair-material</module>
     </modules>
 
     <parent>
