@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
 import team.weacsoft.qa.service.IQaAnswerService;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -42,5 +40,14 @@ public class QaAnswerController {
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     public ResponseEntity<ApiResp> updateGoodNum(@PathVariable @NotNull Integer id){
         return ApiResp.ok(qaAnswerService.updateGoodNum(id));
+    }
+    /**
+     * 故障手册查询
+     */
+    @Log(module = "故障手册查询", operation = "故障手册查询")
+    @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
+    public ResponseEntity<ApiResp> getQaAnswers(@RequestParam @NotBlank String crux){
+        return ApiResp.ok(qaAnswerService.searchAnswers(crux));
     }
 }

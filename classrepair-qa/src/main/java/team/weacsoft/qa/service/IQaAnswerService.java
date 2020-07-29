@@ -1,5 +1,6 @@
 package team.weacsoft.qa.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import team.weacsoft.qa.dto.common.QaTypeAnswer;
 import team.weacsoft.qa.dto.reponse.UpdateGoodNumResp;
 import team.weacsoft.qa.entity.QaAnswer;
@@ -21,4 +22,6 @@ public interface IQaAnswerService extends IService<QaAnswer> {
      * 方案采纳
      */
     UpdateGoodNumResp updateGoodNum(Integer id);
+
+    List<QaAnswer> searchAnswers(String s);
 }

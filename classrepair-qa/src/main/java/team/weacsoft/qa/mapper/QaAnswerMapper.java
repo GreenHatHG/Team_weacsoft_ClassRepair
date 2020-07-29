@@ -1,7 +1,10 @@
 package team.weacsoft.qa.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import team.weacsoft.qa.entity.QaAnswer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-01-27
  */
 public interface QaAnswerMapper extends BaseMapper<QaAnswer> {
-
+    List<QaAnswer> searchAnswers(String search);
 }
