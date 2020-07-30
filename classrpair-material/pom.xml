@@ -6,6 +6,7 @@
         <artifactId>classrepair-dependencies</artifactId>
         <groupId>team.weacsoft.classrepair</groupId>
         <version>1.0.0</version>
+        <relativePath>../classrepair-dependencies/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

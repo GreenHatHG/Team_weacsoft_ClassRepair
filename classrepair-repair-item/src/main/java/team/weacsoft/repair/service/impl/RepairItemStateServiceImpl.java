@@ -27,6 +27,11 @@ import java.util.List;
 public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, RepairItem> implements IRepairItemStateService {
 
     @Override
+    public Page<CommonRepairItemDto> getAllOrders(PageRequest pageRequest) {
+        return (Page<CommonRepairItemDto>) baseMapper.getAllRepairItem(PageUtil.getPage(pageRequest));
+    }
+
+    @Override
     public Page<CommonRepairItemDto> getAllMissedOrder(PageRequest pageRequest) {
         return (Page<CommonRepairItemDto>) baseMapper.getRepairItemByState(
                 PageUtil.getPage(pageRequest), null, RepairItemStateEnum.PENDING.getState(), null);
