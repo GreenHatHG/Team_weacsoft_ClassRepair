@@ -33,11 +33,19 @@ public class RepairItemStateController {
     }
 
     /**
+     * 获取所有的订单
+     */
+    @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
+    @GetMapping("/orders")
+    public ResponseEntity<ApiResp> getAllOrders(PageRequest pageRequest){
+        return ApiResp.ok(repairItemStateService.getAllOrders(pageRequest));
+    }
+    /**
      * 获取所有的未接订单
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/missed_orders")
-    public ResponseEntity<ApiResp> getAllMissedOrder(PageRequest pageRequest){
+    public ResponseEntity<ApiResp> getAllMissedOrders(PageRequest pageRequest){
         return ApiResp.ok(repairItemStateService.getAllMissedOrder(pageRequest));
     }
 

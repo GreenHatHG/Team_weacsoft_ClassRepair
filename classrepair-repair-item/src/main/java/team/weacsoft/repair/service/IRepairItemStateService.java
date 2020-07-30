@@ -22,6 +22,10 @@ import java.util.List;
 public interface IRepairItemStateService extends IService<RepairItem> {
 
     /**
+     * 获取所有的订单
+     */
+    Page<CommonRepairItemDto> getAllOrders(PageRequest pageRequest);
+    /**
      * 获取所有的未接订单
      */
     Page<CommonRepairItemDto> getAllMissedOrder(PageRequest pageRequest);

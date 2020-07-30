@@ -61,7 +61,11 @@
         </if>
         <if test="receiverName != null">
             or u1.name like CONCAT(CONCAT('%',#{receiverName}),'%')
-        </if>
+        </if>getAllRepairItem
+    </select>
+
+    <select id="getAllRepairItem" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">
+        <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
     </select>
 
     <select id="getList" resultType="team.weacsoft.repair.dto.request.ExcelRepariItemDto">

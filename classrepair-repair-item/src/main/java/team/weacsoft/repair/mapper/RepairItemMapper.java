@@ -24,6 +24,8 @@ import java.util.List;
  */
 public interface RepairItemMapper extends BaseMapper<RepairItem> {
 
+    IPage<CommonRepairItemDto> getAllRepairItem(IPage<T> page);
+
     IPage<CommonRepairItemDto> getRepairItemByState(IPage<T> page, String receiver, Integer state,
                                                     String neReceiver);
 
