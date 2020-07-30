@@ -1,5 +1,7 @@
 package team.weacsoft.qa.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.qa.dto.reponse.UpdateGoodNumResp;
@@ -8,6 +10,8 @@ import team.weacsoft.qa.mapper.QaAnswerMapper;
 import team.weacsoft.qa.service.IQaAnswerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -29,5 +33,20 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
         qaAnswer.setGoodNum(qaAnswer.getGoodNum()+1);
         this.updateById(qaAnswer);
         return (UpdateGoodNumResp) JsonUtil.getCopyDto(this.getById(id), new UpdateGoodNumResp());
+    }
+
+    @Override
+    public List<QaAnswer> searchAnswers(String s) {
+        char[] chars = s.toCharArray();
+        StringBuilder stringBuilder=new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i]!=' '){
+                stringBuilder.append(chars[i]);
+                stringBuilder.append('%');
+            }
+        }
+        String search = stringBuilder.toString();
+        System.out.println(search);
+        return baseMapper.searchAnswers(search);
     }
 }
