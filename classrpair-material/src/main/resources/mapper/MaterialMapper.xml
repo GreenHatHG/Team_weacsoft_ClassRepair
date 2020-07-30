@@ -12,10 +12,10 @@
                delete_time,
                state,
                update_time
-        FROM classrepair.material
+        FROM material
     </sql>
     <insert id="addMaterial" parameterType="team.weacsoft.material.entity.Material" keyProperty="id">
-        INSERT INTO classrepair.material(name, amount, type, price, sort, create_time, delete_time, state, update_time)
+        INSERT INTO material(name, amount, type, price, sort, create_time, delete_time, state, update_time)
         VALUES (#{name}, #{amount}, #{type}, #{price}, #{sort}, #{createTime}, #{deleteTime}, #{state},
                 #{updateTime});
     </insert>
@@ -24,6 +24,6 @@
         WHERE state=1;
     </select>
     <update id="deleteMaterial" >
-        UPDATE classrepair.material SET delete_time=${time},state=2 WHERE id=#{id}
+        UPDATE material SET delete_time=${time},state=2 WHERE id=#{id}
     </update>
 </mapper>
