@@ -13,7 +13,7 @@
                answer_public,
                answer_private,
                good_num
-        FROM classrepair.qa_answer
+        FROM qa_answer
         WHERE question like CONCAT('%',#{search},'%')
         ORDER BY sort
     </select>
