@@ -49,7 +49,7 @@
 
     <select id="searchRepairItem" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
-        WHERE 1 != 1
+        WHERE 1 = 1
         <if test="repairItemId != null">
             or ri.repair_item_id like CONCAT(CONCAT('%',#{repairItemId}),'%')
         </if>
@@ -61,7 +61,7 @@
         </if>
         <if test="receiverName != null">
             or u1.name like CONCAT(CONCAT('%',#{receiverName}),'%')
-        </if>getAllRepairItem
+        </if>
     </select>
 
     <select id="getAllRepairItem" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">

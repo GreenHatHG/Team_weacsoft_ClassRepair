@@ -1,5 +1,6 @@
 package team.weacsoft.repair.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -83,7 +84,8 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
 
     @Override
     public Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId, String ordererName, Integer receiverIdentityId,String receiverName) {
-        return (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), repairItemId, ordererName, receiverIdentityId,receiverName);
+        IPage<CommonRepairItemDto> commonRepairItemDtoIPage = baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), repairItemId, ordererName, receiverIdentityId, receiverName);
+        return (Page<CommonRepairItemDto>) commonRepairItemDtoIPage;
     }
 
     @Override
