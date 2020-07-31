@@ -84,8 +84,7 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
 
     @Override
     public Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId, String ordererName, Integer receiverIdentityId,String receiverName) {
-        IPage<CommonRepairItemDto> commonRepairItemDtoIPage = baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), repairItemId, ordererName, receiverIdentityId, receiverName);
-        return (Page<CommonRepairItemDto>) commonRepairItemDtoIPage;
+        return (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), repairItemId, ordererName, receiverIdentityId, receiverName);
     }
 
     @Override

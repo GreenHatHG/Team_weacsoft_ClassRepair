@@ -45,8 +45,6 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
                 stringBuilder.append('%');
             }
         }
-        String search = stringBuilder.toString();
-        System.out.println(search);
-        return baseMapper.searchAnswers(search);
+        return baseMapper.searchAnswers(stringBuilder.toString());
     }
 }
