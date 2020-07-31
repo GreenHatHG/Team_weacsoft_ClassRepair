@@ -37,6 +37,9 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
 
     @Override
     public List<QaAnswer> searchAnswers(String s) {
+        if(s==null){
+            return null;
+        }
         char[] chars = s.toCharArray();
         StringBuilder stringBuilder=new StringBuilder();
         for (int i = 0; i < chars.length; i++) {
@@ -45,8 +48,6 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
                 stringBuilder.append('%');
             }
         }
-        String search = stringBuilder.toString();
-        System.out.println(search);
-        return baseMapper.searchAnswers(search);
+        return baseMapper.searchAnswers(stringBuilder.toString());
     }
 }

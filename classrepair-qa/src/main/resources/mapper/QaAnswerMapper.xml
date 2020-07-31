@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.weacsoft.qa.mapper.QaAnswerMapper">
-    <select id="searchAnswers" parameterType="String" resultType="team.weacsoft.qa.entity.QaAnswer">
+    <sql id="getQaAnswer">
         SELECT id,
                create_time,
                delete_time,
@@ -14,7 +14,14 @@
                answer_private,
                good_num
         FROM qa_answer
-        WHERE question like CONCAT('%',#{search},'%')
+    </sql>
+    <select id="searchAnswers" parameterType="String" resultType="team.weacsoft.qa.entity.QaAnswer">
+        <include refid="team.weacsoft.qa.mapper.QaAnswerMapper.getQaAnswer"></include>
+        WHERE 1 != 1
+        <if test="search!=null">
+           OR question like CONCAT('%',#{search},'%')
+            OR qa_type_id IN(SELECT id FROM qa_type WHERE title like CONCAT('%',#{search},'%'))
+        </if>
         ORDER BY sort
     </select>
 </mapper>

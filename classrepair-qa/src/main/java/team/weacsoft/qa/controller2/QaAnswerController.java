@@ -47,7 +47,7 @@ public class QaAnswerController {
     @Log(module = "故障手册查询", operation = "故障手册查询")
     @GetMapping("/search")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
-    public ResponseEntity<ApiResp> getQaAnswers(@RequestParam @NotBlank String crux){
+    public ResponseEntity<ApiResp> getQaAnswers(@RequestParam(required = false) String crux){
         return ApiResp.ok(qaAnswerService.searchAnswers(crux));
     }
 }
