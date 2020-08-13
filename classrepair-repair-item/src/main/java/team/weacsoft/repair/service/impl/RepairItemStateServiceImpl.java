@@ -1,16 +1,17 @@
 package team.weacsoft.repair.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.consts.RepairItemStateEnum;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.common.utils.PageUtil;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
 import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
+import team.weacsoft.repair.entity.OrderSearchEntity;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.mapper.RepairItemMapper;
 import team.weacsoft.repair.service.IRepairItemStateService;
@@ -20,6 +21,7 @@ import java.util.List;
 
 /**
  * 优化余地：查表需要LEFT JOIN两次user_info，可以把用户信息放缓存，然后查缓存去得到name
+ *
  * @author GreenHatHG、魔法はまだ解けない
  * @since 2020-01-28
  */
@@ -82,9 +84,43 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
         return (Page<CommonRepairItemDto>) baseMapper.getUserRepairItem(PageUtil.getPage(pageRequest), JwtUtil.getIdFromRequest(request), null);
     }
 
+    /**
+     * 模糊搜索接口
+     *
+     * @param pageRequest
+     * @param httpServletRequest
+     * @param orderSearchEntity       搜索条件实体
+     * @return
+     */
     @Override
-    public Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId, String ordererName, Integer receiverIdentityId,String receiverName) {
-        return (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), repairItemId, ordererName, receiverIdentityId, receiverName);
+    public Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, HttpServletRequest httpServletRequest, OrderSearchEntity orderSearchEntity) {
+        String idFromRequest = JwtUtil.getIdFromRequest(httpServletRequest);
+        Page<CommonRepairItemDto> commonRepairItemDtoIPage;
+        //0所有，1我的处理中，2我的已处理，3他人处理中，4他人已处理，5所有待处理
+        switch (orderSearchEntity.getRange()) {
+            case 0:
+                break;
+            case 1://
+                orderSearchEntity.setSearchState(2);
+                orderSearchEntity.setUserId(idFromRequest);
+                break;
+            case 2://
+                orderSearchEntity.setSearchState(3);
+                orderSearchEntity.setUserId(idFromRequest);
+                break;
+            case 3://
+                orderSearchEntity.setSearchState(2);
+            case 4://
+                orderSearchEntity.setSearchState(3);
+                break;
+            case 5://
+                orderSearchEntity.setSearchState(1);
+                break;
+            default:
+                throw new BadRequestException("搜索条件错误");
+        }
+        commonRepairItemDtoIPage = (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), orderSearchEntity);
+        return commonRepairItemDtoIPage;
     }
 
     @Override

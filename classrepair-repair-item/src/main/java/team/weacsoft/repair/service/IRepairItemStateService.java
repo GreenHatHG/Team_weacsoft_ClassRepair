@@ -7,6 +7,7 @@ import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
 import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
 import team.weacsoft.repair.entity.RepairItem;
+import team.weacsoft.repair.entity.OrderSearchEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,6 +26,7 @@ public interface IRepairItemStateService extends IService<RepairItem> {
      * 获取所有的订单
      */
     Page<CommonRepairItemDto> getAllOrders(PageRequest pageRequest);
+
     /**
      * 获取所有的未接订单
      */
@@ -73,8 +75,7 @@ public interface IRepairItemStateService extends IService<RepairItem> {
     /**
      * 模糊搜索订单
      */
-    Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, String repairItemId,
-                                               String ordererName, Integer receiverIdentityId,String receiverName);
+    Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, HttpServletRequest httpServletRequest, OrderSearchEntity orderSearchEntity);
 
     /**
      * 获取excel报表信息
