@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author GreenHatHG
  * @since 2020-01-27
  */
-//todo 实现幂等性
 @RestController
 @RequestMapping(value="/api/v2/repair_item")
 @Validated
