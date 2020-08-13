@@ -9,6 +9,7 @@ import team.weacsoft.user.entity.UserInfo;
 
 /**
  * 维护人员取消接单
+ * 取消情况：订单处于接单中
  * @author GreenHatHG
  * @since 2020-01-28
  */
@@ -21,9 +22,8 @@ public class CancelReceiveServiceImpl extends BaseUpdateRepairItemService {
 
     @Override
     protected RepairItem process(RepairItem repairItem, UserInfo userInfo) {
-        if(!repairItem.getState().equals(RepairItemStateEnum.PROCESSING.getState())
-             || !repairItem.getState().equals(RepairItemStateEnum.PENDING.getState())){
-            throw new BadRequestException(40088, "该订单未处于处理中或者待处理状态，目前状态:"+
+        if(!repairItem.getState().equals(RepairItemStateEnum.PROCESSING.getState())){
+            throw new BadRequestException(40088, "该订单未处于处理中，目前状态:"+
                     RepairItemStateEnum.getDescription(repairItem.getState()));
         }
         repairItem.setState(RepairItemStateEnum.PENDING.getState());
