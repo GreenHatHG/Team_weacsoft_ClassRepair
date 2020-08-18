@@ -24,6 +24,6 @@
         WHERE state=1;
     </select>
     <update id="deleteMaterial" >
-        UPDATE material SET delete_time=${time},state=2 WHERE id=#{id}
+        UPDATE material SET delete_time=#{time},state=2 WHERE id=#{id}
     </update>
 </mapper>

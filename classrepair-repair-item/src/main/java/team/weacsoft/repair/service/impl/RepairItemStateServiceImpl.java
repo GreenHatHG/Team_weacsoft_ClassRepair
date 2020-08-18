@@ -2,6 +2,7 @@ package team.weacsoft.repair.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.weacsoft.common.consts.RepairItemStateEnum;
 import team.weacsoft.common.exception.BadRequestException;
@@ -83,7 +84,6 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
     public Page<CommonRepairItemDto> getUserAllHistoryOrders(PageRequest pageRequest, HttpServletRequest request) {
         return (Page<CommonRepairItemDto>) baseMapper.getUserRepairItem(PageUtil.getPage(pageRequest), JwtUtil.getIdFromRequest(request), null);
     }
-
     /**
      * 模糊搜索接口
      *
@@ -94,31 +94,34 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
      */
     @Override
     public Page<CommonRepairItemDto> searchRepairItem(PageRequest pageRequest, HttpServletRequest httpServletRequest, OrderSearchEntity orderSearchEntity) {
-        String idFromRequest = JwtUtil.getIdFromRequest(httpServletRequest);
+        Integer idFromRequest = Integer.parseInt(JwtUtil.getIdFromRequest(httpServletRequest));
         Page<CommonRepairItemDto> commonRepairItemDtoIPage;
-        //0所有，1我的处理中，2我的已处理，3他人处理中，4他人已处理，5所有待处理
+        //switch 添加筛选条件
         switch (orderSearchEntity.getRange()) {
             case 0:
                 break;
-            case 1://
-                orderSearchEntity.setSearchState(2);
-                orderSearchEntity.setUserId(idFromRequest);
-                break;
-            case 2://
+            case 1://1我的处理中
                 orderSearchEntity.setSearchState(3);
                 orderSearchEntity.setUserId(idFromRequest);
                 break;
-            case 3://
-                orderSearchEntity.setSearchState(2);
-            case 4://
+            case 2://2我的已处理
+                orderSearchEntity.setSearchState(4);
+                orderSearchEntity.setUserId(idFromRequest);
+                break;
+            case 3://3他人处理中
                 orderSearchEntity.setSearchState(3);
                 break;
-            case 5://
+            case 4://4他人已处理
+                orderSearchEntity.setSearchState(4);
+                break;
+            case 5://5所有待处理
                 orderSearchEntity.setSearchState(1);
                 break;
             default:
                 throw new BadRequestException("搜索条件错误");
         }
+
+        System.out.println(orderSearchEntity);
         commonRepairItemDtoIPage = (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), orderSearchEntity);
         return commonRepairItemDtoIPage;
     }

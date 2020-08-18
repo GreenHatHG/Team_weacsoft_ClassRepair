@@ -13,12 +13,15 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+/**
+ * 订单搜索查询类
+ */
 public class OrderSearchEntity {
 
     //订单号
     String repairItemId;
     //本请用户
-    String userId;
+    Integer userId;
     //下单人名字
     String ordererName;
     //接单人学号
