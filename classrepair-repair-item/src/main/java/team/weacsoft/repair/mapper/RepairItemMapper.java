@@ -8,9 +8,7 @@ import org.apache.poi.ss.formula.functions.T;
 import team.weacsoft.repair.dto.request.CommonRepairItemDto;
 import team.weacsoft.repair.dto.request.ExcelRepariItemDto;
 import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
-import team.weacsoft.repair.entity.PeriodStatistics;
-import team.weacsoft.repair.entity.PushInfo;
-import team.weacsoft.repair.entity.RepairItem;
+import team.weacsoft.repair.entity.*;
 
 import java.util.List;
 
@@ -32,9 +30,13 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
     IPage<CommonRepairItemDto> getUserRepairItem(IPage<T> page, String orderer, Integer state);
 
     /**
-     * 模糊搜索订单，订单号||下单人名字||接单人学号
+     *
+     * 模糊搜索订单
+     * @param page  页数
+     * @param orderSearchEntity
+     * @return
      */
-    IPage<CommonRepairItemDto> searchRepairItem(IPage<T> page, String repairItemId, String ordererName, Integer receiverIdentityId,@Param("receiverName") String receiverName);
+    IPage<CommonRepairItemDto> searchRepairItem(IPage<T> page,@Param("orderSearchEntity") OrderSearchEntity orderSearchEntity);
 
     List<ExcelRepariItemDto> getList();
 
@@ -53,4 +55,6 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
     List<PushInfo> pushDao();
 
     List<StatisticsFromEquipment> getStatisList();
+
+    Integer evaluateOrder(Evaluate evaluate);
 }

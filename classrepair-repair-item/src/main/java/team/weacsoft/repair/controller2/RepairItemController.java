@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
+import team.weacsoft.repair.entity.Evaluate;
+import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.BaseUpdateRepairItemService;
+import team.weacsoft.repair.service.EvaluateOrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -33,6 +33,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RepairItemController {
 
     private ConcurrentHashMap<String , BaseUpdateRepairItemService> map = new ConcurrentHashMap<>();
+    @Autowired
+    private EvaluateOrderService evaluateOrderService;
 
     @Autowired
     public RepairItemController(List<BaseUpdateRepairItemService> list) {
@@ -99,6 +101,13 @@ public class RepairItemController {
     public ResponseEntity<ApiResp> checkOrder(@RequestParam(name = "repair_item_id") @NotBlank @Size(max = 100) String repairItemId,
                                                  HttpServletRequest request) {
         return ApiResp.ok(map.get("Check").getRepairItem(repairItemId, request));
+    }
+
+    @PreAuthorize("hasAnyRole('1','4', '5', '6', '7', '9')")
+    @Log(module = "评价订单", operation = "评价订单")
+    @PostMapping("/rate")
+    public ResponseEntity<ApiResp> evaluateOrder(@RequestBody @Validated Evaluate evaluate, HttpServletRequest request){
+        return ApiResp.ok(evaluateOrderService.evaluateOrder(evaluate,request));
     }
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.utils.JsonUtil;
+import team.weacsoft.common.utils.MyUtil;
 import team.weacsoft.qa.dto.reponse.UpdateGoodNumResp;
 import team.weacsoft.qa.entity.QaAnswer;
 import team.weacsoft.qa.mapper.QaAnswerMapper;
@@ -37,17 +38,6 @@ public class QaAnswerServiceImpl extends ServiceImpl<QaAnswerMapper, QaAnswer> i
 
     @Override
     public List<QaAnswer> searchAnswers(String s) {
-        if(s==null){
-            return null;
-        }
-        char[] chars = s.toCharArray();
-        StringBuilder stringBuilder=new StringBuilder();
-        for (int i = 0; i < chars.length; i++) {
-            if(chars[i]!=' '){
-                stringBuilder.append(chars[i]);
-                stringBuilder.append('%');
-            }
-        }
-        return baseMapper.searchAnswers(stringBuilder.toString());
+        return baseMapper.searchAnswers(MyUtil.vagueString(s));
     }
 }

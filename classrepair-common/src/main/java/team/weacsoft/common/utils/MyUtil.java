@@ -25,4 +25,20 @@ public class MyUtil {
     public static Long getTime(){
         return new Date().getTime()/1000;
     }
+
+    //将字符串拼接成可模糊查询
+    public static String vagueString(String name){
+        if(name==null){
+            return null;
+        }
+        char[] chars = name.toCharArray();
+        StringBuilder stringBuilder=new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i]!=' '){
+                stringBuilder.append(chars[i]);
+                stringBuilder.append('%');
+            }
+        }
+        return stringBuilder.toString();
+    }
 }

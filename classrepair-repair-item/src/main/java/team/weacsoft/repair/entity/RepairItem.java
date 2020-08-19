@@ -66,4 +66,19 @@ public class RepairItem extends BaseEntity {
      * 是否是紧急订单
      */
     private Boolean urgent = false;
+
+    /**
+     * 是否及时
+     */
+    private Integer onTime = 0;
+
+    /**
+     * 用户评价
+     */
+    private String appraisal = "用户未评价";
+
+    /**
+     * 星评
+     */
+    private Integer star = 8;
 }

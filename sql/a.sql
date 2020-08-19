@@ -190,6 +190,9 @@ CREATE TABLE `repair_item` (
   `problem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '问题描述',
   `orderer_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '报修人手机号',
   `urgent` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是紧急订单',
+  on_time INTEGER DEFAULT 0 COMMENT '订单及时性，1为及时，0为未填，-1为不及时',
+  appraisal VARCHAR(255) DEFAULT '用户未评价' COMMENT '评价内容，文本',
+  star INTEGER DEFAULT 8  COMMENT '5个星级，分10个等级',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='报修表';
 /*!40101 SET character_set_client = @saved_cs_client */;

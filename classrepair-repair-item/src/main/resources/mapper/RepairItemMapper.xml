@@ -49,18 +49,24 @@
 
     <select id="searchRepairItem" resultType="team.weacsoft.repair.dto.request.CommonRepairItemDto">
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
-        WHERE 1 != 1
-        <if test="repairItemId != null">
-            or ri.repair_item_id like CONCAT(CONCAT('%',#{repairItemId}),'%')
+        WHERE 1 = 1
+        <if test="orderSearchEntity.repairItemId != null">
+            or ri.repair_item_id like CONCAT(CONCAT('%',#{orderSearchEntity.repairItemId}),'%')
         </if>
-        <if test="ordererName != null">
-            or u2.name like CONCAT(CONCAT('%',#{ordererName}),'%')
+        <if test="orderSearchEntity.userId != null">
+            AND ri.receiver = #{orderSearchEntity.userId}
         </if>
-        <if test="receiverIdentityId != null">
-            or u1.identity_id like CONCAT(CONCAT('%',#{receiverIdentityId}),'%')
+        <if test="orderSearchEntity.ordererName != null">
+            or u2.name like CONCAT(CONCAT('%',#{orderSearchEntity.ordererName}),'%')
         </if>
-        <if test="receiverName != null">
-            or u1.name like CONCAT(CONCAT('%',#{receiverName}),'%')
+        <if test="orderSearchEntity.receiverIdentityId != null">
+            or u1.identity_id like CONCAT(CONCAT('%',#{orderSearchEntity.receiverIdentityId}),'%')
+        </if>
+        <if test="orderSearchEntity.receiverName != null">
+            or u1.name like CONCAT(CONCAT('%',#{orderSearchEntity.receiverName}),'%')
+        </if>
+        <if test="orderSearchEntity.searchState != null">
+            AND ri.state=#{orderSearchEntity.searchState}
         </if>
     </select>
 
@@ -75,4 +81,8 @@
     <select id="getStatisList" resultType="team.weacsoft.repair.dto.response.StatisticsFromEquipment">
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
     </select>
+
+    <update id="evaluateOrder" parameterType="team.weacsoft.repair.entity.Evaluate">
+        UPDATE repair_item SET appraisal=#{appraisal},star=#{star},on_time=#{onTime} WHERE repair_item_id=#{repairItemId}
+    </update>
 </mapper>

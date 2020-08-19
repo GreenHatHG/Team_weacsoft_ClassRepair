@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.persistence.PageRequest;
+import team.weacsoft.repair.entity.OrderSearchEntity;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import javax.validation.constraints.Size;
  */
 
 @RestController
-@RequestMapping(value="/api/v2/repair_item")
+@RequestMapping(value = "/api/v2/repair_item")
 @Validated
 public class RepairItemStateController {
 
@@ -37,15 +38,16 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/orders")
-    public ResponseEntity<ApiResp> getAllOrders(PageRequest pageRequest){
+    public ResponseEntity<ApiResp> getAllOrders(PageRequest pageRequest) {
         return ApiResp.ok(repairItemStateService.getAllOrders(pageRequest));
     }
+
     /**
      * 获取所有的未接订单
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/missed_orders")
-    public ResponseEntity<ApiResp> getAllMissedOrders(PageRequest pageRequest){
+    public ResponseEntity<ApiResp> getAllMissedOrders(PageRequest pageRequest) {
         return ApiResp.ok(repairItemStateService.getAllMissedOrder(pageRequest));
     }
 
@@ -54,7 +56,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/my/missed_orders")
-    public ResponseEntity<ApiResp> getMyAllMissedOrders(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getMyAllMissedOrders(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getMyAllMissedOrders(pageRequest, request));
     }
 
@@ -63,7 +65,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/my/processed_orders")
-    public ResponseEntity<ApiResp> getMyAllProcessedOrders(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getMyAllProcessedOrders(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getMyAllProcessedOrders(pageRequest, request));
     }
 
@@ -72,7 +74,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/id/missed_orders")
-    public ResponseEntity<ApiResp> getAllMissedOrdersById(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getAllMissedOrdersById(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getOtherAllMissedOrders(pageRequest, request));
     }
 
@@ -81,7 +83,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/id/processed_orders")
-    public ResponseEntity<ApiResp> getAllProcessedOrdersById(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getAllProcessedOrdersById(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getOtherAllProcessedOrders(pageRequest, request));
     }
 
@@ -90,7 +92,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/missed_orders")
-    public ResponseEntity<ApiResp> getUserAllMissedOrders(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getUserAllMissedOrders(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getUserAllMissedOrders(pageRequest, request));
     }
 
@@ -99,7 +101,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/orders")
-    public ResponseEntity<ApiResp> getUserAllOrders(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getUserAllOrders(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getUserAllOrders(pageRequest, request));
     }
 
@@ -108,7 +110,7 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/in_orders")
-    public ResponseEntity<ApiResp> getUserAllOrdersInRepair(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getUserAllOrdersInRepair(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getUserAllOrdersInRepair(pageRequest, request));
     }
 
@@ -117,21 +119,29 @@ public class RepairItemStateController {
      */
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/history_orders")
-    public ResponseEntity<ApiResp> getUserAllHistoryOrders(PageRequest pageRequest, HttpServletRequest request){
+    public ResponseEntity<ApiResp> getUserAllHistoryOrders(PageRequest pageRequest, HttpServletRequest request) {
         return ApiResp.ok(repairItemStateService.getUserAllHistoryOrders(pageRequest, request));
     }
 
     /**
-     * 模糊搜索订单，订单号||下单人名字||接单人学号//接单人姓名
+     * 模糊搜索订单
+     * 订单号||下单人名字||接单人学号//接单人姓名||接单人姓名
      */
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/actions/search")
     public ResponseEntity<ApiResp> searchRepairItem(PageRequest pageRequest,
-                                                    @RequestParam(value = "repair_item_id", required = false) @Size(max=100) String repairItemId,
-                                                    @RequestParam(value = "orderer_name", required = false) @Size(max=100)String ordererName,
+                                                    HttpServletRequest httpServletRequest,
+                                                    @RequestParam(value = "repair_item_id", required = false) @Size(max = 100) String repairItemId,
+                                                    @RequestParam(value = "orderer_name", required = false) @Size(max = 100) String ordererName,
                                                     @RequestParam(value = "receiver_identity_id", required = false) Integer receiverIdentityId,
-                                                    @RequestParam(value = "receiver_name",required = false) @Size(max=100)String receiverName){
-
-        return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, repairItemId, ordererName, receiverIdentityId,receiverName));
+                                                    @RequestParam(value = "receiver_name", required = false) @Size(max = 100) String receiverName,
+                                                    @RequestParam(value = "range", required = true) Integer range) {
+        OrderSearchEntity orderSearchEntity = OrderSearchEntity.builder().
+                ordererName(ordererName).
+                range(range).
+                receiverIdentityId(receiverIdentityId).
+                receiverName(receiverName).
+                repairItemId(repairItemId).build();
+        return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, httpServletRequest, orderSearchEntity));
     }
 }
