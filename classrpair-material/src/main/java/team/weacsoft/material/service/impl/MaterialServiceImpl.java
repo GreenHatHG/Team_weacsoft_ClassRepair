@@ -3,6 +3,7 @@ package team.weacsoft.material.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.MyUtil;
 import team.weacsoft.common.utils.PageUtil;
@@ -27,6 +28,9 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
     @Override
     public MaterialResp addMaterial(Material material) {
         int i = baseMapper.addMaterial(material);
+        if (i==0){
+            throw new BadRequestException("添加失败");
+        }
         return new MaterialResp(i,"添加成功");
     }
 
@@ -36,6 +40,7 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
         materialResp.setId(id);
         if(baseMapper.deleteMaterial(id, MyUtil.getTime())==0){
             materialResp.setMessage("id不存在");
+            throw new BadRequestException("删除失败，id不存在");
         }
         materialResp.setMessage("删除成功");
         return materialResp;
@@ -48,6 +53,7 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
         materialResp.setId(material.getId());
         if(baseMapper.updateById(material)==0){
             materialResp.setMessage("id不存在");
+            throw new BadRequestException("修改失败，id不存在");
         }
         materialResp.setMessage("修改成功");
         return materialResp;

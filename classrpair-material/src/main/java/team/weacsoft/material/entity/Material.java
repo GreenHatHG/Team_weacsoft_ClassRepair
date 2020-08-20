@@ -53,4 +53,9 @@ public class Material extends BaseEntity {
      */
     private Integer sort = 1;
 
+    /**
+     * 材料种类id
+     */
+    @NotNull
+    private Integer materialTypeId;
 }
