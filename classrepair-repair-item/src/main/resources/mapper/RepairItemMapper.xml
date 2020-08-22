@@ -51,7 +51,7 @@
         <include refid="team.weacsoft.repair.mapper.RepairItemMapper.query"/>
         WHERE 1 = 1
         <if test="orderSearchEntity.repairItemId != null">
-            or ri.repair_item_id like CONCAT(CONCAT('%',#{orderSearchEntity.repairItemId}),'%')
+            AND ri.repair_item_id =#{orderSearchEntity.repairItemId}
         </if>
         <if test="orderSearchEntity.userId != null">
             AND ri.receiver = #{orderSearchEntity.userId}
@@ -60,7 +60,7 @@
             or u2.name like CONCAT(CONCAT('%',#{orderSearchEntity.ordererName}),'%')
         </if>
         <if test="orderSearchEntity.receiverIdentityId != null">
-            or u1.identity_id like CONCAT(CONCAT('%',#{orderSearchEntity.receiverIdentityId}),'%')
+            AND u1.identity_id =#{orderSearchEntity.receiverIdentityId}
         </if>
         <if test="orderSearchEntity.receiverName != null">
             or u1.name like CONCAT(CONCAT('%',#{orderSearchEntity.receiverName}),'%')

@@ -9,6 +9,8 @@ import lombok.Data;
 
 @Data
 public class FindRepairLogDto {
+    private Integer id;
+
     private Long createTime;
 
     private Long updateTime;

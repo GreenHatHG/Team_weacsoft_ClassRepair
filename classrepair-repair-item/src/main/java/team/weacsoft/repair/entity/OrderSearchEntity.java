@@ -31,7 +31,7 @@ public class OrderSearchEntity {
     //订单状态
     private Integer searchState;
     //搜索依据
-    @NotBlank
-    private Integer range;
+    //0所有，1所有待处理，2我的处理中，3我的已处理，4他人待处理，5他人已处理
+    private Integer range=0;
 
 }

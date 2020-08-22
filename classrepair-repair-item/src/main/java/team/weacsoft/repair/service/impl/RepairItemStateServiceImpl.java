@@ -117,11 +117,7 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
             case 5://5所有待处理
                 orderSearchEntity.setSearchState(1);
                 break;
-            default:
-                throw new BadRequestException("搜索条件错误");
         }
-
-        System.out.println(orderSearchEntity);
         commonRepairItemDtoIPage = (Page<CommonRepairItemDto>) baseMapper.searchRepairItem(PageUtil.getPage(pageRequest), orderSearchEntity);
         return commonRepairItemDtoIPage;
     }

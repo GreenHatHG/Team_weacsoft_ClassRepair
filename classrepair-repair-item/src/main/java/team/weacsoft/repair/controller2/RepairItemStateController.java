@@ -135,13 +135,14 @@ public class RepairItemStateController {
                                                     @RequestParam(value = "orderer_name", required = false) @Size(max = 100) String ordererName,
                                                     @RequestParam(value = "receiver_identity_id", required = false) Integer receiverIdentityId,
                                                     @RequestParam(value = "receiver_name", required = false) @Size(max = 100) String receiverName,
-                                                    @RequestParam(value = "range", required = true) Integer range) {
+                                                    @RequestParam(value = "range", required = false) Integer range) {
         OrderSearchEntity orderSearchEntity = OrderSearchEntity.builder().
                 ordererName(ordererName).
-                range(range).
+                range(range==null?0:range).
                 receiverIdentityId(receiverIdentityId).
                 receiverName(receiverName).
                 repairItemId(repairItemId).build();
+        System.out.println(orderSearchEntity);
         return ApiResp.ok(repairItemStateService.searchRepairItem(pageRequest, httpServletRequest, orderSearchEntity));
     }
 }
