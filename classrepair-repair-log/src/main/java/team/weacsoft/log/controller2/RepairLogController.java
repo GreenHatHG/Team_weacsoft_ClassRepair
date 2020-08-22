@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
 import team.weacsoft.log.dto.reponse.FindRepairLogDto;
+import team.weacsoft.log.dto.reponse.SearchRepairLogDto;
 import team.weacsoft.log.entity.RepairLog;
 import team.weacsoft.log.service.IRepairLogService;
 
@@ -51,7 +52,11 @@ public class RepairLogController {
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @GetMapping("/{repair_item_id}/actions/search")
     public ResponseEntity<ApiResp> addRepairLog(@NotBlank @Size(max = 100) @PathVariable(name = "repair_item_id") String repairItemId){
-        return ApiResp.ok(repairLogService.searchLog(repairItemId));
+        SearchRepairLogDto searchRepairLogDto = repairLogService.searchLog(repairItemId);
+        if (searchRepairLogDto==null){
+            return ApiResp.ok(ApiResp.error(400,"无符合条件结果"));
+        }
+        return ApiResp.ok(searchRepairLogDto);
     }
 
     /**
