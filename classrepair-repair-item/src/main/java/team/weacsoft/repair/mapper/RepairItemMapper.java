@@ -30,9 +30,9 @@ public interface RepairItemMapper extends BaseMapper<RepairItem> {
     IPage<CommonRepairItemDto> getUserRepairItem(IPage<T> page, String orderer, Integer state);
 
     /**
-     *
      * 模糊搜索订单
-     * @param page  页数
+     *
+     * @param page              页数
      * @param orderSearchEntity
      * @return
      */

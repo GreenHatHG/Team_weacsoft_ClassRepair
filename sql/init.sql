@@ -62,6 +62,7 @@ CREATE TABLE `material` (
   `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间戳',
   `delete_time` bigint(20) unsigned NOT NULL COMMENT '删除时间戳，软删除',
   `state` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-正常,2-已删除',
+  material_type_id INTEGER UNSIGNED NOT NULL COMMENT '材料类型id',
   `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间戳',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -180,7 +181,7 @@ CREATE TABLE `repair_item` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间戳',
   `delete_time` bigint(20) unsigned NOT NULL COMMENT '删除时间戳，软删除',
-  `state` tinyint(4) NOT NULL COMMENT '0-异常订单 1-待处理 2-处理中 3-已处理 4-已取消',
+  `state` tinyint(4) NOT NULL COMMENT '1-异常订单 2-待处理 3-处理中 4-已处理 5-已取消',
   `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间戳',
   `repair_item_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '报修单id，后端自动生成，规则：当前日期+时间戳前十一位数字，2020012715801331743',
   `receiver` smallint(5) unsigned NOT NULL COMMENT ' 接单人(表id)',

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.utils.JsonUtil;
 import team.weacsoft.log.dto.reponse.FindRepairLogDto;
@@ -12,9 +13,11 @@ import team.weacsoft.log.dto.reponse.SearchRepairLogDto;
 import team.weacsoft.log.entity.RepairLog;
 import team.weacsoft.log.mapper.RepairLogMapper;
 import team.weacsoft.log.service.IRepairLogService;
+import team.weacsoft.repair.dto.response.StatisticsFromEquipment;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.IRepairItemStateService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +44,13 @@ public class RepairLogServiceImpl extends ServiceImpl<RepairLogMapper, RepairLog
                 .eq(RepairItem::getRepairItemId, repairLog.getRepairItemId())) == null){
            throw new EntityNotFoundException("RepairItem", "RepairItemId", repairLog.getRepairItemId());
         }
-        this.save(repairLog);
+        FindRepairLogDto repairLog1 = findRepairLog(repairLog.getRepairItemId());
+        if (repairLog1==null){
+            this.save(repairLog);
+        }else {
+            repairLog.setId(repairLog1.getId());
+            this.updateById(repairLog);
+        }
         return ImmutableMap.<String, Integer>builder().put("log_id", repairLog.getId()).build();
     }
 
@@ -54,7 +63,7 @@ public class RepairLogServiceImpl extends ServiceImpl<RepairLogMapper, RepairLog
     public FindRepairLogDto findRepairLog(String repairItemId) {
         RepairLog repairLog = this.getOne(Wrappers.<RepairLog>lambdaQuery().eq(RepairLog::getRepairItemId, repairItemId));
         if(repairLog == null){
-            throw new EntityNotFoundException("RepairLog", "RepairItemId", repairItemId);
+            return null;
         }
         return (FindRepairLogDto) JsonUtil.getCopyDto(repairLog, new FindRepairLogDto());
     }
