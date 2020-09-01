@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 /**
  * 报修表
- * state: 0-异常订单 1-待处理 2-处理中 3-已处理 4-已取消
+ * state: 1待处理，2已查看，3处理中，4已处理，5已取消
  * @author GreenHatHG
  * @since 2020-01-27
  */

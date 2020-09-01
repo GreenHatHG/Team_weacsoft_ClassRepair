@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.weacsoft.common.consts.RepairItemStateEnum;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.EntityNotFoundException;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.repair.entity.RepairItem;
@@ -39,6 +40,9 @@ public abstract class BaseUpdateRepairItemService extends BaseRepairItemService{
             throw new EntityNotFoundException("RepairItem", "RepairItemId", repairItemId);
         }
         UserInfo userInfo = userInfoService.getById(JwtUtil.getIdFromRequest(request));
+        if(userInfo.getName()==null||userInfo.getPhone()==null){
+            throw new BadRequestException(400,"请完善个人信息");
+        }
         if(repairItem.getState()==null){
             throw new EntityNotFoundException("RepairIteam的","state","为空");
         }

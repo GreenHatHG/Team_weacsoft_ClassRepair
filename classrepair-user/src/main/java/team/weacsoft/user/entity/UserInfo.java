@@ -71,4 +71,14 @@ public class UserInfo extends BaseWxEntity {
     @Builder.Default
     private String sessionKey = "";
 
+    /**
+     * 判断是否是一名合法维护人员，合法true
+     * @return
+     */
+    public boolean isPerfect(){
+        if (getPhone()==null&&getPhone()==null&&getIdentityId()==null)
+            return false;
+        return true;
+    }
+
 }

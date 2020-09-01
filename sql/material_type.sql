@@ -12,3 +12,5 @@ CREATE TABLE material_type
 ) COMMENT='备件材料分类';
 
 ALTER TABLE material CHANGE material_type_id material_type_id INTEGER UNSIGNED NOT NULL COMMENT '材料类型id';
+
+ALTER TABLE repair_item CHANGE state `state` tinyint(4) NOT NULL COMMENT '订单状态：1待处理，2已查看，3处理中，4已处理，5已取消'
