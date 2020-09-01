@@ -1,17 +1,24 @@
 package team.weacsoft.repair.controller2;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import team.weacsoft.common.exception.BadRequestException;
 import team.weacsoft.common.exception.handler.ApiResp;
 import team.weacsoft.common.log.Log;
+import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.repair.entity.Evaluate;
 import team.weacsoft.repair.entity.RepairItem;
 import team.weacsoft.repair.service.BaseUpdateRepairItemService;
 import team.weacsoft.repair.service.EvaluateOrderService;
+import team.weacsoft.timetable.dto.reponse.OnlineDto;
+import team.weacsoft.timetable.service.impl.TimeTableServiceImpl;
+import team.weacsoft.user.entity.UserInfo;
+import team.weacsoft.user.service.impl.UserInfoServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -35,6 +42,10 @@ public class RepairItemController {
     private ConcurrentHashMap<String , BaseUpdateRepairItemService> map = new ConcurrentHashMap<>();
     @Autowired
     private EvaluateOrderService evaluateOrderService;
+    @Autowired
+    UserInfoServiceImpl userInfoService;
+    @Autowired
+    private TimeTableServiceImpl timeTableService;
 
     @Autowired
     public RepairItemController(List<BaseUpdateRepairItemService> list) {
@@ -52,6 +63,12 @@ public class RepairItemController {
     @PutMapping("/actions/order")
     public ResponseEntity<ApiResp> receive(@RequestParam(name = "repair_item_id") @NotBlank @Size(max = 100) String repairItemId,
                                          HttpServletRequest request){
+        List<OnlineDto> allOnline = timeTableService.getAllOnline();
+        String idFromRequest = JwtUtil.getIdFromRequest(request);
+        UserInfo one = userInfoService.getOne(new QueryWrapper<UserInfo>().eq("id", idFromRequest));
+        //不在值班状态、且是维护人员即异常
+        if (!allOnline.stream().anyMatch( s -> s.getUserId()==one.getId())&&one.getRole()==4)
+            throw new BadRequestException(400,"未处于值班状态");
         return ApiResp.ok(map.get("Receive").getRepairItem(repairItemId, request));
     }
 
