@@ -79,6 +79,9 @@ public class InvitationService {
     public UpdateRoleDto updtaeRoleByCode(UpdateRoleByCodeDto dto, HttpServletRequest request) {
         String id = JwtUtil.getIdFromRequest(request);
         UserInfo userInfo = userInfoService.getById(id);
+        if (!userInfo.isPerfect()){
+            throw new BadRequestException(400,"信息未完善，不能提前权");
+        }
         String code = dto.getCode();
 
         String roomManagerCode = stringRedisTemplate.opsForValue().get(REDIS_INVITATION_KEY_ROOMMANAGERCODE);

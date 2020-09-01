@@ -21,6 +21,7 @@
         <module>../classrepair-repair-log</module>
         <module>../classrepair-user-feedback</module>
         <module>../classrpair-material</module>
+        <module>../classrepair-order</module>
     </modules>
 
     <parent>

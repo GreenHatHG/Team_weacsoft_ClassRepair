@@ -63,6 +63,11 @@
             <artifactId>classrpair-material</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>team.weacsoft.classrepair</groupId>
+            <artifactId>classrepair-order</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

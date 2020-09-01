@@ -5,6 +5,7 @@ import team.weacsoft.common.exception.BadRequestException;
 /**
  * @author GreenHatHG
  * @since 2020-02-28
+ * 订单状态：1待处理，2已查看，3处理中，4已处理，5已取消
  */
 
 public enum  RepairItemStateEnum {
