@@ -40,9 +40,7 @@ public abstract class BaseUpdateRepairItemService extends BaseRepairItemService{
             throw new EntityNotFoundException("RepairItem", "RepairItemId", repairItemId);
         }
         UserInfo userInfo = userInfoService.getById(JwtUtil.getIdFromRequest(request));
-        if(userInfo.getName()==null||userInfo.getPhone()==null){
-            throw new BadRequestException(400,"请完善个人信息");
-        }
+
         if(repairItem.getState()==null){
             throw new EntityNotFoundException("RepairIteam的","state","为空");
         }
