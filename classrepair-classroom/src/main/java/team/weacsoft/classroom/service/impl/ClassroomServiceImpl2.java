@@ -29,6 +29,7 @@ public class ClassroomServiceImpl2 extends ServiceImpl<ClassroomMapper, Classroo
     @Autowired
     ClassroomServiceImpl classroomServicel;
 
+    @Cacheable("cache1")
     public ArrayList<ResClassroom> getClassrooms (){
         List<Classroom> list = classroomServicel.list();
         ArrayList<ResClassroom> resClassrooms = new ArrayList<>();
