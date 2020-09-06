@@ -69,6 +69,11 @@ public class JwtUtil {
         }
     }
 
+    /**
+     * 从 request 的 header 中获取用户id
+     * @param request
+     * @return
+     */
     public static String getIdFromRequest(HttpServletRequest request){
         try {
             DecodedJWT jwt = JWT.decode(getJwtFromHttpServletRequest(request));

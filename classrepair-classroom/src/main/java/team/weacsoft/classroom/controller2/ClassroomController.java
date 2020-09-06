@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.weacsoft.classroom.service.ClassroomService2;
 import team.weacsoft.classroom.service.IClassroomService;
 import team.weacsoft.common.exception.handler.ApiResp;
 
@@ -24,6 +25,8 @@ import javax.validation.constraints.NotNull;
 public class ClassroomController {
 
     private IClassroomService classroomService;
+    @Autowired
+    private ClassroomService2 classroomService2;
 
     @Autowired
     public ClassroomController(IClassroomService classroomService) {
@@ -38,6 +41,14 @@ public class ClassroomController {
     public ResponseEntity<ApiResp> getClassRooms(){
         return ApiResp.ok(classroomService.getClassRooms());
     }
+    /**
+     * 获取课室信息，第二版
+     * @return
+     */
+    @GetMapping("/public/classrooms/m2")
+    public ResponseEntity<ApiResp> getClassRooms2(){
+        return ApiResp.ok(classroomService2.getClassrooms());
+    }
 
     /**
      * 根据id获取某一课室
@@ -49,4 +60,8 @@ public class ClassroomController {
         return ApiResp.ok(classroomService.getClassroomById(id));
     }
 
+    @GetMapping("/public/classrooms/State")
+    public ResponseEntity<ApiResp> getClassRoomState(Integer id){
+        return ApiResp.ok(null);
+    }
 }
