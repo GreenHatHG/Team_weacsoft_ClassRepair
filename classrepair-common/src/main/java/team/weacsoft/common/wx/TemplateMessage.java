@@ -72,6 +72,7 @@ public class TemplateMessage {
                 .put("character_string6", repairItemId)
                 .put("thing1", repairItemContent.toString())
                 .put("phrase2", state)
+                .put("path","pages/index/manage/order/orderDetails/orderDetails?orderId="+repairItemId)
                 .put("date3", DateUtil.format(new Date(repairTime*1000), "yyyy-MM-dd HH:mm"))
                 .put("thing5", remark).build(),"cwgf7C2W-s83IVg2me1WCOD3-mslBAzYytiLzp2CKVM");
     }
