@@ -20,8 +20,8 @@
         <module>../classrepair-statistics</module>
         <module>../classrepair-repair-log</module>
         <module>../classrepair-user-feedback</module>
-        <module>../classrpair-material</module>
-        <module>../classrepair-order</module>
+        <module>../classrepair-material-v3</module>
+        <module>../classrepair-orders</module>
     </modules>
 
     <parent>

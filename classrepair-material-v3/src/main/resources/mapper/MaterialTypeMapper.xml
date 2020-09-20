@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.weacsoft.material.mapper.MaterialTypeMapper">
+    <sql id="query">
+        SELECT id,
+               name,
+               amount,
+               sort,
+               price,
+               type,
+               fid,
+               userid,
+               state,
+               create_time,
+               delete_time,
+               update_time
+        FROM material
+    </sql>
+    <insert id="addMaterialType" keyProperty="id" parameterType="team.weacsoft.material.entity.MaterialType">
+        INSERT INTO material (name, sort, type, fid, userid, state, create_time, delete_time,update_time)
+        VALUE (#{name},#{sort},#{type},#{fid},#{userid},#{state},#{createTime},#{deleteTime},#{updateTime})
+    </insert>
+    <select id="getAllMaterialType" resultType="team.weacsoft.material.entity.MaterialType"
+            parameterType="team.weacsoft.material.entity.MaterialType">
+        <include refid="query"></include>
+        WHERE type=1
+    </select>
+    <select id="getMaterialType" resultType="team.weacsoft.material.entity.MaterialType"
+            parameterType="team.weacsoft.material.entity.MaterialType">
+        <include refid="query"></include>
+        WHERE type=1
+        <if test="state!=null">
+            AND state=#{state}
+        </if>
+    </select>
+    <update id="updateMaterialType" parameterType="team.weacsoft.material.entity.MaterialType">
+        UPDATE material SET
+        <if test="name!=null">
+            name=#{name},
+        </if>
+        <if test="sort!=null">
+            sort=#{sort},
+        </if>
+        <if test="state!=null">
+            state=#{state},
+        </if>
+        userid=#{userid}
+        ,delete_time=#{deleteTime}
+        ,update_time=#{updateTime}
+        WHERE id=#{id}
+    </update>
+
+</mapper>

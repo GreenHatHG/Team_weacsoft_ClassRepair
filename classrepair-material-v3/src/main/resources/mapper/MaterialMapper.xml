@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.weacsoft.material.mapper.MaterialMapper">
+    <sql id="query">
+        SELECT id,
+               name,
+               amount,
+               sort,
+               price,
+               type,
+               fid,
+               userid,
+               state,
+               create_time,
+               delete_time,
+               update_time
+        FROM material
+    </sql>
+    <select id="searchMaterial" resultType="team.weacsoft.material.entity.Material">
+        <include refid="query"></include>
+        WHERE type=2
+        <if test="id!=null">
+            AND id=#{id}
+        </if>
+        <if test="fid!=null">
+            AND fid=#{fid}
+        </if>
+        <if test="state!=null">
+            AND state=#{state}
+        </if>
+        <if test="name!=null">
+            AND name=#{name}
+        </if>
+    </select>
+    <select id="getMaterial" resultType="team.weacsoft.material.entity.Material">
+        <include refid="query"></include>
+        WHERE type=2
+        <if test="material.id!=null">
+            AND id=#{material.id}
+        </if>
+        <if test="material.fid!=null">
+            AND fid=#{material.fid}
+        </if>
+        <if test="material.state!=null">
+            AND state=#{material.state}
+        </if>
+        <if test="material.name!=null">
+            AND name=#{material.name}
+        </if>
+    </select>
+    <update id="updateMaterial">
+        UPDATE material SET
+        <if test="name!=null">
+            name=#{name},
+        </if>
+        <if test="sort!=null">
+            sort=#{sort},
+        </if>
+        <if test="amount!=null">
+            amount=#{amount},
+        </if>
+        <if test="price!=null">
+            price=#{price},
+        </if>
+        <if test="fid!=null">
+            fid=#{fid},
+        </if>
+        <if test="state!=null">
+            state=#{state},
+        </if>
+        userid=#{userid}
+        ,delete_time=#{deleteTime}
+        ,update_time=#{updateTime}
+        WHERE id=#{id} AND type =2
+    </update>
+
+</mapper>

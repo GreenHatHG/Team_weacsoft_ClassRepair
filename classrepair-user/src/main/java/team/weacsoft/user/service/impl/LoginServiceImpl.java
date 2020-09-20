@@ -41,7 +41,6 @@ public class LoginServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> impl
     public WxLoginResp wxLogin(WxLoginDto wxLoginDto) throws WxErrorException {
         WxMaJscode2SessionResult session;
         session = WxMaConfiguration.getWxMaService().getUserService().getSessionInfo(wxLoginDto.getCode());
-        System.out.println(session.getOpenid());
         UserInfo userInfo = getOne(new QueryWrapper<UserInfo>().eq("openid", session.getOpenid()));
         //数据库中还没有该人
         if(userInfo == null){

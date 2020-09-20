@@ -34,7 +34,7 @@ public class BaseEntity implements Serializable {
     private Integer id;
 
     /**
-     * 一般1为启用，0为停用，-1为删除,特殊情况除外
+     * 一般-1为删除,0为停用,1为启用，特殊情况除外
      */
     @ExcelProperty(value = "状态", converter = StateConverter.class)
     @Builder.Default

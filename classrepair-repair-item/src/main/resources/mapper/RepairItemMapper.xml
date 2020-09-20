@@ -17,6 +17,7 @@
             u1.identity_id AS receiver_identity_id,
             u1.phone AS receiver_phone,
             u1.`name` AS receiver_name,
+            ri.star,
             qa.title
         FROM
             repair_item ri

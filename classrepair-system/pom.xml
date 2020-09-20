@@ -60,13 +60,13 @@
         </dependency>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrpair-material</artifactId>
+            <artifactId>classrepair-material-v3</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>team.weacsoft.classrepair</groupId>
-            <artifactId>classrepair-order</artifactId>
-            <version>1.0.0</version>
+            <artifactId>classrepair-orders</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>

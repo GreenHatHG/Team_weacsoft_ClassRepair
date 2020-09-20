@@ -49,10 +49,12 @@ public class StateConverter implements Converter<Integer> {
             case 1:
                 return new CellData("待处理");
             case 2:
-                return new CellData("处理中");
+                return new CellData("已查看");
             case 3:
-                return new CellData("已处理");
+                return new CellData("处理中");
             case 4:
+                return new CellData("已处理");
+            case 5:
                 return new CellData("已取消");
             default:
                 return new CellData("异常订单");

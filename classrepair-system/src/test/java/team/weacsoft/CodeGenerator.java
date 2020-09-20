@@ -44,16 +44,16 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/classrepair-" + scanner("模块名") + "/src/main/java");
-        gc.setAuthor("GreenHatHG");
+        gc.setAuthor("GreenHatHG、魔法はまだ解けない");
         gc.setOpen(false);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://120.78.185.128/classrepair?useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://39.108.179.132/classrepair?useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("d@FieF93a28G");
+        dsc.setUsername("room");
+        dsc.setPassword("520Teresa!");
         mpg.setDataSource(dsc);
 
         // 包配置
