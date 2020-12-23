@@ -98,11 +98,11 @@ public abstract class BaseStatisticsService {
 
     public void initTimeNum(){
         timeNum = new TreeMap<>();
-        timeNum.put("8:00-10:15", 0);
+        timeNum.put("5:00-10:15", 0);
         timeNum.put("10:15-12:00", 0);
         timeNum.put("14:00-15:50", 0);
         timeNum.put("15:50-17:20", 0);
-        timeNum.put("18:00-21:00", 0);
+        timeNum.put("18:00-23:00", 0);
     }
 
     public void deviceProcess(PeriodStatistics dto){
@@ -121,8 +121,8 @@ public abstract class BaseStatisticsService {
 
     public void timeProcess(Map<String, Integer> timeNum, PeriodStatistics dto){
         String period = DateUtil.format(new Date(dto.getCreateTime()*1000), "HH:mm");
-        if("08:00".compareTo(period) <= 0 && "10:15".compareTo(period) >= 0){
-            timeNum.put("8:00-10:15", timeNum.getOrDefault("8:00-10:15", 0)+1);
+        if("05:00".compareTo(period) <= 0 && "10:15".compareTo(period) >= 0){
+            timeNum.put("5:00-10:15", timeNum.getOrDefault("8:00-10:15", 0)+1);
         }
         else if("10:15".compareTo(period) <= 0 && "12:00".compareTo(period) >= 0){
             timeNum.put("10:15-12:00", timeNum.getOrDefault("10:15-12:00", 0)+1);
@@ -133,8 +133,8 @@ public abstract class BaseStatisticsService {
         else if("15:50".compareTo(period) <= 0 && "17:20".compareTo(period) >= 0){
             timeNum.put("15:50-17:20", timeNum.getOrDefault("15:50-17:20", 0)+1);
         }
-        else if("18:00".compareTo(period) <= 0 && "21:00".compareTo(period) >= 0){
-            timeNum.put("18:00-21:00", timeNum.getOrDefault("18:00-21:00", 0)+1);
+        else if("18:00".compareTo(period) <= 0 && "23:00".compareTo(period) >= 0){
+            timeNum.put("18:00-23:00", timeNum.getOrDefault("18:00-23:00", 0)+1);
         }
     }
 
