@@ -15,7 +15,7 @@ public class StatisticsFromEquipment {
     /**
      * 学号/工号
      */
-    private int receiverIdentityId=0;
+    private Long receiverIdentityId=0L;
 
     /**
      * id

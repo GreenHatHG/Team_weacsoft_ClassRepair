@@ -70,7 +70,8 @@ public class StatisticsService {
 
         for(StatisticsFromEquipment sdata : repairItemList) {
             if(!"".equals(sdata.getReceiver())){
-                if(data.containsKey(sdata.getReceiver())){//如果该receiver已经存在,获取
+                //如果该receiver已经存在,获取
+                if(data.containsKey(sdata.getReceiver())){
                     StatisticsFromEquipment model = data.get(sdata.getReceiver());
                     model.add();
                 }else{

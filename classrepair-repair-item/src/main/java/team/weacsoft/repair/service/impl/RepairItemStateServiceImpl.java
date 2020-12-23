@@ -100,21 +100,26 @@ public class RepairItemStateServiceImpl extends ServiceImpl<RepairItemMapper, Re
         switch (orderSearchEntity.getRange()) {
             case 0:
                 break;
-            case 1://1我的处理中
+            //1我的处理中
+            case 1:
                 orderSearchEntity.setSearchState(3);
                 orderSearchEntity.setUserId(idFromRequest);
                 break;
-            case 2://2我的已处理
+            //2我的已处理
+            case 2:
                 orderSearchEntity.setSearchState(4);
                 orderSearchEntity.setUserId(idFromRequest);
                 break;
-            case 3://3他人处理中
+            //3他人处理中
+            case 3:
                 orderSearchEntity.setSearchState(3);
                 break;
-            case 4://4他人已处理
+            //4他人已处理
+            case 4:
                 orderSearchEntity.setSearchState(4);
                 break;
-            case 5://5所有待处理
+            //5所有待处理
+            case 5:
                 orderSearchEntity.setSearchState(1);
                 break;
         }

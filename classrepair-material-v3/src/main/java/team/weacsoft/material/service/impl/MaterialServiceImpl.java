@@ -60,6 +60,8 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
     @Override
     public Material updateMaterial(Material material, HttpServletRequest request) {
         //todo 只能修改小类
+        Material material1 = baseMapper.selectById(material);
+
         int state[]={-1,0,1};
         if (material.getType()!=2){
             throw new BadRequestException(400,"该分类不是材料，请查看是否是属于材料种类即type=1");

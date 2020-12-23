@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * <p>
  * 材料种类及材料
+ * 材料种类默认为大类，小类需要修改type属性
  * </p>
  *
  * @author GreenHatHG、魔法はまだ解けない

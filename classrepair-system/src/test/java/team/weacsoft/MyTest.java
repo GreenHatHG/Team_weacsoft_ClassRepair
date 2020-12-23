@@ -8,6 +8,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import team.weacsoft.orders.entity.RepairItem;
 import team.weacsoft.orders.mapper.OrderMapper;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MyTest {
@@ -19,8 +22,6 @@ public class MyTest {
 
     @Test
     public void test2(){
-        RepairItem repairItem = new RepairItem();
-        repairItem.setId(15);
-        System.out.println(orderMapper.selectById(repairItem));
     }
+
 }

@@ -38,7 +38,7 @@ public class MaterialController {
      * @return
      */
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
-    @Log(module = "材料管理", operation = "添加材料大类控制器")
+    @Log(module = "材料管理", operation = "材料小类")
     @PostMapping("")
     public ResponseEntity<ApiResp> addMaterial(@RequestBody @Valid Material material, HttpServletRequest request) {
         material.setUserid(Integer.parseInt(JwtUtil.getIdFromRequest(request)));
