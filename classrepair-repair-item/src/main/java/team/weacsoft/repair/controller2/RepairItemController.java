@@ -2,6 +2,8 @@ package team.weacsoft.repair.controller2;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,12 +36,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author GreenHatHG
  * @since 2020-01-27
  */
+@Api(value = "RepairItemController",  tags = "维修模块 | 报修表 前端控制器 LoginController ")
 @RestController
 @RequestMapping(value="/api/v2/repair_item")
 @Validated
 public class RepairItemController {
 
     private ConcurrentHashMap<String , BaseUpdateRepairItemService> map = new ConcurrentHashMap<>();
+
     @Autowired
     private EvaluateOrderService evaluateOrderService;
     @Autowired
@@ -58,6 +62,7 @@ public class RepairItemController {
      * 维修人员接单
      * @param repairItemId 订单号
      */
+    @ApiOperation(value="维修人员接单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "维修人员接单")
     @PutMapping("/actions/order")
@@ -76,6 +81,7 @@ public class RepairItemController {
      * 取消报修
      * @param repairItemId 订单号
      */
+    @ApiOperation(value="取消报修", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "取消报修")
     @PutMapping("/actions/cancel_repair")
@@ -88,6 +94,7 @@ public class RepairItemController {
      * 维护人员取消接单
      * @param repairItemId 订单号
      */
+    @ApiOperation(value="维护人员取消接单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "维护人员取消接单")
     @PutMapping("/actions/maintenance_cancel")
@@ -100,6 +107,7 @@ public class RepairItemController {
      * 完成报修
      * @param repairItemId 订单号
      */
+    @ApiOperation(value="完成报修", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "完成报修")
     @PutMapping("/actions/complete")
@@ -112,6 +120,7 @@ public class RepairItemController {
      * 已查看
      * @param repairItemId 订单号
      */
+    @ApiOperation(value="已查看", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "查看订单")
     @PutMapping("/actions/check")
@@ -120,6 +129,13 @@ public class RepairItemController {
         return ApiResp.ok(map.get("Check").getRepairItem(repairItemId, request));
     }
 
+    /**
+     * 评价订单
+     * @param evaluate
+     * @param request
+     * @return
+     */
+    @ApiOperation(value="评价订单", notes="")
     @PreAuthorize("hasAnyRole('1','4', '5', '6', '7', '9')")
     @Log(module = "评价订单", operation = "评价订单")
     @PostMapping("/rate")

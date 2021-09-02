@@ -1,6 +1,8 @@
 package team.weacsoft.qa.controller2;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import javax.validation.constraints.NotNull;
  * @author GreenHatHG
  * @since 2020-01-27
  */
+@Api(value = "QaAnswerController",  tags = "反馈模块 | 故障表管理 LoginController ")
 @RestController
 @Validated
 @Slf4j
@@ -35,6 +38,7 @@ public class QaAnswerController {
     /**
      * 方案采纳
      */
+    @ApiOperation(value="方案采纳", notes="")
     @Log(module = "故障表管理", operation = "方案采纳")
     @PutMapping("/{id}/good_num")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
@@ -44,6 +48,7 @@ public class QaAnswerController {
     /**
      * 故障手册查询
      */
+    @ApiOperation(value="故障手册查询", notes="")
     @Log(module = "故障手册查询", operation = "故障手册查询")
     @GetMapping("/search")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")

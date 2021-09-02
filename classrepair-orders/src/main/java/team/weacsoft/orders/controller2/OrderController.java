@@ -1,4 +1,4 @@
-package team.weacsoft.orders.controller;
+package team.weacsoft.orders.controller2;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

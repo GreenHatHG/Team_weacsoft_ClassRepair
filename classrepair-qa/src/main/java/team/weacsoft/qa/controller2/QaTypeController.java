@@ -1,6 +1,8 @@
 package team.weacsoft.qa.controller2;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import java.util.List;
  * @author GreenHatHG
  * @since 2020-01-27
  */
+@Api(value = "QaTypeController",  tags = "反馈模块 | 故障类型管理 LoginController ")
 @Validated
 @Slf4j
 @RestController
@@ -40,6 +43,7 @@ public class QaTypeController {
      * 获得某分类下的所有常见问题
      * @param qaTypeId 分类id
      */
+    @ApiOperation(value="获得某分类下的所有常见问题", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/qa_types/{id}/qa_answer")
     public ResponseEntity<ApiResp> getQaTypeAnswerById(@PathVariable(value = "id") @NotNull Integer qaTypeId){
@@ -49,6 +53,7 @@ public class QaTypeController {
     /**
      * 获取故障分类列表
      */
+    @ApiOperation(value="获取故障分类列表", notes="")
     @GetMapping("/public/qa_types")
     public ResponseEntity<ApiResp> getAllQaType(){
         return ApiResp.ok(qaTypeService.getAllQaType());
@@ -57,6 +62,7 @@ public class QaTypeController {
     /**
      * 添加故障分类
      */
+    @ApiOperation(value="添加故障分类", notes="")
     @Log(module = "故障表管理", operation = "添加故障分类")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @PostMapping("/qa_types")
@@ -64,6 +70,7 @@ public class QaTypeController {
         return ApiResp.ok(qaTypeService.addQaType(qaType));
     }
 
+    @ApiOperation(value="添加某分类下的常见问题", notes="")
     @Log(module = "故障表管理", operation = "添加某分类下的常见问题")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @PostMapping("/qa_types/actions/add_qa_answer")
@@ -74,6 +81,7 @@ public class QaTypeController {
     /**
      * 删除故障分类
      */
+    @ApiOperation(value="删除故障分类", notes="")
     @Log(module = "故障表管理", operation = "删除故障分类")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @PutMapping("/qa_types/drop")
@@ -85,6 +93,7 @@ public class QaTypeController {
     /**
      * 修改故障分类
      */
+    @ApiOperation(value="修改故障分类", notes="")
     @Log(module = "故障表管理", operation = "修改故障分类")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @PutMapping("/qa_types")

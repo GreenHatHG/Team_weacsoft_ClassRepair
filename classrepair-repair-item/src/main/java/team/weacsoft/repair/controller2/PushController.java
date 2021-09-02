@@ -1,6 +1,8 @@
 package team.weacsoft.repair.controller2;
 
 import com.google.common.collect.ImmutableMap;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import java.net.URLDecoder;
  * @author GreenHatHG
  * @since 2020-01-30
  */
+@Api(value = "PushController",  tags = "维修模块 | 推送消息到公众号 LoginController ")
 @RestController
 @RequestMapping(value="/api/v2/repair_item")
 @Validated
@@ -38,6 +41,7 @@ public class PushController {
     /**
      * 推送到公众号，时间设置
      */
+    @ApiOperation(value="推送到公众号，时间设置", notes="")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "推送到公众号时间设置")
     @PutMapping("/push/cron")

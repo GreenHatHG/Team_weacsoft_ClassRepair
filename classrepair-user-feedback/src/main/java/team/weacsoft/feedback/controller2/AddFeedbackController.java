@@ -1,5 +1,7 @@
 package team.weacsoft.feedback.controller2;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +26,7 @@ import javax.validation.constraints.NotNull;
  * @Author 魔法はまだ解けない
  * @date 2020.07.18 16:06
  */
+@Api(value = "AddFeedbackController",  tags = "反馈模块 | 添加反馈 AddFeedbackController ")
 @RequestMapping("/api/v2/feedback")
 @RestController
 public class AddFeedbackController {
@@ -37,6 +40,7 @@ public class AddFeedbackController {
     /**
      * 用户侧-提交意见反馈
      */
+    @ApiOperation(value="用户侧-提交意见反馈", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")//权限
     @PostMapping("/commitFeedBack")//??
     public ResponseEntity<ApiResp> commitFeedBack(PageRequest pageRequest, HttpServletRequest request,
@@ -48,6 +52,7 @@ public class AddFeedbackController {
     /**
      *  管理员-回复意见反馈
      */
+    @ApiOperation(value="管理员-回复意见反馈", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")//权限
     @PostMapping("/answer")//
     public ResponseEntity<ApiResp> answerFeedback(HttpServletRequest request,

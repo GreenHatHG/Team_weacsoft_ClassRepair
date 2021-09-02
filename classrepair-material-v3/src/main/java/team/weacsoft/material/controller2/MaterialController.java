@@ -1,5 +1,7 @@
-package team.weacsoft.material.controller;
+package team.weacsoft.material.controller2;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,19 +12,17 @@ import team.weacsoft.common.log.Log;
 import team.weacsoft.common.persistence.PageRequest;
 import team.weacsoft.common.utils.JwtUtil;
 import team.weacsoft.material.entity.Material;
-import team.weacsoft.material.entity.MaterialType;
 import team.weacsoft.material.service.IMaterialService;
-import team.weacsoft.material.service.IMaterialTypeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * @Description
  * @Author 魔法はまだ解けない
  * @Date 2020/9/20
  */
+@Api(value = "MaterialController",  tags = "材料模块 | 材料 LoginController ")
 @RestController
 @Slf4j
 @RequestMapping("/api/v2/materials")
@@ -37,6 +37,7 @@ public class MaterialController {
      * @param request
      * @return
      */
+    @ApiOperation(value="添加材料", notes="")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "材料管理", operation = "材料小类")
     @PostMapping("")
@@ -51,6 +52,7 @@ public class MaterialController {
      * 获取材料
      * @return
      */
+    @ApiOperation(value="获取材料", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @Log(module = "材料管理", operation = "获取所有材料")
     @GetMapping("")
@@ -75,6 +77,7 @@ public class MaterialController {
      * 修改材料
      * @return
      */
+    @ApiOperation(value="修改材料", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @Log(module = "材料管理", operation = "修改指定材料")
     @PutMapping("")

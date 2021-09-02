@@ -1,5 +1,7 @@
 package team.weacsoft.invitation.controller2;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @Validated
 @Slf4j
 @RequestMapping("/api/v2/invitation_code")
+@Api(value = "FeaturesController",  tags = "邀请码模块 | 获取邀请码 LoginController ")
 public class InvitationController {
     private InvitationService invitationService;
 
@@ -33,6 +36,7 @@ public class InvitationController {
     /**
      * 获得邀请码
      */
+    @ApiOperation(value="获得邀请码", notes="")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "邀请码管理", operation = "获得邀请码")
     @GetMapping("")
@@ -43,6 +47,7 @@ public class InvitationController {
     /**
      * 根据邀请码提权
      */
+    @ApiOperation(value="根据邀请码提权", notes="")
     @PreAuthorize("hasAnyRole('1')")
     @Log(module = "邀请码管理", operation = "根据邀请码提权")
     @PostMapping("/actions/update_role")

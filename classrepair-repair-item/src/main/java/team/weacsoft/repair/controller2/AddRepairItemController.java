@@ -1,5 +1,7 @@
 package team.weacsoft.repair.controller2;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2020-01-30
  */
 
+@Api(value = "AddRepairItemController",  tags = "维修模块 | 添加维修订单 LoginController ")
 @RestController
 @RequestMapping(value="/api/v2/repair_item")
 @Validated
@@ -35,6 +38,7 @@ public class AddRepairItemController {
     /**
      * 用户报修
      */
+    @ApiOperation(value="用户报修", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @Log(module = "订单管理", operation = "用户增加报修单")
     @PostMapping("")
@@ -44,6 +48,4 @@ public class AddRepairItemController {
         addRepairItemService.websocket(repairItem);
         return ApiResp.ok(repairItem);
     }
-
-
 }

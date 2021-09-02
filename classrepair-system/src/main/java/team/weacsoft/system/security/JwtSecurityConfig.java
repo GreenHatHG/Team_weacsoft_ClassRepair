@@ -46,7 +46,10 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter{
     public void configure(WebSecurity web){
         web.ignoring().antMatchers("/**/notification/**",
                 "/**/public/**",
-                "/**/druid/**");
+                "/**/druid/**",
+                "/v2/api-docs", "/swagger-resources/configuration/ui",
+                "/swagger-resources", "/swagger-resources/configuration/security",
+                "/swagger-ui.html","/doc.html","/doc.html#/**", "/webjars/**");
     }
 
     private JwtRequestFilter jwtRequestFilter(){

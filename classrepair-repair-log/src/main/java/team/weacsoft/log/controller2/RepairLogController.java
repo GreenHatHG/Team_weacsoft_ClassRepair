@@ -1,6 +1,8 @@
 package team.weacsoft.log.controller2;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +26,7 @@ import javax.validation.constraints.Size;
  * @author GreenHatHG
  * @since 2020-02-14
  */
+@Api(value = "RepairLogController",  tags = "报修模块 | 报修表 LoginController ")
 @Validated
 @RestController
 @RequestMapping("/api/v2/repair_log")
@@ -39,6 +42,7 @@ public class RepairLogController {
     /**
      * 提交订单维护日志
      */
+    @ApiOperation(value="提交订单维护日志", notes="")
     @Log(module = "订单维护日志", operation = "提交订单维护日志")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @PostMapping("/actions/add")
@@ -49,6 +53,7 @@ public class RepairLogController {
     /**
      * 搜索维护日志
      */
+    @ApiOperation(value="搜索维护日志", notes="")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @GetMapping("/{repair_item_id}/actions/search")
     public ResponseEntity<ApiResp> addRepairLog(@NotBlank @Size(max = 100) @PathVariable(name = "repair_item_id") String repairItemId){
@@ -62,6 +67,7 @@ public class RepairLogController {
     /**
      * 查询订单维护日志
      */
+    @ApiOperation(value="查询订单维护日志", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/{repair_item_id}/info")
     public ResponseEntity<ApiResp> findRepairLog(@NotBlank @Size(max = 100) @PathVariable(name = "repair_item_id") String repairItemId){

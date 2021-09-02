@@ -1,5 +1,7 @@
 package team.weacsoft.repair.controller2;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +23,7 @@ import javax.validation.constraints.Size;
  * @since 2020-01-28
  */
 
+@Api(value = "RepairItemStateController",  tags = "维修模块 | 订单查看* LoginController ")
 @RestController
 @RequestMapping(value = "/api/v2/repair_item")
 @Validated
@@ -36,6 +39,7 @@ public class RepairItemStateController {
     /**
      * 获取所有的订单
      */
+    @ApiOperation(value="获取所有的订单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/orders")
     public ResponseEntity<ApiResp> getAllOrders(PageRequest pageRequest) {
@@ -45,6 +49,7 @@ public class RepairItemStateController {
     /**
      * 获取所有的未接订单
      */
+    @ApiOperation(value="获取所有的未接订单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/missed_orders")
     public ResponseEntity<ApiResp> getAllMissedOrders(PageRequest pageRequest) {
@@ -54,6 +59,7 @@ public class RepairItemStateController {
     /**
      * 管理员-我的待处理订单
      */
+    @ApiOperation(value="管理员-我的待处理订单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/my/missed_orders")
     public ResponseEntity<ApiResp> getMyAllMissedOrders(PageRequest pageRequest, HttpServletRequest request) {
@@ -63,6 +69,7 @@ public class RepairItemStateController {
     /**
      * 管理员-我的所有已处理订单
      */
+    @ApiOperation(value="管理员-我的所有已处理订单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/my/processed_orders")
     public ResponseEntity<ApiResp> getMyAllProcessedOrders(PageRequest pageRequest, HttpServletRequest request) {
@@ -72,6 +79,7 @@ public class RepairItemStateController {
     /**
      * 管理员-他人待处理订单
      */
+    @ApiOperation(value="管理员-他人待处理订单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/id/missed_orders")
     public ResponseEntity<ApiResp> getAllMissedOrdersById(PageRequest pageRequest, HttpServletRequest request) {
@@ -81,6 +89,7 @@ public class RepairItemStateController {
     /**
      * 获得他人所有已处理订单
      */
+    @ApiOperation(value="获得他人所有已处理订单", notes="")
     @PreAuthorize("hasAnyRole('4', '5', '6', '7', '9')")
     @GetMapping("/id/processed_orders")
     public ResponseEntity<ApiResp> getAllProcessedOrdersById(PageRequest pageRequest, HttpServletRequest request) {
@@ -90,6 +99,7 @@ public class RepairItemStateController {
     /**
      * 用户侧-获取我的待处理订单
      */
+    @ApiOperation(value="用户侧-获取我的待处理订单", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/missed_orders")
     public ResponseEntity<ApiResp> getUserAllMissedOrders(PageRequest pageRequest, HttpServletRequest request) {
@@ -99,6 +109,7 @@ public class RepairItemStateController {
     /**
      * 用户侧-获取我的所有报修单
      */
+    @ApiOperation(value="用户侧-获取我的所有报修单", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/orders")
     public ResponseEntity<ApiResp> getUserAllOrders(PageRequest pageRequest, HttpServletRequest request) {
@@ -108,6 +119,7 @@ public class RepairItemStateController {
     /**
      * 用户侧-获取我的处理中的保修订单
      */
+    @ApiOperation(value="用户侧-获取我的处理中的保修订单", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/in_orders")
     public ResponseEntity<ApiResp> getUserAllOrdersInRepair(PageRequest pageRequest, HttpServletRequest request) {
@@ -117,6 +129,7 @@ public class RepairItemStateController {
     /**
      * 用户侧-获取我的历史保修订单
      */
+    @ApiOperation(value="用户侧-获取我的历史保修订单", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/user/history_orders")
     public ResponseEntity<ApiResp> getUserAllHistoryOrders(PageRequest pageRequest, HttpServletRequest request) {
@@ -127,6 +140,7 @@ public class RepairItemStateController {
      * 模糊搜索订单
      * 订单号||下单人名字||接单人学号//接单人姓名||接单人姓名
      */
+    @ApiOperation(value="模糊搜索订单", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/actions/search")
     public ResponseEntity<ApiResp> searchRepairItem(PageRequest pageRequest,

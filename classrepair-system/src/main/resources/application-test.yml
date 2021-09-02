@@ -1,0 +1,59 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /class
+
+spring:
+  datasource:
+    password: 520Teresa!
+    url: jdbc:mysql://39.108.179.132:3306/classrepair?useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&serverTimezone=GMT%2B8
+    username: room
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druidclassrepair
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: am.tinsfox.com
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-active: 8
+        # 连接池中的最小空闲连接 默认 0
+        max-idle: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: -1ms
+        # 连接池中的最大空闲连接 默认 8
+        min-idle: 0
+    port: 6379
+    # 连接超时时间（记得添加单位，Duration）
+    timeout: 10000ms
+    password: kPv@Npq4u10U
+#    password: kPv@Npq4u10U
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+# project
+classrepair:
+  #  小程序信息
+  wx:
+    appid: wx1751282640de8bb1
+    appsecret: adedb4ebc4680183061bc67d4ef6526e
+    grant_type: authorization_code
+  # 超级管理员密码
+  root:
+    identityId: 2020
+    pwd: class
+  push:
+    key: 77656163736f6674
+    iv: 77656163736f6674
+    url: https://sc-lapp01.gcu.edu.cn/api/template/send
+    template_id: RB-zvZsHS71GXY_2xsrMlTkuK0sUlCeUa-CEc0MRhzE

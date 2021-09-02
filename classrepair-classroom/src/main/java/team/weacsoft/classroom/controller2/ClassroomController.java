@@ -1,6 +1,8 @@
 package team.weacsoft.classroom.controller2;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +24,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RestController
 @RequestMapping(value="/api/v2")
+@Api(value = "ClassroomController",  tags = "课室模块 | 课室管理 LoginController ")
 public class ClassroomController {
 
     private IClassroomService classroomService;
@@ -37,6 +40,7 @@ public class ClassroomController {
      * 获取课室信息
      * @return
      */
+    @ApiOperation(value="获取课室信息", notes="")
     @GetMapping("/public/classrooms")
     public ResponseEntity<ApiResp> getClassRooms(){
         return ApiResp.ok(classroomService.getClassRooms());
@@ -45,6 +49,7 @@ public class ClassroomController {
      * 获取课室信息，第二版
      * @return
      */
+    @ApiOperation(value="获取课室信息，第二版", notes="")
     @GetMapping("/public/classrooms/m2")
     public ResponseEntity<ApiResp> getClassRooms2(){
         return ApiResp.ok(classroomService2.getClassrooms());
@@ -55,11 +60,13 @@ public class ClassroomController {
      * @param id
      * @return
      */
+    @ApiOperation(value="根据id获取某一课室", notes="")
     @GetMapping("/public/classrooms/classid")
     public ResponseEntity<ApiResp> getClassRoomById(@NotNull Integer id){
         return ApiResp.ok(classroomService.getClassroomById(id));
     }
 
+    @ApiOperation(value="获取教室状态", notes="")
     @GetMapping("/public/classrooms/State")
     public ResponseEntity<ApiResp> getClassRoomState(Integer id){
         return ApiResp.ok(null);

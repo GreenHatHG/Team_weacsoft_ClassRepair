@@ -1,6 +1,8 @@
-package team.weacsoft.material.controller;
+package team.weacsoft.material.controller2;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ import javax.validation.Valid;
  * @author 魔法はまだ解けない
  * @since 2020-09-10
  */
+@Api(value = "MaterialController",  tags = "材料模块 | 材料类型 LoginController ")
 @RestController
 @Slf4j
 @RequestMapping("/api/v2/materials")
@@ -38,6 +41,7 @@ public class MaterialTypeController {
      * @param materialType
      * @return
      */
+    @ApiOperation(value="添加材料大类", notes="")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "材料管理", operation = "添加材料大类控制器")
     @PostMapping("/types")
@@ -51,6 +55,7 @@ public class MaterialTypeController {
      *
      * @return
      */
+    @ApiOperation(value="获取材料大类", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @Log(module = "材料管理", operation = "获取所有材料大类")
     @GetMapping("/types")
@@ -64,6 +69,7 @@ public class MaterialTypeController {
      * @param request
      * @return
      */
+    @ApiOperation(value="删除材料大类", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @Log(module = "材料管理", operation = "删除材料大类")
     @DeleteMapping("/types")
@@ -85,6 +91,7 @@ public class MaterialTypeController {
      * @param request
      * @return
      */
+    @ApiOperation(value="修改材料大类名字", notes="")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "材料管理", operation = "修改材料大类")
     @PutMapping("/types")

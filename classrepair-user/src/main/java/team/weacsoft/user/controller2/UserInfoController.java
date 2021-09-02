@@ -1,5 +1,7 @@
 package team.weacsoft.user.controller2;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import javax.validation.constraints.*;
  * @author GreenHatHG
  * @menu 用户管理
  */
+@Api(value = "user",  tags = "用户模块 | 用户信息 UserInfoController ")
 @RestController
 @Validated
 @Slf4j
@@ -33,6 +36,12 @@ public class UserInfoController {
         this.userInfoService = userInfoService;
     }
 
+    /**
+     *
+     * @param request
+     * @return
+     */
+    @ApiOperation(value="获取用户token", notes="")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
     @GetMapping("/token/info")
     public ResponseEntity<ApiResp> getUserInfoByToken(HttpServletRequest request){
@@ -44,6 +53,7 @@ public class UserInfoController {
      * @param id 用户表id
      * @param role 修改后的权限
      */
+    @ApiOperation(value="修改用户身份", notes="")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     @Log(module = "用户管理", operation = "修改用户身份")
     @PutMapping("/actions/update_role")
@@ -58,6 +68,7 @@ public class UserInfoController {
      * @param value 字段值
      * @param page 分页
      */
+    @ApiOperation(value="根据特定字段可选分页搜索用户", notes="")
     @GetMapping("/field")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     public ResponseEntity<ApiResp> findByCriteria(FieldDtoEnum field,
@@ -70,6 +81,7 @@ public class UserInfoController {
      * 修改用户自己的信息
      * @param dto 要修改的信息，不需要修改的字段留空
      */
+    @ApiOperation(value="修改用户自己的信息", notes="")
     @Log(module = "用户管理", operation = "修改自己的用户信息")
     @PutMapping("/actions/update_info")
     @PreAuthorize("hasAnyRole('1', '4', '5', '6', '7', '9')")
@@ -81,6 +93,7 @@ public class UserInfoController {
     /**
      * 根据id修改用户信息
      */
+    @ApiOperation(value="根据id修改用户信息", notes="")
     @Log(module = "用户管理", operation = "根据id修改用户信息")
     @PutMapping("/actions/update_info_id")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
@@ -91,6 +104,7 @@ public class UserInfoController {
     /**
      * 获取用户列表
      */
+    @ApiOperation(value="获取用户列表", notes="")
     @GetMapping("/userlist")
     @PreAuthorize("hasAnyRole('5', '6', '7', '9')")
     public ResponseEntity<ApiResp> getUserList(PageRequest page){
